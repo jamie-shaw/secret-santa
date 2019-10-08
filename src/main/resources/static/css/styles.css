@@ -1,0 +1,240 @@
+/* HEADER */
+
+header {
+    background-image: url("../images/ChristmasLightsDown.gif");
+    background-repeat: repeat-x;
+    background-position: bottom; 
+    max-width: 600px;
+    height: 100px;
+    margin: 20px auto 0 auto;
+}
+
+/* CONTENT */
+
+#main-content {
+    max-width: 600px;
+    margin: 20px auto;
+}
+#form-container {
+    float: left;
+    width: 58%;
+    margin-top: 5px;
+    padding-left: 10px;
+}
+#image-container {
+    border-radius: 5px;
+    color: #333333;
+    float: right;
+    padding: 10px;
+    width: 35%;
+}
+
+/* FOOTER */
+
+footer {
+    background-image: url("../images/ChristmasLightsUp.gif");
+    background-repeat: repeat-x;
+    background-position: bottom; 
+    max-width: 600px;
+    height: 20px;
+    margin: 0 auto;
+}
+
+/* FORMS */
+
+button, .button {
+    transition: all .4s ease;
+    border: #7f2b00 1px solid;
+    font-weight: 900;
+    color: #7f2b00;
+    background-color: #ffffdf;
+    padding: 8px 10px;
+    border-radius: 5px;
+    width: 100%;
+    margin: 10px 0 10px 0;
+}
+button:hover, .button:hover {
+    cursor: pointer;
+    text-shadow: none;
+    color: #ffffff;
+    background-color: #7f2b00;
+}
+button:focus, .button:hover {
+    outline: 0;
+}
+input, select, textarea {
+    margin: 10px 0 10px 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    width: 100%;
+    line-height: 1.3;
+    font-size: 14px;
+}
+input[type="radio"] {
+    width: auto;
+}
+input:focus, select:focus, textarea:focus {
+    outline-width: 0px;
+}
+input:focus, select:focus, textarea:focus {
+    outline-width: 5px;
+}
+fieldset {
+    padding-bottom: 8px;
+    border: 1px solid #7f2b00;
+    border-radius: 4px;
+}
+
+/* TABLES */
+
+table {
+    color: #7f2b00;
+    border: #7f2b00 1px solid;
+    border-collapse: separate;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+td {
+    border-top: #7f2b00 1px solid;
+    vertical-align: middle;
+    padding: 8px 10px;
+}
+th {
+    font-weight: bold;
+    padding: 8px 10px;
+}
+tr:first-child td {
+    border-top: 0px;
+}
+
+/* MISC */
+
+.hidden {
+    position: absolute;
+    clip: rect(1px 1px 1px 1px); /* IE6 & 7 */
+    clip: rect(1px, 1px, 1px, 1px);
+}
+.link {
+    transition: all .4s ease;
+    border: none;
+    font-weight: 900;
+    color: #7f2b00;
+    background-color: #ffffdf;
+    padding: 0px;
+}
+.link:hover {
+    cursor: pointer;
+    text-shadow: none;
+    color: #7f2b00;
+    background-color: #ffffdf;
+    text-decoration: underline;
+}
+.alert {
+    padding: 15px !important;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+.alert-error {
+    background-color: #f2dede;
+    border-color: #a94442;
+    color: #a94442
+}
+.alert-success {
+    background-color:#dff0d8;
+    border-color:#d6e9c6;
+    color:#005100;
+    border-color:#005100;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 500px) {
+   
+    #form-container {
+        width: 90%;
+        float: none;
+        margin: 0 auto;
+    }  
+    #image-container {
+       display: none;
+    }
+    #form-container {
+        padding-left: 0px;
+    }
+}
+
+/* GLOBAL */
+
+img {
+  max-width:100%
+}
+body {
+    border-top:5px solid #7f2b00;
+    background: #ffffdf;
+    line-height: 170%;
+    color: #7f2b00;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    text-align: center
+}
+.event * {
+    line-height: 100%;
+}
+h1, caption {
+    font-size: 18px;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+p, ol, ul {
+    margin-top: 0;
+}
+p {
+    margin: 5px 0;
+}
+a {
+    text-decoration: none;
+    color: #990000;
+    transition: opacity .25s ease;
+}
+a:hover {
+    text-decoration: underline;
+    opacity: 0.7;
+}
+strong {
+    font-weight: bold;
+}
+
+/* MISC */
+.align-left {
+    float: left;
+}
+.align-right {
+    float: right;
+}
+.align-center {
+    text-align: center;
+}
+.centered-image {
+    margin: 0 auto; 
+    display: block;
+}
+.italic {
+    font-style: italic;
+}
+
+/* CLEARFIX */
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+.clearfix {
+    *zoom: 1;
+}
