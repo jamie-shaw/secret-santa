@@ -19,10 +19,8 @@
                             <c:out value="${gift.description}"/>
                         </td>
                         <td>
-                            <a href="/gift/detail?action=update&giftId=${gift.id}">Change</a>
-                        </td>
-                        <td>
-                            <a href="/gift/delete?giftId=${gift.id}">Remove</a>
+                            <a class="button" href="/gift/detail?action=update&giftId=${gift.id}">Change</a>
+                            <a class="button" href="/gift/delete?giftId=${gift.id}">Remove</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -38,7 +36,7 @@
     </table>
 
     <form>
-        <a href="gift/detail?action=create">
+        <button href="gift/detail?action=create">
             <c:choose>
                 <c:when test="${not empty gifts}">
                     Add Another Idea
@@ -47,7 +45,7 @@
                     Add An Idea
                 </c:otherwise>
             </c:choose>
-        </a>
+        </button>
     </form>
 
     <a class="button" href="/home">Back to Santa Home</a>

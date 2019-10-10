@@ -29,11 +29,9 @@
                     <button>Save Idea</button>
                 </p>
             </form>
-            <form action="gift/detail" method="post">
-                <p>
-                    <button>Cancel</button>
-                </p>
-            </form>
+            <p>
+                <a class="button" href="detail">Cancel</a>
+            </p>
         </c:otherwise>
     </c:choose>
     
