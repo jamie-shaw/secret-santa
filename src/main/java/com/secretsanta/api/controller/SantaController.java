@@ -26,9 +26,9 @@ public class SantaController {
         request.getSession().setAttribute("CURRENT_YEAR", "2018");
 
         String SQL = "SELECT Recipient " +
-                "FROM recipient " + 
-               "WHERE UserName = ? AND Year = ?";
- 
+                       "FROM recipient " + 
+                      "WHERE UserName = ? AND Year = ?";
+
         String recipient = jdbcTemplate.queryForObject(SQL, new Object[]{"Jamie", "2017"}, String.class);
         request.getSession().setAttribute("RECIPIENT", recipient);
             
@@ -160,6 +160,31 @@ public class SantaController {
         model.addAttribute("PICKERS", recipients);
         
         return "pick-status";
+    }
+    
+    @GetMapping("idea/summary")
+    public String showIdeas(HttpServletRequest request, Model model) {
+        String recipient = (String)request.getSession().getAttribute("RECIPIENT");
+        
+        String SQL = "SELECT GiftId, Description " +
+                       "FROM gift " +
+                      "WHERE UserName = ? AND Year = ?";
+        
+        List<Gift> ideas = jdbcTemplate.query(
+                SQL,
+                new Object[]{recipient, Year.now().getValue()},
+                (rs, rowNum) ->
+                        new Gift(
+                                rs.getString("GiftId"),
+                                rs.getString("UserName"),
+                                rs.getString("Description"),
+                                rs.getString("Year")
+                )
+        );
+        model.addAttribute("RECIPIENT", recipient);
+        model.addAttribute("IDEAS", ideas);
+        
+        return "ideas";
     }
     
 }
