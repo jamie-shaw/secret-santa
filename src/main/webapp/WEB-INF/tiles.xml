@@ -40,4 +40,7 @@
         <put-attribute name="content" value="/WEB-INF/jsp/ideas.jsp" />
     </definition>
     
+    <definition name="pick-status" extends="base">
+        <put-attribute name="content" value="/WEB-INF/jsp/pickStatus.jsp" />
+    </definition>
 </tiles-definitions>

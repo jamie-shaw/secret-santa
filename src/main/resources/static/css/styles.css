@@ -45,24 +45,29 @@ footer {
 button, .button {
     transition: all .4s ease;
     border: #7f2b00 1px solid;
-    font-weight: 900;
+    font-weight: 700;
     color: #7f2b00;
     background-color: #ffffdf;
     padding: 8px 10px;
     border-radius: 5px;
     width: 100%;
     margin: 10px 0 10px 0;
+    display: block;
+    font-size: 14px;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
 }
 button:hover, .button:hover {
     cursor: pointer;
     text-shadow: none;
     color: #ffffff;
     background-color: #7f2b00;
+    text-decoration: none;
+    opacity: 1;
 }
 button:focus, .button:hover {
     outline: 0;
 }
-input, select, textarea {
+input, select, textarea, a {
     margin: 10px 0 10px 0;
     box-sizing: border-box;
     border-radius: 4px;
@@ -71,7 +76,6 @@ input, select, textarea {
     padding: 8px 10px;
     width: 100%;
     line-height: 1.3;
-    font-size: 14px;
 }
 input[type="radio"] {
     width: auto;
@@ -179,7 +183,8 @@ body {
     line-height: 170%;
     color: #7f2b00;
     font-family: Arial, Verdana, Helvetica, sans-serif;
-    text-align: center
+    text-align: center;
+    font-size: 14px;
 }
 .event * {
     line-height: 100%;
