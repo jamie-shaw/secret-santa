@@ -6,15 +6,15 @@
 
 <section id="form-container">
     
-    <h1>${RECIPIENT}'s Ideas for Santa</h1>
+    <h1>${RECIPIENT.recipient}'s Ideas for Santa</h1>
     
     <table>
         <c:choose>
-            <c:when test="not empty IDEAS">
-                <c:forEach var="idea" items="IDEAS">
+            <c:when test="${not empty IDEAS}">
+                <c:forEach var="idea" items="${IDEAS}">
                     <tr>
                         <td>
-                            <c:out value="${ideas.Description}" />
+                            ${idea.description}
                         </td>
                     </tr>
                 </c:forEach>

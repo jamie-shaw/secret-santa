@@ -1,7 +1,9 @@
 package com.secretsanta.api.controller;
 
-import java.time.Year;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,10 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.secretsanta.api.model.Gift;
+import com.secretsanta.api.mapper.RecipientMapper;
 import com.secretsanta.api.model.Recipient;
 import com.secretsanta.api.model.User;
 
@@ -31,13 +34,22 @@ public class SantaController {
         
         String year = jdbcTemplate.queryForObject(SQL, new Object[]{}, String.class);
         
-        SQL = "SELECT Recipient " +
+        SQL = "SELECT * " +
                 "FROM recipient " + 
                "WHERE UserName = ? AND Year = ?";
 
-        String recipient = jdbcTemplate.queryForObject(SQL, new Object[]{"Jamie", "2017"}, String.class);
-        
-        model.addAttribute("RECIPIENT", recipient);
+        List<Recipient> recipients = jdbcTemplate.query(
+                SQL,
+                new Object[]{"Jamie", "2017"},
+                (rs, rowNum) ->
+                        new Recipient(
+                                rs.getString("UserName"),
+                                rs.getString("Year"),
+                                rs.getString("Recipient"),
+                                rs.getString("Assigned").equals("Y")
+                )
+        );    
+        model.addAttribute("RECIPIENT", recipients.get(0));
         model.addAttribute("CURRENT_YEAR", year);
         model.addAttribute("USER", "Jamie");
         
@@ -72,13 +84,28 @@ public class SantaController {
         
         return "reset-password";
     }
+    
+    @PostMapping("/resetPassword")
+    public String processResetPassword(@ModelAttribute("CURRENT_YEAR") Integer currentYear, HttpServletRequest request) {
+        
+        List<String> usernames = Arrays.asList(request.getParameterValues("username"));
+        
+        if (usernames.size() > 0) {
+            String SQL = "UPDATE user " +
+                            "SET user.Password = 'santa', user.PasswordExpired = true " +
+                          "WHERE user.UserName IN ('" +  String.join("','", usernames) + "')";
+                        
+            jdbcTemplate.update(SQL);
+        }
+        
+        return "home";
+    }
 
-    @GetMapping("history")
-    public String showHistory(@RequestParam Integer selectedYear, Model model) {
-        
-        // Get the current year
-        int currentYear = Year.now().getValue();
-        
+    @GetMapping("/history/{selectedYear}")
+    public String showHistory(@ModelAttribute("CURRENT_YEAR") Integer currentYear,
+                              @PathVariable Integer selectedYear, 
+                              Model model) {
+                
         // Get all of the active years
         String SQL = "SELECT distinct Year " +
                        "FROM recipient " +
@@ -90,36 +117,21 @@ public class SantaController {
                 new Object[] {currentYear},
                 (rs, rowNum) -> new String(rs.getString("Year")));
         
-        if (selectedYear == null) {
-            selectedYear = currentYear;
-        }
-
         // Get all recipients for the selected year
         SQL = "SELECT UserName, Recipient, Year, Assigned " +
                 "FROM recipient " +
                "WHERE Year = ? " +
             "ORDER BY UserName";
         
-        List<Recipient> recipients = jdbcTemplate.query(
-                SQL,
-                new Object[]{selectedYear},
-                (rs, rowNum) ->
-                        new Recipient(
-                                rs.getString("UserName"),
-                                rs.getString("Year"),
-                                rs.getString("Recipient"),
-                                rs.getString("Assigned").equals("Y")
-                )
-        );
+        List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{selectedYear},new RecipientMapper());
        
-        model.addAttribute("CURRENT_YEAR", currentYear);
         model.addAttribute("YEARS", years);
         model.addAttribute("RECIPIENTS", recipients);
         
         return "history";
     }
     
-    @GetMapping("pick/status")
+    @GetMapping("/pick/status")
     public String showPickStatus(@ModelAttribute("CURRENT_YEAR") Integer currentYear, Model model) {
         
         // Get all of the pickers
@@ -128,47 +140,11 @@ public class SantaController {
                  "INNER JOIN user ON recipient.UserName = user.UserName " +
                       "WHERE Year = ?";
         
-        List<Recipient> recipients = jdbcTemplate.query(
-                SQL,
-                new Object[]{currentYear},
-                (rs, rowNum) ->
-                        new Recipient(
-                                rs.getString("UserName"),
-                                rs.getString("Year"),
-                                rs.getString("Recipient"),
-                                rs.getString("Assigned").equals("Y")
-                )
-        );
+        List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{currentYear}, new RecipientMapper());
         
         model.addAttribute("PICKERS", recipients);
         
         return "pick-status";
     }
-    
-    @GetMapping("idea/summary")
-    public String showIdeas(@ModelAttribute("CURRENT_YEAR") Integer currentYear,
-                            @ModelAttribute("RECIPIENT") String recipient,
-                            Model model) {
-        
-        String SQL = "SELECT GiftId, Description " +
-                       "FROM gift " +
-                      "WHERE UserName = ? AND Year = ?";
-        
-        List<Gift> ideas = jdbcTemplate.query(
-                SQL,
-                new Object[]{recipient, currentYear},
-                (rs, rowNum) ->
-                        new Gift(
-                                rs.getString("GiftId"),
-                                rs.getString("UserName"),
-                                rs.getString("Description"),
-                                rs.getString("Year")
-                )
-        );
-        model.addAttribute("RECIPIENT", recipient);
-        model.addAttribute("IDEAS", ideas);
-        
-        return "ideas";
-    }
-    
+  
 }

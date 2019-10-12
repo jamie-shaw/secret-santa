@@ -1,7 +1,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 <aside id="image-container">
-    <img border="0" src="images/SantaPresents2.gif" alt="Santa with Presents" />
+    <img border="0" src="/images/SantaPresents2.gif" alt="Santa with Presents" />
 </aside>
 
 <section id="form-container">
@@ -34,6 +34,6 @@
         </c:forEach>
     </table>
    
-    <a href="home" class="button">Back to Santa Home</a>
+    <a href="/home" class="button">Back to Santa Home</a>
 
 </section>

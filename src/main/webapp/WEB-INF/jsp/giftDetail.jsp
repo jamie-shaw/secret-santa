@@ -4,37 +4,27 @@
     <img border="0" src="/images/SantaLaughing2.gif" alt="Santa Laughing" />
 </aside>
 
+<c:set var="action">
+    <c:choose>
+        <c:when test="${not empty giftId}">/gift/${GIFT.id}/update</c:when>
+        <c:otherwise>/gift</c:otherwise>
+    </c:choose>
+</c:set>
+
 <section id="form-container">
     
-    <c:choose>
-        <c:when test="${not empty giftId}">
-            <form action="/gift/detail" method="post" onSubmit="return validate(this)">
-                <input type="hidden" name="giftId" value="${GIFT.giftId}" />
-                <b>
-                    Please edit the description of your gift idea:
-                </b>
-                <br/>
-                <br/>
-                <textarea name="Description" rows="3" cols="40" maxlength="250" id="Description" value=""></textarea>
-                <br/>
-                <button>Save Changes</button>
-            </form>
-        </c:when>
-        <c:otherwise>
-            <form action="/gift/create" method="post" onSubmit="return validate(this)">
-                <p>
-                    <b>Please enter a description of your gift idea:</b>
-                    <textarea name="Description" rows="3" cols="40" id="Description"></textarea>
-                    <br/>
-                    <button>Save Idea</button>
-                </p>
-            </form>
-            <p>
-                <a class="button" href="detail">Cancel</a>
-            </p>
-        </c:otherwise>
-    </c:choose>
-    
+    <form action="${action}" method="post" onSubmit="return validate(this)">
+        <p>
+            <b>Please enter a description of your gift idea:</b>
+            <textarea name="Description" rows="3" cols="40" id="Description">${GIFT.description}</textarea>
+            <br/>
+            <button>Save Idea</button>
+        </p>
+    </form>
+    <p>
+        <a class="button" href="/gift/summary">Cancel</a>
+    </p>
+
 </section>
 
 <script>

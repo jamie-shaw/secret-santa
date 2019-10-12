@@ -16,7 +16,7 @@
                         <c:out value="${user.username}" />
                     </td>
                     <td>
-                        <input type="checkbox" name="chk_${user.username}">
+                        <input type="checkbox" name="username" value="${user.username}" />
                     </td>
                 </tr>
             </c:forEach>

@@ -4,23 +4,23 @@
     <img border="0" src="/images/SantaLaughing2.gif" alt="Santa Laughing"/>
 </aside>
 
-<c:set var="gifts" value="#{GIFTS}"/>
-
 <section id="form-container">
     <table class="bodytable">
 
         <caption>Ideas for My Santa</caption>
         
         <c:choose>
-            <c:when test="${not empty gifts}">
-                <c:forEach items="${gifts}" var="gift">
+            <c:when test="${not empty GIFTS}">
+                <c:forEach items="${GIFTS}" var="gift">
                     <tr>
                         <td width="100%">
                             <c:out value="${gift.description}"/>
                         </td>
                         <td>
-                            <a class="button" href="/gift/detail?action=update&giftId=${gift.id}">Change</a>
-                            <a class="button" href="/gift/delete?giftId=${gift.id}">Remove</a>
+                            <form>
+                                <button type="submit" formmethod="get" formaction="/gift/${gift.id}">Change</button>
+                                <button type="submit" formmethod="post" formaction="/gift/${gift.id}/delete">Remove</button>
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>
@@ -35,7 +35,7 @@
         </c:choose>
     </table>
 
-    <a class="button" href="/gift/create">
+    <a class="button" href="/gift">
         <c:choose>
             <c:when test="${not empty gifts}">
                 Add Another Idea
