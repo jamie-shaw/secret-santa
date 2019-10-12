@@ -3,7 +3,7 @@
 <aside id="image-container">
     <img border="0" src="/images/SantaPointing2.gif" alt="Santa" />
 </aside>
-        
+
 <section id="form-container">
     <form>
         <c:choose>

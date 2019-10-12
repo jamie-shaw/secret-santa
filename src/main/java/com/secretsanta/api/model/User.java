@@ -17,6 +17,10 @@ public class User implements UserDetails {
     private String password;
     private boolean passwordExpired;
     private boolean enabled = true;
+    
+    public User(String userName) {
+        this.userName = userName;
+    }
   
     @Override
     public boolean isAccountNonExpired() {

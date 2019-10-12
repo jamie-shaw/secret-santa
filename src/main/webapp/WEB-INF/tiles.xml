@@ -43,4 +43,8 @@
     <definition name="pick-status" extends="base">
         <put-attribute name="content" value="/WEB-INF/jsp/pickStatus.jsp" />
     </definition>
+    
+    <definition name="reset-password" extends="base">
+        <put-attribute name="content" value="/WEB-INF/jsp/resetPassword.jsp" />
+    </definition>
 </tiles-definitions>

@@ -3,7 +3,7 @@
 <aside id="image-container">
     <img border="0" src="/images/SantaLaughing2.gif" alt="Santa Laughing"/>
 </aside>
-        
+
 <c:set var="gifts" value="#{GIFTS}"/>
 
 <section id="form-container">
@@ -35,18 +35,16 @@
         </c:choose>
     </table>
 
-    <form>
-        <button href="gift/detail?action=create">
-            <c:choose>
-                <c:when test="${not empty gifts}">
-                    Add Another Idea
-                </c:when>
-                <c:otherwise>
-                    Add An Idea
-                </c:otherwise>
-            </c:choose>
-        </button>
-    </form>
+    <a class="button" href="/gift/create">
+        <c:choose>
+            <c:when test="${not empty gifts}">
+                Add Another Idea
+            </c:when>
+            <c:otherwise>
+                Add An Idea
+            </c:otherwise>
+        </c:choose>
+    </a>
 
     <a class="button" href="/home">Back to Santa Home</a>
 

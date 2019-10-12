@@ -29,8 +29,6 @@
         </c:forEach>
     </table>
 
-    <form>
-        <a class="button" href="home">Back to Santa Home</a>
-    </form>
+    <a class="button" href="/home">Back to Santa Home</a>
 
 </section>
