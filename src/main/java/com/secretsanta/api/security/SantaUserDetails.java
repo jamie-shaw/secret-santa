@@ -1,5 +1,6 @@
 package com.secretsanta.api.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +13,7 @@ public class SantaUserDetails implements UserDetails {
     
     private static final long serialVersionUID = 1L;
     
-    private Collection<SimpleGrantedAuthority> authorities;
+    private Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
     private String username;
     private String password;
     private boolean enabled = true;

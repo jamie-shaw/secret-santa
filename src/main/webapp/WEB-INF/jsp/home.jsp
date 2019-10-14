@@ -1,4 +1,5 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <aside id="image-container">
     <img border="0" src="/images/SantaPointing2.gif" alt="Santa" />
@@ -10,21 +11,21 @@
             <c:when test="${not empty RECIPIENT}">
           
                 <h1>You're ${RECIPIENT.recipient}'s Secret Santa!</h1>
-    
+                
                 <a class="button" href="/idea/summary">See Ideas from ${RECIPIENT.recipient}</a>
                 <a class="button" href="/gift/summary">Give My Secret Santa Some Ideas</a>
                 <a class="button" href="/email">Send a Message</a>
                 <a class="button" href="/pick/status">See Who's Picked a Recipient</a>
                 <a class="button" href="/history/${CURRENT_YEAR - 1}">See Ghosts of Christmas Past</a>
     
-    <%--             <% if CurrentUser = "Jamie" or CurrentUser = "jamie" then %> --%>
+                <sec:authorize access="hasAnyRole('ADMIN')">
                      <a class="button" href="admin">Santa Admin</a>
-    <%--             <% end if %> --%>
+                </sec:authorize>
     
-                <a class="button" href="login">Log Out</a>
+                <a class="button" href="/logout">Log Out</a>
     
-                <br/><br/>
-    <%--             <em>Only <%=DateDiff("d",  Now(), "12/25/" + YEAR)%> days 'til Santa comes!</em> --%>
+                <br/>
+                <strong>Only ${DAYS_UNTIL} days 'til Santa comes!</strong>
                 
             </c:when>
             <c:otherwise>

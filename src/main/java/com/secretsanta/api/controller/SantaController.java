@@ -1,5 +1,8 @@
 package com.secretsanta.api.controller;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,19 +30,35 @@ public class SantaController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
     @GetMapping("/login")
     public String showLogin() {
         return "login";
     }
     
-    @GetMapping({"/", "/home"})
-    public String showHome() {
-        return "home";
+    @GetMapping("/logout")
+    public String logout() {
+        return "login";
     }
     
     @GetMapping("/admin")
     public String showAdmin() {
         return "admin";
+    }
+    
+    @GetMapping({"/", "/home"})
+    public String showHome(@ModelAttribute("CURRENT_YEAR") Integer currentYear, Model model) {
+
+        LocalDate christmas = LocalDate.of(currentYear, Month.DECEMBER, 25);
+        LocalDate now = LocalDate.now();
+        
+        long daysUntil = ChronoUnit.DAYS.between(now, christmas);
+        
+        model.addAttribute("DAYS_UNTIL", daysUntil);
+        
+        return "home";
     }
     
     @GetMapping("/resetPassword")
@@ -67,10 +87,14 @@ public class SantaController {
         
         if (usernames.size() > 0) {
             String SQL = "UPDATE user " +
-                            "SET user.Password = 'santa', user.PasswordExpired = true " +
-                          "WHERE user.UserName IN ('" +  String.join("','", usernames) + "')";
-                        
-            jdbcTemplate.update(SQL);
+                    "SET user.Password = ?, user.PasswordExpired = true " +
+                  "WHERE user.UserName = ?";
+            
+            for (String username : usernames) {
+                String password = passwordEncoder.encode("santa");
+                jdbcTemplate.update(SQL, new Object[] {password, username});
+            }
+        
         }
         
         return "home";

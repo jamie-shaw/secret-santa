@@ -2,6 +2,7 @@ package com.secretsanta.api.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,8 +23,13 @@ public class SantaUserDetailsService implements UserDetailsService {
                         "FROM User " +
                        "WHERE UserName = ?";
 
-        UserDetails userDetails = (UserDetails) jdbcTemplate.queryForObject(SQL, new Object[]{username}, new UserDetailsMapper());
+        SantaUserDetails userDetails = (SantaUserDetails) jdbcTemplate.queryForObject(SQL, new Object[]{username}, new UserDetailsMapper());
 
+        if (username.equalsIgnoreCase("jamie")) {
+            SimpleGrantedAuthority admin = new SimpleGrantedAuthority("ROLE_ADMIN");
+            userDetails.getAuthorities().add(admin);
+            
+        }
         return userDetails;
     
     }
