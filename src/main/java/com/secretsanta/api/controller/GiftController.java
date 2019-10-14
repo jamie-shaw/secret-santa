@@ -17,7 +17,7 @@ import com.secretsanta.api.model.Gift;
 import com.secretsanta.api.model.Recipient;
 
 @Controller
-@SessionAttributes({"USER", "RECIPIENT", "CURRENT_YEAR"})
+@SessionAttributes({"CURRENT_USER", "RECIPIENT", "CURRENT_YEAR"})
 public class GiftController {
 
     @Autowired
@@ -25,14 +25,14 @@ public class GiftController {
     
     @GetMapping("/gift/summary")
     public String showGiftSummary(@ModelAttribute("CURRENT_YEAR") Integer currentYear,
-                                  @ModelAttribute("USER") String user,
+                                  @ModelAttribute("CURRENT_USER") String currentUser,
                                   Model model) {
         
         String SQL = "SELECT GiftId, Description, Username, Year " + 
                      "  FROM gift " + 
                      " WHERE UserName = ? AND Year = ?";
         
-        List<Gift> gifts = jdbcTemplate.query(SQL, new Object[]{user, currentYear}, new GiftMapper());
+        List<Gift> gifts = jdbcTemplate.query(SQL, new Object[]{currentUser, currentYear}, new GiftMapper());
 
         model.addAttribute("GIFTS", gifts);
 
@@ -85,13 +85,13 @@ public class GiftController {
     @PostMapping("/gift")
     public String createGift(@ModelAttribute("giftForm") Gift gift,
                              @ModelAttribute("CURRENT_YEAR") Integer currentYear,
-                             @ModelAttribute("USER") String user,
+                             @ModelAttribute("CURRENT_USER") String currentUser,
                              Model model) {
         
         String SQL =  "INSERT INTO gift " +
                       "VALUES(?, ?, ?, ?)";
         
-        jdbcTemplate.update(SQL, new Object[]{gift.getId(), user, gift.getDescription(), currentYear});
+        jdbcTemplate.update(SQL, new Object[]{gift.getId(), currentUser, gift.getDescription(), currentYear});
 
         return "redirect:/gift/summary";
     }

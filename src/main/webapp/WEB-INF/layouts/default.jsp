@@ -15,7 +15,7 @@
       <script src="/js/modernizr.min.js"></script>
       <script src="/js/respond.min.js"></script>
       <script src="/js/prefixfree.min.js"></script>
-      <script src="/js/script.js"></script>
+      <script src="/js/main.js"></script>
     </head>
 
     <body onload="setFocus();">
