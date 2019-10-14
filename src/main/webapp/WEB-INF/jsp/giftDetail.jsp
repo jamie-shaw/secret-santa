@@ -16,7 +16,7 @@
     <form action="${action}" method="post" onSubmit="return validate(this)">
         <p>
             <b>Please enter a description of your gift idea:</b>
-            <textarea name="Description" rows="3" cols="40" id="Description">${GIFT.description}</textarea>
+            <textarea name="Description" rows="3" cols="40" id="Description"><c:out value="${GIFT.description}"></c:out></textarea>
             <br/>
             <button>Save Idea</button>
         </p>

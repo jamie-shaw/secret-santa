@@ -20,43 +20,18 @@ import com.secretsanta.api.model.Recipient;
 import com.secretsanta.api.model.User;
 
 @Controller
-@SessionAttributes({"USER", "RECIPIENT", "CURRENT_YEAR"})
+@SessionAttributes({"CURRENT_YEAR", "CURRENT_USER", "RECIPIENT"})
 public class SantaController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
     
     @GetMapping("/login")
-    public String showLogin(Model model) {
-
-        String SQL = "SELECT attribute_value " +
-                       "FROM system ";
-        
-        String year = jdbcTemplate.queryForObject(SQL, new Object[]{}, String.class);
-        
-        SQL = "SELECT * " +
-                "FROM recipient " + 
-               "WHERE UserName = ? AND Year = ?";
-
-        List<Recipient> recipients = jdbcTemplate.query(
-                SQL,
-                new Object[]{"Jamie", "2017"},
-                (rs, rowNum) ->
-                        new Recipient(
-                                rs.getString("UserName"),
-                                rs.getString("Year"),
-                                rs.getString("Recipient"),
-                                rs.getString("Assigned").equals("Y")
-                )
-        );    
-        model.addAttribute("RECIPIENT", recipients.get(0));
-        model.addAttribute("CURRENT_YEAR", year);
-        model.addAttribute("USER", "Jamie");
-        
-        return "home";
+    public String showLogin() {
+        return "login";
     }
     
-    @GetMapping("/home")
+    @GetMapping({"/", "/home"})
     public String showHome() {
         return "home";
     }

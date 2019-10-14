@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.secretsanta.api.mapper.UserDetailsMapper;
+
 @Service("userDetailsService")
 public class SantaUserDetailsService implements UserDetailsService {
     
@@ -15,13 +17,12 @@ public class SantaUserDetailsService implements UserDetailsService {
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SantaUserDetails userDetails = new SantaUserDetails();
         
-        String SQL = "SELECT Recipient " +
-                "FROM recipient " + 
-               "WHERE UserName = ? AND Year = ?";
- 
-        String recipient = jdbcTemplate.queryForObject(SQL, new Object[]{"Jamie", "2017"}, String.class);
+        String SQL =  "SELECT UserName, Password " +
+                        "FROM User " +
+                       "WHERE UserName = ?";
+
+        UserDetails userDetails = (UserDetails) jdbcTemplate.queryForObject(SQL, new Object[]{username}, new UserDetailsMapper());
 
         return userDetails;
     
