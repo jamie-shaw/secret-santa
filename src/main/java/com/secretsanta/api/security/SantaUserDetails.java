@@ -21,9 +21,10 @@ public class SantaUserDetails implements UserDetails {
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;
     
-    public SantaUserDetails(String username, String password) {
+    public SantaUserDetails(String username, String password, boolean credentialsExpired) {
         this.username = username;
         this.password = password;
+        this.credentialsNonExpired = !credentialsExpired;
     }
 
 }

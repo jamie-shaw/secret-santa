@@ -19,7 +19,7 @@ public class SantaUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
-        String SQL =  "SELECT UserName, Password " +
+        String SQL =  "SELECT UserName, Password, PasswordExpired " +
                         "FROM User " +
                        "WHERE UserName = ?";
 

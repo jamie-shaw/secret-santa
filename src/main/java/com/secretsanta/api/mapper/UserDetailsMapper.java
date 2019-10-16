@@ -14,7 +14,8 @@ public class UserDetailsMapper implements RowMapper<SantaUserDetails> {
         
         return new SantaUserDetails(
                 rs.getString("UserName"),
-                rs.getString("Password")
+                rs.getString("Password"),
+                rs.getBoolean("PasswordExpired")
         );
     }
 }

@@ -45,6 +45,10 @@
     </definition>
     
     <definition name="reset-password" extends="base">
-        <put-attribute name="content" value="/WEB-INF/jsp/resetPassword.jsp" />
+        <put-attribute name="content" value="/WEB-INF/jsp/passwordReset.jsp" />
+    </definition>
+    
+    <definition name="change-password" extends="base">
+        <put-attribute name="content" value="/WEB-INF/jsp/passwordChange.jsp" />
     </definition>
 </tiles-definitions>

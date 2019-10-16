@@ -34,7 +34,15 @@ public class SantaController {
     private PasswordEncoder passwordEncoder;
     
     @GetMapping("/login")
-    public String showLogin() {
+    public String showLogin(Model model) {
+        // get the current year
+        String SQL = "SELECT attribute_value " +
+                       "FROM system ";
+ 
+        String currentYear = jdbcTemplate.queryForObject(SQL, new Object[]{}, String.class);
+        
+        model.addAttribute("CURRENT_YEAR", currentYear);
+        
         return "login";
     }
     
@@ -48,9 +56,87 @@ public class SantaController {
         return "admin";
     }
     
-    @GetMapping({"/", "/home"})
-    public String showHome(@ModelAttribute("CURRENT_YEAR") Integer currentYear, Model model) {
+    @GetMapping("/changePassword")
+    public String showPasswordChange() {
+        return "change-password";
+    }
+    
+    @PostMapping("/pick")
+    public String processPick(@ModelAttribute("CURRENT_YEAR") Integer currentYear,
+                              @ModelAttribute("CURRENT_USER") String currentUser) {
+        
+        // select all recipients that haven't already been assigned
+        String SQL = "SELECT * " +
+                       "FROM recipient " +
+                      "WHERE Assigned = 'N' AND UserName <> ? AND Year = ?";
 
+        List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{currentUser, currentYear}, new RecipientMapper());
+        Recipient recipient = null;
+        
+        if (recipients.size() > 2) {
+            //Generate random value between 0 and number of records returned.
+            int recordNumber = (int)(recipients.size() * Math.random());
+
+            // Locate record corresponding to random number
+            recipient = recipients.get(recordNumber);
+            
+        } else {
+            // Choose the first unassigned user as the recipient
+            recipient = recipients.get(0);
+            
+            if (recipients.size() == 2) {
+                //Check to ensure that last user won't get themselves
+                Recipient lastUser = recipients.get(1);
+                if (lastUser.getRecipient() == null && !lastUser.isAssigned()) {
+                    recipient = lastUser;
+                }
+            }
+            
+        }
+        
+        // Update recipient record
+        SQL = "UPDATE recipient " + 
+                 "SET Assigned = 'Y' " +
+               "WHERE UserName = ? AND Year = ?";
+        
+        jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), currentYear});
+
+        // Update user record
+        SQL = "UPDATE recipient " +
+                 "SET Recipient = ? " +
+               "WHERE UserName = ? AND Year = ?";
+        
+        jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), currentUser, currentYear});
+        
+        return "redirect:/home";
+    }
+    
+    
+    @GetMapping({"/", "/home"})
+    public String showHome(@ModelAttribute("CURRENT_YEAR") Integer currentYear,
+                           @ModelAttribute("CURRENT_USER") String currentUser,
+                           Model model) {
+        
+        // get the recipients for the current user
+        String SQL = "SELECT * " +
+                       "FROM recipient " +
+                      "WHERE UserName = ? AND Year = ?";
+
+        List<Recipient> recipients = jdbcTemplate.query(
+                  SQL,
+                  new Object[]{currentUser, currentYear},
+                  (rs, rowNum) ->
+                          new Recipient(
+                                  rs.getString("UserName"),
+                                  rs.getString("Year"),
+                                  rs.getString("Recipient"),
+                                  rs.getString("Assigned").equals("Y")
+                  )
+          );
+          
+        model.addAttribute("RECIPIENT", recipients.get(0));
+        
+        // get the days until Christmas
         LocalDate christmas = LocalDate.of(currentYear, Month.DECEMBER, 25);
         LocalDate now = LocalDate.now();
         

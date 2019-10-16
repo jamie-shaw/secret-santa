@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationProvider authenticationProvider;
 
     @Autowired
-    private SecurityHandler successHandler;
+    private SecurityHandler loginHandler;
     
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -29,12 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/js/**").permitAll()
+                .antMatchers("/changePassword").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
                 .loginPage("/login")
                 .permitAll()
-                .successHandler(successHandler)
+                .successHandler(loginHandler)
+                .failureHandler(loginHandler)
                 .and()
             .logout()
                 .logoutUrl("/logout")
