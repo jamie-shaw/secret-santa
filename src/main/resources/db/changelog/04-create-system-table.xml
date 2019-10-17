@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+                            http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    
+    <changeSet author="admin" id="system-1">
+    
+        <createTable tableName="system">
+            <column name="attribute_name" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="attribute_value" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        
+        <insert tableName="system">
+            <column name="attribute_name" value="year"/>
+            <column name="attribute_value" value="2017"/>
+        </insert>
+        
+        <rollback>
+            <dropTable tableName="system"/>
+        </rollback>
+        
+    </changeSet>
+
+</databaseChangeLog>
