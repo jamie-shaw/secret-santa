@@ -28,9 +28,9 @@ public class GiftController {
                                   @ModelAttribute("CURRENT_USER") String currentUser,
                                   Model model) {
         
-        String SQL = "SELECT GiftId, Description, Username, Year " + 
+        String SQL = "SELECT gift_id, description, user_name, year " + 
                      "  FROM gift " + 
-                     " WHERE UserName = ? AND Year = ?";
+                     " WHERE user_name = ? AND year = ?";
         
         List<Gift> gifts = jdbcTemplate.query(SQL, new Object[]{currentUser, currentYear}, new GiftMapper());
 
@@ -42,9 +42,9 @@ public class GiftController {
     @GetMapping("/gift/{giftId}")
     public String showGiftDetail(@PathVariable String giftId, Model model) {
         
-        String SQL =  "SELECT GiftId, Description, Username, Year " +
+        String SQL =  "SELECT gift_id, description, user_name, year " +
                         "FROM gift " +
-                       "WHERE GiftId = ?";
+                       "WHERE gift_id = ?";
         
         List<Gift> gifts = jdbcTemplate.query(SQL, new Object[]{giftId}, new GiftMapper());
         
@@ -57,8 +57,8 @@ public class GiftController {
     public String updateGift(@PathVariable String giftId, @ModelAttribute("giftForm") Gift gift) {
         
         String SQL = "UPDATE gift " + 
-                        "SET Description = ? " +
-                      "WHERE GiftId = ?";
+                        "SET description = ? " +
+                      "WHERE gift_id = ?";
         
         jdbcTemplate.update(SQL, new Object[]{gift.getDescription(), giftId});
 
@@ -70,7 +70,7 @@ public class GiftController {
         
         String SQL =  "DELETE " +
                         "FROM gift " +
-                       "WHERE GiftId = ?";
+                       "WHERE gift_id = ?";
         
         jdbcTemplate.update(SQL, new Object[]{giftId});
 
@@ -101,9 +101,9 @@ public class GiftController {
                             @ModelAttribute("RECIPIENT") Recipient recipient,
                             Model model) {
         
-        String SQL = "SELECT GiftId, UserName, Description, Year " +
+        String SQL = "SELECT gift_id, user_name, description, year " +
                        "FROM gift " +
-                      "WHERE UserName = ? AND Year = ?";
+                      "WHERE user_name = ? AND year = ?";
         
         List<Gift> ideas = jdbcTemplate.query(SQL, new Object[]{recipient.getRecipient(), currentYear}, new GiftMapper());
 

@@ -19,9 +19,9 @@ public class SantaUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
-        String SQL =  "SELECT UserName, Password, PasswordExpired " +
-                        "FROM User " +
-                       "WHERE UserName = ?";
+        String SQL =  "SELECT user_name, password, password_expired " +
+                        "FROM user " +
+                       "WHERE user_name = ?";
 
         SantaUserDetails userDetails = (SantaUserDetails) jdbcTemplate.queryForObject(SQL, new Object[]{username}, new UserDetailsMapper());
 

@@ -13,9 +13,9 @@ public class UserDetailsMapper implements RowMapper<SantaUserDetails> {
     public SantaUserDetails mapRow(ResultSet rs, int rowNum) throws SQLException {
         
         return new SantaUserDetails(
-                rs.getString("UserName"),
-                rs.getString("Password"),
-                rs.getBoolean("PasswordExpired")
+                rs.getString("user_name"),
+                rs.getString("password"),
+                rs.getBoolean("password_expired")
         );
     }
 }

@@ -68,7 +68,7 @@ public class SantaController {
         // select all recipients that haven't already been assigned
         String SQL = "SELECT * " +
                        "FROM recipient " +
-                      "WHERE Assigned = 'N' AND UserName <> ? AND Year = ?";
+                      "WHERE assigned = 'N' AND user_name <> ? AND year = ?";
 
         List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{currentUser, currentYear}, new RecipientMapper());
         Recipient recipient = null;
@@ -96,15 +96,15 @@ public class SantaController {
         
         // Update recipient record
         SQL = "UPDATE recipient " + 
-                 "SET Assigned = 'Y' " +
-               "WHERE UserName = ? AND Year = ?";
+                 "SET assigned = 'Y' " +
+               "WHERE user_name = ? AND year = ?";
         
         jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), currentYear});
 
         // Update user record
         SQL = "UPDATE recipient " +
-                 "SET Recipient = ? " +
-               "WHERE UserName = ? AND Year = ?";
+                 "SET recipient = ? " +
+               "WHERE user_name = ? AND year = ?";
         
         jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), currentUser, currentYear});
         
@@ -120,17 +120,17 @@ public class SantaController {
         // get the recipients for the current user
         String SQL = "SELECT * " +
                        "FROM recipient " +
-                      "WHERE UserName = ? AND Year = ?";
+                      "WHERE user_name = ? AND year = ?";
 
         List<Recipient> recipients = jdbcTemplate.query(
                   SQL,
                   new Object[]{currentUser, currentYear},
                   (rs, rowNum) ->
                           new Recipient(
-                                  rs.getString("UserName"),
-                                  rs.getString("Year"),
-                                  rs.getString("Recipient"),
-                                  rs.getString("Assigned").equals("Y")
+                                  rs.getString("user_name"),
+                                  rs.getString("year"),
+                                  rs.getString("recipient"),
+                                  rs.getString("assigned").equals("Y")
                   )
           );
           
@@ -150,7 +150,7 @@ public class SantaController {
     @GetMapping("/resetPassword")
     public String showResetPassword(Model model) {
         
-        String SQL = "SELECT UserName " + 
+        String SQL = "SELECT user_name " + 
                        "FROM user";
    
         List<User> users = jdbcTemplate.query(
@@ -158,7 +158,7 @@ public class SantaController {
                 new Object[]{},
                 (rs, rowNum) ->
                         new User(
-                            rs.getString("UserName")
+                            rs.getString("user_name")
                         )
         );
         model.addAttribute("USERS", users);
@@ -173,8 +173,8 @@ public class SantaController {
         
         if (usernames.size() > 0) {
             String SQL = "UPDATE user " +
-                    "SET user.Password = ?, user.PasswordExpired = true " +
-                  "WHERE user.UserName = ?";
+                            "SET user.password = ?, user.password_expired = true " +
+                          "WHERE user.user_name = ?";
             
             for (String username : usernames) {
                 String password = passwordEncoder.encode("santa");
@@ -192,21 +192,21 @@ public class SantaController {
                               Model model) {
                 
         // Get all of the active years
-        String SQL = "SELECT distinct Year " +
+        String SQL = "SELECT distinct year " +
                        "FROM recipient " +
-                      "WHERE Year <> ? " +
-                   "ORDER BY Year DESC";
+                      "WHERE year <> ? " +
+                   "ORDER BY year DESC";
         
         List<String> years = jdbcTemplate.query(
                 SQL, 
                 new Object[] {currentYear},
-                (rs, rowNum) -> new String(rs.getString("Year")));
+                (rs, rowNum) -> new String(rs.getString("year")));
         
         // Get all recipients for the selected year
-        SQL = "SELECT UserName, Recipient, Year, Assigned " +
+        SQL = "SELECT user_name, recipient, year, assigned " +
                 "FROM recipient " +
-               "WHERE Year = ? " +
-            "ORDER BY UserName";
+               "WHERE year = ? " +
+            "ORDER BY user_name";
         
         List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{selectedYear},new RecipientMapper());
        
@@ -220,10 +220,10 @@ public class SantaController {
     public String showPickStatus(@ModelAttribute("CURRENT_YEAR") Integer currentYear, Model model) {
         
         // Get all of the pickers
-        String SQL = "SELECT UserName, Recipient, Year, Assigned " +
+        String SQL = "SELECT user_name, recipient, year, assigned " +
                        "FROM recipient " +
-                 "INNER JOIN user ON recipient.UserName = user.UserName " +
-                      "WHERE Year = ?";
+                 "INNER JOIN user ON recipient.user_name = user.user_name " +
+                      "WHERE year = ?";
         
         List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{currentYear}, new RecipientMapper());
         
