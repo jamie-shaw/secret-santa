@@ -13,10 +13,10 @@ public class GiftMapper implements RowMapper<Gift> {
     public Gift mapRow(ResultSet rs, int rowNum) throws SQLException {
 
         return new Gift(
-                rs.getString("GiftId"),
-                rs.getString("UserName"),
-                rs.getString("Description"),
-                rs.getString("Year")
+                rs.getString("gift_id"),
+                rs.getString("user_name"),
+                rs.getString("description"),
+                rs.getString("year")
         );
         
     }

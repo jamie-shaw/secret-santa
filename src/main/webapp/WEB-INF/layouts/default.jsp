@@ -7,7 +7,7 @@
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title><tiles:insertAttribute name="title" />Welcome to Secret Santa!</title>
+      <title><tiles:insertAttribute name="title" /></title>
     
       <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen" />
       <link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" />

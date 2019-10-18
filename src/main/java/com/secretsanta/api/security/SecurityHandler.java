@@ -31,7 +31,9 @@ public class SecurityHandler implements AuthenticationSuccessHandler, Authentica
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         
-        //String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        // store the username in the session for the change password process
+        String username = request.getParameter("username");
+        request.getSession().setAttribute("username", username);
         
         if (exception instanceof CredentialsExpiredException) {
             response.sendRedirect("/changePassword");

@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.secretsanta.api.mapper.RecipientMapper;
+import com.secretsanta.api.model.PasswordChangeForm;
 import com.secretsanta.api.model.Recipient;
 import com.secretsanta.api.model.User;
 
@@ -32,6 +36,9 @@ public class SantaController {
     
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private AuthenticationProvider authenticationProvider;
     
     @GetMapping("/login")
     public String showLogin(Model model) {
@@ -59,6 +66,31 @@ public class SantaController {
     @GetMapping("/changePassword")
     public String showPasswordChange() {
         return "change-password";
+    }
+    
+    @PostMapping("/changePassword")
+    public String processPasswordChange(HttpServletRequest request, @ModelAttribute("form") PasswordChangeForm form, Model model) {
+
+        String username = (String)request.getSession().getAttribute("username");
+        String password = form.getPassword();
+        
+        if (!password.equals(form.getConfirmPassword())) {
+            throw new IllegalArgumentException("Passwords must match");
+        }
+        
+        // Update the password
+        String SQL = "UPDATE user " + 
+                        "SET password = ?, "  +
+                           " password_expired = 'false' " +
+                      "WHERE user_name = ?";
+        
+        jdbcTemplate.update(SQL, new Object[] {passwordEncoder.encode(password), username});
+        
+        Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
+        
+        authenticationProvider.authenticate(authentication);
+              
+        return "redirect:/home";
     }
     
     @PostMapping("/pick")
@@ -220,7 +252,7 @@ public class SantaController {
     public String showPickStatus(@ModelAttribute("CURRENT_YEAR") Integer currentYear, Model model) {
         
         // Get all of the pickers
-        String SQL = "SELECT user_name, recipient, year, assigned " +
+        String SQL = "SELECT recipient.user_name, recipient, year, assigned " +
                        "FROM recipient " +
                  "INNER JOIN user ON recipient.user_name = user.user_name " +
                       "WHERE year = ?";
