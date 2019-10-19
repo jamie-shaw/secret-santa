@@ -6,9 +6,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
                             http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     
-    <changeSet author="admin" id="user-1">
+    <changeSet author="admin" id="user-1" >
     
-        <createTable tableName="user">
+        <createTable tableName="santa_user" schemaName="shaw">
             <column name="user_name" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
@@ -26,35 +26,35 @@
             </column>
         </createTable>
         
-        <insert tableName="user">
+        <insert tableName="santa_user" schemaName="shaw">
             <column name="user_name" value="Jamie"/>
             <column name="display_name" value="Jamie"/>
             <column name="email" value="jamie.e.shaw@gmail.com"/>
             <column name="password" value="{noop}santa"/>
             <column name="password_expired" value="true"/>
         </insert>
-        <insert tableName="user">
+        <insert tableName="santa_user" schemaName="shaw">
             <column name="user_name" value="Margoe"/>
             <column name="display_name" value ="Margoe"/>
             <column name="email" value ="margoe.shaw@gmail.com"/>
             <column name="password" value ="{noop}santa"/>
             <column name="password_expired" value ="true"/>
         </insert>
-        <insert tableName="user">
+        <insert tableName="santa_user" schemaName="shaw">
             <column name="user_name" value="Joan"/>
             <column name="display_name" value ="Grammy"/>
             <column name="email" value ="jelshaw@applewoodstudio.net"/>
             <column name="password" value ="{noop}santa"/>
             <column name="password_expired" value ="true"/>
         </insert>
-        <insert tableName="user">
+        <insert tableName="santa_user" schemaName="shaw">
             <column name="user_name" value="Ted"/>
             <column name="display_name" value ="Grampy"/>
             <column name="email" value ="dancer@kitestrings.net"/>
             <column name="password" value ="{noop}santa"/>
             <column name="password_expired" value ="true"/>
         </insert>
-        <insert tableName="user">
+        <insert tableName="santa_user" schemaName="shaw">
             <column name="user_name" value="Mark"/>
             <column name="display_name" value ="Uncle Mark"/>
             <column name="email" value ="memakemetal@hotmail.com"/>
@@ -63,7 +63,7 @@
         </insert>
         
         <rollback>
-            <dropTable tableName="user"/>
+            <dropTable tableName="santa_user"/>
         </rollback>
         
     </changeSet>

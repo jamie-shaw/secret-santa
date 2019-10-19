@@ -8,7 +8,7 @@
     
     <changeSet author="admin" id="gift-1">
     
-        <createTable tableName="gift">
+        <createTable tableName="gift" schemaName="shaw">
             <column name="gift_id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -23,21 +23,19 @@
             </column>
         </createTable>
         
-        <insert tableName="gift">
-            <column name="gift_id" value="1"/>
+        <insert tableName="gift" schemaName="shaw">
             <column name="user_name" value="2017"/>
             <column name="description" value="Wemo Mini Smart Plug (about $35 on Amazon)"/>
             <column name="year" value="2017"/>
         </insert>
-        <insert tableName="gift">
-            <column name="gift_id" value="2"/>
+        <insert tableName="gift" schemaName="shaw">
             <column name="user_name" value="2017"/>
             <column name="description" value="Gift card to Anna Phillips Nail Bar (portland ME)"/>
             <column name="year" value="2017"/>
         </insert>
         
         <rollback>
-            <dropTable tableName="gift"/>
+            <dropTable tableName="gift" schemaName="shaw"/>
         </rollback>
         
     </changeSet>

@@ -8,7 +8,7 @@
     
     <changeSet author="admin" id="recipient-1">
     
-        <createTable tableName="recipient">
+        <createTable tableName="recipient" schemaName="shaw">
             <column name="user_name" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
@@ -23,37 +23,37 @@
             </column>
         </createTable>
         
-        <insert tableName="recipient">
+        <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Jamie"/>
             <column name="year" value="2017"/>
             <column name="recipient" value="Margoe"/>
             <column name="assigned" value="true"/>
         </insert>
-        <insert tableName="recipient">
+        <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Jim"/>
             <column name="year" value="2017"/>
             <column name="recipient" value="Jamie"/>
             <column name="assigned" value="true"/>
         </insert>
-        <insert tableName="recipient">
+        <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Joan"/>
             <column name="year" value="2017"/>
             <column name="recipient" value="Mark"/>
             <column name="assigned" value="true"/>
         </insert>
-        <insert tableName="recipient">
+        <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Margoe"/>
             <column name="year" value="2017"/>
             <column name="recipient" value="Joan"/>
             <column name="assigned" value="true"/>
         </insert>
-        <insert tableName="recipient">
+        <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Mark"/>
             <column name="year" value="2017"/>
             <column name="recipient" value="Ted"/>
             <column name="assigned" value="true"/>
         </insert>
-        <insert tableName="recipient">
+        <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Ted"/>
             <column name="year" value="2017"/>
             <column name="recipient" value="Jim"/>
@@ -61,7 +61,7 @@
         </insert>
         
         <rollback>
-            <dropTable tableName="recipient"/>
+            <dropTable tableName="recipient" schemaName="shaw"/>
         </rollback>
         
     </changeSet>

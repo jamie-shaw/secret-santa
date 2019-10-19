@@ -19,7 +19,9 @@ import com.secretsanta.api.model.Recipient;
 @Controller
 @SessionAttributes({"CURRENT_USER", "RECIPIENT", "CURRENT_YEAR"})
 public class GiftController {
-
+    
+    private static final String schema = "shaw";
+    
     @Autowired
     private JdbcTemplate jdbcTemplate;
     
@@ -29,7 +31,7 @@ public class GiftController {
                                   Model model) {
         
         String SQL = "SELECT gift_id, description, user_name, year " + 
-                     "  FROM gift " + 
+                     "  FROM " + schema + ".gift " + 
                      " WHERE user_name = ? AND year = ?";
         
         List<Gift> gifts = jdbcTemplate.query(SQL, new Object[]{currentUser, currentYear}, new GiftMapper());
@@ -43,7 +45,7 @@ public class GiftController {
     public String showGiftDetail(@PathVariable String giftId, Model model) {
         
         String SQL =  "SELECT gift_id, description, user_name, year " +
-                        "FROM gift " +
+                        "FROM" + schema + ".gift " +
                        "WHERE gift_id = ?";
         
         List<Gift> gifts = jdbcTemplate.query(SQL, new Object[]{giftId}, new GiftMapper());
@@ -56,7 +58,7 @@ public class GiftController {
     @PostMapping("/gift/{giftId}/update")
     public String updateGift(@PathVariable String giftId, @ModelAttribute("giftForm") Gift gift) {
         
-        String SQL = "UPDATE gift " + 
+        String SQL = "UPDATE " + schema + ".gift " + 
                         "SET description = ? " +
                       "WHERE gift_id = ?";
         
@@ -66,10 +68,10 @@ public class GiftController {
     }
     
     @PostMapping("/gift/{giftId}/delete")
-    public String deleteGift(@PathVariable String giftId) {
+    public String deleteGift(@PathVariable int giftId) {
         
         String SQL =  "DELETE " +
-                        "FROM gift " +
+                        "FROM " + schema + ".gift " +
                        "WHERE gift_id = ?";
         
         jdbcTemplate.update(SQL, new Object[]{giftId});
@@ -88,10 +90,10 @@ public class GiftController {
                              @ModelAttribute("CURRENT_USER") String currentUser,
                              Model model) {
         
-        String SQL =  "INSERT INTO gift " +
-                      "VALUES(?, ?, ?, ?)";
+        String SQL =  "INSERT INTO " + schema + ".gift " +
+                      "VALUES(DEFAULT, ?, ?, ?)";
         
-        jdbcTemplate.update(SQL, new Object[]{gift.getId(), currentUser, gift.getDescription(), currentYear});
+        jdbcTemplate.update(SQL, new Object[]{currentUser, gift.getDescription(), currentYear});
 
         return "redirect:/gift/summary";
     }
@@ -102,7 +104,7 @@ public class GiftController {
                             Model model) {
         
         String SQL = "SELECT gift_id, user_name, description, year " +
-                       "FROM gift " +
+                       "FROM " + schema + ".gift " +
                       "WHERE user_name = ? AND year = ?";
         
         List<Gift> ideas = jdbcTemplate.query(SQL, new Object[]{recipient.getRecipient(), currentYear}, new GiftMapper());

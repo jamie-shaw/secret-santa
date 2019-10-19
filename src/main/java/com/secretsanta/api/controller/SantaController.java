@@ -30,7 +30,9 @@ import com.secretsanta.api.model.User;
 @Controller
 @SessionAttributes({"CURRENT_YEAR", "CURRENT_USER", "RECIPIENT"})
 public class SantaController {
-
+    
+    private static final String schema = "shaw";
+    
     @Autowired
     private JdbcTemplate jdbcTemplate;
     
@@ -44,7 +46,7 @@ public class SantaController {
     public String showLogin(Model model) {
         // get the current year
         String SQL = "SELECT attribute_value " +
-                       "FROM system ";
+                       "FROM " + schema + ".system ";
  
         String currentYear = jdbcTemplate.queryForObject(SQL, new Object[]{}, String.class);
         
@@ -79,7 +81,7 @@ public class SantaController {
         }
         
         // Update the password
-        String SQL = "UPDATE user " + 
+        String SQL = "UPDATE " + schema + ".santa_user " + 
                         "SET password = ?, "  +
                            " password_expired = 'false' " +
                       "WHERE user_name = ?";
@@ -99,7 +101,7 @@ public class SantaController {
         
         // select all recipients that haven't already been assigned
         String SQL = "SELECT * " +
-                       "FROM recipient " +
+                       "FROM " + schema + ".recipient " +
                       "WHERE assigned = 'N' AND user_name <> ? AND year = ?";
 
         List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{currentUser, currentYear}, new RecipientMapper());
@@ -127,14 +129,14 @@ public class SantaController {
         }
         
         // Update recipient record
-        SQL = "UPDATE recipient " + 
+        SQL = "UPDATE " + schema + ".recipient " + 
                  "SET assigned = 'Y' " +
                "WHERE user_name = ? AND year = ?";
         
         jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), currentYear});
 
         // Update user record
-        SQL = "UPDATE recipient " +
+        SQL = "UPDATE " + schema + ".recipient " +
                  "SET recipient = ? " +
                "WHERE user_name = ? AND year = ?";
         
@@ -151,7 +153,7 @@ public class SantaController {
         
         // get the recipients for the current user
         String SQL = "SELECT * " +
-                       "FROM recipient " +
+                       "FROM " + schema + ".recipient " +
                       "WHERE user_name = ? AND year = ?";
 
         List<Recipient> recipients = jdbcTemplate.query(
@@ -183,7 +185,7 @@ public class SantaController {
     public String showResetPassword(Model model) {
         
         String SQL = "SELECT user_name " + 
-                       "FROM user";
+                       "FROM " + schema + ".santa_user";
    
         List<User> users = jdbcTemplate.query(
                 SQL,
@@ -204,9 +206,9 @@ public class SantaController {
         List<String> usernames = Arrays.asList(request.getParameterValues("username"));
         
         if (usernames.size() > 0) {
-            String SQL = "UPDATE user " +
-                            "SET user.password = ?, user.password_expired = true " +
-                          "WHERE user.user_name = ?";
+            String SQL = "UPDATE " + schema + ".santa_user " +
+                            "SET password = ?, password_expired = true " +
+                          "WHERE user_name = ?";
             
             for (String username : usernames) {
                 String password = passwordEncoder.encode("santa");
@@ -225,7 +227,7 @@ public class SantaController {
                 
         // Get all of the active years
         String SQL = "SELECT distinct year " +
-                       "FROM recipient " +
+                       "FROM " + schema + ".recipient " +
                       "WHERE year <> ? " +
                    "ORDER BY year DESC";
         
@@ -236,7 +238,7 @@ public class SantaController {
         
         // Get all recipients for the selected year
         SQL = "SELECT user_name, recipient, year, assigned " +
-                "FROM recipient " +
+                "FROM " + schema + ".recipient " +
                "WHERE year = ? " +
             "ORDER BY user_name";
         
@@ -253,8 +255,8 @@ public class SantaController {
         
         // Get all of the pickers
         String SQL = "SELECT recipient.user_name, recipient, year, assigned " +
-                       "FROM recipient " +
-                 "INNER JOIN user ON recipient.user_name = user.user_name " +
+                       "FROM " + schema + ".recipient " +
+                 "INNER JOIN " + schema + ".santa_user ON recipient.user_name = santa_user.user_name " +
                       "WHERE year = ?";
         
         List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{currentYear}, new RecipientMapper());

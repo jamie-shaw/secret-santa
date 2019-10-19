@@ -20,7 +20,7 @@ public class SantaUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
         String SQL =  "SELECT user_name, password, password_expired " +
-                        "FROM user " +
+                        "FROM shaw.santa_user " +
                        "WHERE user_name = ?";
 
         SantaUserDetails userDetails = (SantaUserDetails) jdbcTemplate.queryForObject(SQL, new Object[]{username}, new UserDetailsMapper());
