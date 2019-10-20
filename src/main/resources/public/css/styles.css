@@ -23,6 +23,7 @@ header h1 {
     font-weight: normal;
     font-size: 64px;
     text-shadow: 3px 4px 3px #777777;
+    padding-top: 10px;
 }
 
 /* CONTENT */
