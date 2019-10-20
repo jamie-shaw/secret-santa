@@ -1,13 +1,13 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 <aside id="image-container">
-    <img border="0" src="images/SantaHead.gif" alt="Santa" />
+    <img border="0" src="/images/SantaHead.gif" alt="Santa" />
 </aside>
 
 <section id="form-container">
 
     <form method="post" action="/login" onSubmit="return validate(this)">
-        <c:if test="${param.error ne null}" >
+        <c:if test="${ERROR ne null}" >
             <div class="alert alert-error">Your login failed.  Please check your username and password and try again.</div>
         </c:if>
         

@@ -47,10 +47,18 @@ public class SantaController {
         // get the current year
         String SQL = "SELECT attribute_value " +
                        "FROM " + schema + ".system ";
- 
+        
         String currentYear = jdbcTemplate.queryForObject(SQL, new Object[]{}, String.class);
         
         model.addAttribute("CURRENT_YEAR", currentYear);
+        
+        return "login";
+    }
+    
+    @GetMapping("/login/error")
+    public String showLoginError(Model model) {
+        
+        model.addAttribute("ERROR", true);
         
         return "login";
     }
@@ -72,7 +80,7 @@ public class SantaController {
     
     @PostMapping("/changePassword")
     public String processPasswordChange(HttpServletRequest request, @ModelAttribute("form") PasswordChangeForm form, Model model) {
-
+        
         String username = (String)request.getSession().getAttribute("username");
         String password = form.getPassword();
         
@@ -103,14 +111,14 @@ public class SantaController {
         String SQL = "SELECT * " +
                        "FROM " + schema + ".recipient " +
                       "WHERE assigned = 'N' AND user_name <> ? AND year = ?";
-
+        
         List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{currentUser, currentYear}, new RecipientMapper());
         Recipient recipient = null;
         
         if (recipients.size() > 2) {
             //Generate random value between 0 and number of records returned.
             int recordNumber = (int)(recipients.size() * Math.random());
-
+            
             // Locate record corresponding to random number
             recipient = recipients.get(recordNumber);
             
@@ -134,7 +142,7 @@ public class SantaController {
                "WHERE user_name = ? AND year = ?";
         
         jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), currentYear});
-
+        
         // Update user record
         SQL = "UPDATE " + schema + ".recipient " +
                  "SET recipient = ? " +
@@ -145,7 +153,6 @@ public class SantaController {
         return "redirect:/home";
     }
     
-    
     @GetMapping({"/", "/home"})
     public String showHome(@ModelAttribute("CURRENT_YEAR") Integer currentYear,
                            @ModelAttribute("CURRENT_USER") String currentUser,
@@ -155,7 +162,7 @@ public class SantaController {
         String SQL = "SELECT * " +
                        "FROM " + schema + ".recipient " +
                       "WHERE user_name = ? AND year = ?";
-
+        
         List<Recipient> recipients = jdbcTemplate.query(
                   SQL,
                   new Object[]{currentUser, currentYear},
@@ -186,7 +193,7 @@ public class SantaController {
         
         String SQL = "SELECT user_name " + 
                        "FROM " + schema + ".santa_user";
-   
+        
         List<User> users = jdbcTemplate.query(
                 SQL,
                 new Object[]{},
