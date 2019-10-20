@@ -1,3 +1,12 @@
+
+@font-face {
+    font-family: "Harrington Regular";
+    font-style: normal;
+    font-weight: normal;
+    src: url("/fonts/HARNGTON.woff");
+}
+
+
 /* HEADER */
 
 header {
@@ -7,6 +16,13 @@ header {
     max-width: 600px;
     height: 100px;
     margin: 20px auto 0 auto;
+}
+
+header h1 {
+    font-family: 'Harrington Regular';
+    font-weight: normal;
+    font-size: 64px;
+    text-shadow: 3px 4px 3px #777777;
 }
 
 /* CONTENT */

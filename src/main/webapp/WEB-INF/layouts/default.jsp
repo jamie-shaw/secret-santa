@@ -21,7 +21,7 @@
     <body onload="setFocus();">
 
         <header>
-            <img border="0" src="/images/SecretSanta${CURRENT_YEAR}.gif" />
+            <h1>Secret Santa ${CURRENT_YEAR}</h1>
         </header>
     
         <div id="main-content" class="container clearfix">
