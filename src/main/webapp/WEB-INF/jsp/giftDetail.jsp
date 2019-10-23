@@ -28,7 +28,6 @@
 </section>
 
 <script>
-    <!--
     function validate(form) {
         if (form.Description.value == '') {
             alert('Please enter a description.');
@@ -37,6 +36,5 @@
 
         return true;
     }
-    -->
 </script>
 

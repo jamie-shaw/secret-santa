@@ -37,7 +37,8 @@ public class SecurityHandler implements AuthenticationSuccessHandler, Authentica
         
         if (exception instanceof CredentialsExpiredException) {
             response.sendRedirect("/changePassword");
+        } else {
+            response.sendRedirect("/login/error");
         }
-        response.sendRedirect("/login/error");
     }
 }

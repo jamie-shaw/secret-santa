@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.secretsanta.api.SystemContextHolder;
 import com.secretsanta.api.mapper.UserDetailsMapper;
 
 @Service("userDetailsService")
@@ -20,7 +21,7 @@ public class SantaUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
         String SQL =  "SELECT user_name, password, password_expired " +
-                        "FROM shaw.santa_user " +
+                        "FROM " + SystemContextHolder.getSchema() + ".santa_user " +
                        "WHERE user_name = ?";
 
         SantaUserDetails userDetails = (SantaUserDetails) jdbcTemplate.queryForObject(SQL, new Object[]{username}, new UserDetailsMapper());

@@ -3,10 +3,17 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     
-    <include file="/db/changelog/00-create-schemas.xml"/>
-    <include file="/db/changelog/01-create-user-table.xml"/>
-    <include file="/db/changelog/02-create-recipient-table.xml"/>
-    <include file="/db/changelog/03-create-gift-table.xml"/>
-    <include file="/db/changelog/04-create-system-table.xml"/>
+    <include file="/db/changelog/create-schemas.xml"/>
+    <include file="/db/changelog/create-system-table.xml"/>
     <include file="/db/changelog/2018-rollover.xml"/>
+    
+    <include file="/db/changelog/shaw/01-create-user-table.xml"/>
+    <include file="/db/changelog/shaw/02-create-recipient-table.xml"/>
+    <include file="/db/changelog/shaw/03-create-gift-table.xml"/>
+    <include file="/db/changelog/shaw/2018-rollover.xml"/>
+    
+    <include file="/db/changelog/fernald/01-create-user-table.xml"/>
+    <include file="/db/changelog/fernald/02-create-recipient-table.xml"/>
+    <include file="/db/changelog/fernald/03-create-gift-table.xml"/>
+    <include file="/db/changelog/fernald/2018-rollover.xml"/>
 </databaseChangeLog>

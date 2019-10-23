@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
                             http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     
-    <changeSet author="admin" id="gift-1">
+    <changeSet author="admin" id="shaw-gift-1">
     
         <createTable tableName="gift" schemaName="shaw">
             <column name="gift_id" type="int" autoIncrement="true">
@@ -24,12 +24,12 @@
         </createTable>
         
         <insert tableName="gift" schemaName="shaw">
-            <column name="user_name" value="2017"/>
+            <column name="user_name" value="Jamie"/>
             <column name="description" value="Wemo Mini Smart Plug (about $35 on Amazon)"/>
             <column name="year" value="2017"/>
         </insert>
         <insert tableName="gift" schemaName="shaw">
-            <column name="user_name" value="2017"/>
+            <column name="user_name" value="Margoe"/>
             <column name="description" value="Gift card to Anna Phillips Nail Bar (portland ME)"/>
             <column name="year" value="2017"/>
         </insert>

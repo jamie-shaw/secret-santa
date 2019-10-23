@@ -6,44 +6,11 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
                             http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     
-    <changeSet author="admin" id="2018">
-    
-        <update tableName="system" schemaName="shaw">
+    <changeSet author="admin" id="system-rollover-2018">
+        <update tableName="system" schemaName="system">
             <column name="attribute_value" value="2018" />
             <where>attribute_name = 'year'</where>
         </update>
-        
-        <insert tableName="recipient" schemaName="shaw">
-            <column name="user_name" value="Jamie"/>
-            <column name="year" value="2018"/>
-            <column name="recipient" value=""/>
-            <column name="assigned" value="false"/>
-        </insert>
-        <insert tableName="recipient" schemaName="shaw">
-            <column name="user_name" value="Margoe"/>
-            <column name="year" value="2018"/>
-            <column name="recipient" value=""/>
-            <column name="assigned" value="false"/>
-        </insert>
-        <insert tableName="recipient" schemaName="shaw">
-            <column name="user_name" value="Joan"/>
-            <column name="year" value="2018"/>
-            <column name="recipient" value=""/>
-            <column name="assigned" value="false"/>
-        </insert>
-        <insert tableName="recipient" schemaName="shaw">
-            <column name="user_name" value="Ted"/>
-            <column name="year" value="2018"/>
-            <column name="recipient" value=""/>
-            <column name="assigned" value="false"/>
-        </insert>
-        <insert tableName="recipient" schemaName="shaw">
-            <column name="user_name" value="Mark"/>
-            <column name="year" value="2018"/>
-            <column name="recipient" value=""/>
-            <column name="assigned" value="false"/>
-        </insert>
-        
     </changeSet>
 
 </databaseChangeLog>

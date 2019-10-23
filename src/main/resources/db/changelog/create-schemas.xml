@@ -7,11 +7,21 @@
                             http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     
     <changeSet author="admin" id="schema-1">
-    
         <sql dbms="postgresql" endDelimiter=";">
             CREATE SCHEMA shaw
         </sql>
-        
     </changeSet>
 
+    <changeSet author="admin" id="schema-2">
+        <sql dbms="postgresql" endDelimiter=";">
+            CREATE SCHEMA fernald
+        </sql>
+    </changeSet>
+    
+    <changeSet author="admin" id="schema-3">
+        <sql dbms="postgresql" endDelimiter=";">
+            CREATE SCHEMA system
+        </sql>
+    </changeSet>
+    
 </databaseChangeLog>

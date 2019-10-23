@@ -8,7 +8,7 @@
     
     <changeSet author="admin" id="system-1">
     
-        <createTable tableName="system" schemaName="shaw">
+        <createTable tableName="system" schemaName="system">
             <column name="attribute_name" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
@@ -17,13 +17,13 @@
             </column>
         </createTable>
         
-        <insert tableName="system" schemaName="shaw">
+        <insert tableName="system" schemaName="system">
             <column name="attribute_name" value="year"/>
             <column name="attribute_value" value="2017"/>
         </insert>
         
         <rollback>
-            <dropTable tableName="system" schemaName="shaw"/>
+            <dropTable tableName="system" schemaName="system"/>
         </rollback>
         
     </changeSet>

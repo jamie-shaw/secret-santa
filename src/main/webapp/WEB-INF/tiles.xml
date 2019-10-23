@@ -51,4 +51,8 @@
     <definition name="change-password" extends="base">
         <put-attribute name="content" value="/WEB-INF/jsp/passwordChange.jsp" />
     </definition>
+        
+    <definition name="email" extends="base">
+        <put-attribute name="content" value="/WEB-INF/jsp/email.jsp" />
+    </definition>
 </tiles-definitions>
