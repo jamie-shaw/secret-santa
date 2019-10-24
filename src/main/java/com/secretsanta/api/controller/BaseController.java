@@ -1,10 +1,14 @@
 package com.secretsanta.api.controller;
 
-import com.secretsanta.api.SystemContextHolder;
+import com.secretsanta.api.util.SystemContextHolder;
 
 public class BaseController {
 
     public String getSchema() {
         return SystemContextHolder.getSchema();
+    }
+    
+    public int getCurrentYear() {
+        return SystemContextHolder.getCurrentYear();
     }
 }

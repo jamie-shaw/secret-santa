@@ -105,7 +105,15 @@ fieldset {
     padding-bottom: 8px;
     border: 1px solid #7f2b00;
     border-radius: 4px;
+    margin-top: .75em;
+    margin-bottom: 2.5em;
 }
+
+legend {
+    margin: auto;
+    padding: 0 1em;
+}
+
 
 /* TABLES */
 

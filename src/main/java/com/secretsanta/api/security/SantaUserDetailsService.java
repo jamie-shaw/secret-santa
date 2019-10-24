@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.secretsanta.api.SystemContextHolder;
 import com.secretsanta.api.mapper.UserDetailsMapper;
+import com.secretsanta.api.util.SystemContextHolder;
 
 @Service("userDetailsService")
 public class SantaUserDetailsService implements UserDetailsService {
