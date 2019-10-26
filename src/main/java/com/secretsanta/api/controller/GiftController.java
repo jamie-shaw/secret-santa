@@ -17,22 +17,21 @@ import com.secretsanta.api.model.Gift;
 import com.secretsanta.api.model.Recipient;
 
 @Controller
-@SessionAttributes({"CURRENT_USER", "RECIPIENT", "CURRENT_YEAR"})
+@SessionAttributes({"CURRENT_USER", "RECIPIENT"})
 public class GiftController extends BaseController {
     
     @Autowired
     private JdbcTemplate jdbcTemplate;
     
     @GetMapping("/gift/summary")
-    public String showGiftSummary(@ModelAttribute("CURRENT_YEAR") Integer currentYear,
-                                  @ModelAttribute("CURRENT_USER") String currentUser,
+    public String showGiftSummary(@ModelAttribute("CURRENT_USER") String currentUser,
                                   Model model) {
         
         String SQL = "SELECT gift_id, description, user_name, year " + 
                      "  FROM " + getSchema() + ".gift " + 
                      " WHERE user_name = ? AND year = ?";
         
-        List<Gift> gifts = jdbcTemplate.query(SQL, new Object[]{currentUser, currentYear}, new GiftMapper());
+        List<Gift> gifts = jdbcTemplate.query(SQL, new Object[]{currentUser, getCurrentYear()}, new GiftMapper());
 
         model.addAttribute("GIFTS", gifts);
 
@@ -84,28 +83,26 @@ public class GiftController extends BaseController {
     
     @PostMapping("/gift")
     public String createGift(@ModelAttribute("giftForm") Gift gift,
-                             @ModelAttribute("CURRENT_YEAR") Integer currentYear,
                              @ModelAttribute("CURRENT_USER") String currentUser,
                              Model model) {
         
         String SQL =  "INSERT INTO " + getSchema() + ".gift " +
                       "VALUES(DEFAULT, ?, ?, ?)";
         
-        jdbcTemplate.update(SQL, new Object[]{currentUser, gift.getDescription(), currentYear});
+        jdbcTemplate.update(SQL, new Object[]{currentUser, gift.getDescription(), getCurrentYear()});
 
         return "redirect:/gift/summary";
     }
     
     @GetMapping("/idea/summary")
-    public String showIdeas(@ModelAttribute("CURRENT_YEAR") Integer currentYear,
-                            @ModelAttribute("RECIPIENT") Recipient recipient,
+    public String showIdeas(@ModelAttribute("RECIPIENT") Recipient recipient,
                             Model model) {
         
         String SQL = "SELECT gift_id, user_name, description, year " +
                        "FROM " + getSchema() + ".gift " +
                       "WHERE user_name = ? AND year = ?";
         
-        List<Gift> ideas = jdbcTemplate.query(SQL, new Object[]{recipient.getRecipient(), currentYear}, new GiftMapper());
+        List<Gift> ideas = jdbcTemplate.query(SQL, new Object[]{recipient.getRecipient(), getCurrentYear()}, new GiftMapper());
 
         model.addAttribute("IDEAS", ideas);
         

@@ -1,14 +1,13 @@
 package com.secretsanta.api.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class SystemContext {
     
     private String schema;
     private int year;
     
-    public SystemContext(int year) {
-        this.year = year;
-    }
-
     public void setSchema(String newSchema) {
         schema = newSchema;
     }

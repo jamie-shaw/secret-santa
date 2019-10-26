@@ -15,7 +15,7 @@
             <a class="button" href="/gift/summary">Give My Secret Santa Some Ideas</a>
             <a class="button" href="/email">Send a Message</a>
             <a class="button" href="/pick/status">See Who's Picked a Recipient</a>
-            <a class="button" href="/history/${CURRENT_YEAR - 1}">See Ghosts of Christmas Past</a>
+            <a class="button" href="/history/${systemContext.currentYear - 1}">See Ghosts of Christmas Past</a>
 
             <sec:authorize access="hasAnyRole('ADMIN')">
                  <a class="button" href="admin">Santa Admin</a>

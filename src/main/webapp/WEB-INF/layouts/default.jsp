@@ -21,7 +21,7 @@
     <body onload="setFocus();">
 
         <header>
-            <h1>Secret Santa ${CURRENT_YEAR}</h1>
+            <h1>Secret Santa ${systemContext.currentYear}</h1>
         </header>
     
         <div id="main-content" class="container clearfix">

@@ -7,10 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.secretsanta.api.dao.SystemDao;
-import com.secretsanta.api.filter.SystemContextFilter;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -53,9 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
             .headers()
                 .frameOptions()
-                    .sameOrigin()
-                .and()
-            .addFilterBefore(new SystemContextFilter(systemDao), UsernamePasswordAuthenticationFilter.class);
+                    .sameOrigin();
     }
     
     @Autowired

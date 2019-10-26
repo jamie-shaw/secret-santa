@@ -1,14 +1,19 @@
 package com.secretsanta.api.controller;
 
-import com.secretsanta.api.util.SystemContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class BaseController {
+import com.secretsanta.api.model.SystemContext;
 
+public abstract class BaseController {
+
+    @Autowired
+    SystemContext systemContext;
+    
     public String getSchema() {
-        return SystemContextHolder.getSchema();
+        return systemContext.getSchema();
     }
     
     public int getCurrentYear() {
-        return SystemContextHolder.getCurrentYear();
+        return systemContext.getCurrentYear();
     }
 }

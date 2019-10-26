@@ -29,7 +29,7 @@ import com.secretsanta.api.model.Recipient;
 import com.secretsanta.api.model.User;
 
 @Controller
-@SessionAttributes({"CURRENT_YEAR", "CURRENT_USER", "RECIPIENT"})
+@SessionAttributes({"CURRENT_USER", "RECIPIENT"})
 public class SantaController extends BaseController {
     
     @Autowired
@@ -43,14 +43,6 @@ public class SantaController extends BaseController {
     
     @GetMapping("/login")
     public String showLogin(Model model) {
-        // get the current year
-        String SQL = "SELECT attribute_value " +
-                       "FROM system.system ";
-        
-        String currentYear = jdbcTemplate.queryForObject(SQL, new Object[]{}, String.class);
-        
-        model.addAttribute("CURRENT_YEAR", currentYear);
-        
         return "login";
     }
     
@@ -103,15 +95,14 @@ public class SantaController extends BaseController {
     }
     
     @PostMapping("/pick")
-    public String processPick(@ModelAttribute("CURRENT_YEAR") Integer currentYear,
-                              @ModelAttribute("CURRENT_USER") String currentUser) {
+    public String processPick(@ModelAttribute("CURRENT_USER") String currentUser) {
         
         // select all recipients that haven't already been assigned
         String SQL = "SELECT * " +
                        "FROM " + getSchema() + ".recipient " +
                       "WHERE assigned = 'N' AND user_name <> ? AND year = ?";
         
-        List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{currentUser, currentYear}, new RecipientMapper());
+        List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{currentUser, getCurrentYear()}, new RecipientMapper());
         Recipient recipient = null;
         
         if (recipients.size() > 2) {
@@ -140,21 +131,20 @@ public class SantaController extends BaseController {
                  "SET assigned = 'Y' " +
                "WHERE user_name = ? AND year = ?";
         
-        jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), currentYear});
+        jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), getCurrentYear()});
         
         // Update user record
         SQL = "UPDATE " + getSchema() + ".recipient " +
                  "SET recipient = ? " +
                "WHERE user_name = ? AND year = ?";
         
-        jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), currentUser, currentYear});
+        jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), currentUser, getCurrentYear()});
         
         return "redirect:/home";
     }
     
     @GetMapping({"/", "/home"})
-    public String showHome(@ModelAttribute("CURRENT_YEAR") Integer currentYear,
-                           @ModelAttribute("CURRENT_USER") String currentUser,
+    public String showHome(@ModelAttribute("CURRENT_USER") String currentUser,
                            Model model) {
         
         // get the recipient for the current user
@@ -162,11 +152,11 @@ public class SantaController extends BaseController {
                        "FROM " + getSchema() + ".recipient " +
                       "WHERE user_name = ? AND year = ?";
         
-        Recipient recipient = jdbcTemplate.queryForObject(SQL, new Object[]{currentUser, currentYear}, new RecipientMapper());
+        Recipient recipient = jdbcTemplate.queryForObject(SQL, new Object[]{currentUser, getCurrentYear()}, new RecipientMapper());
         model.addAttribute("RECIPIENT", recipient);
         
         // get the days until Christmas
-        LocalDate christmas = LocalDate.of(currentYear, Month.DECEMBER, 25);
+        LocalDate christmas = LocalDate.of(getCurrentYear(), Month.DECEMBER, 25);
         LocalDate now = LocalDate.now();
         
         long daysUntil = ChronoUnit.DAYS.between(now, christmas);
@@ -189,7 +179,7 @@ public class SantaController extends BaseController {
     }
     
     @PostMapping("/resetPassword")
-    public String processResetPassword(@ModelAttribute("CURRENT_YEAR") Integer currentYear, HttpServletRequest request) {
+    public String processResetPassword(HttpServletRequest request) {
         
         List<String> usernames = Arrays.asList(request.getParameterValues("username"));
         
@@ -209,8 +199,7 @@ public class SantaController extends BaseController {
     }
 
     @GetMapping("/history/{selectedYear}")
-    public String showHistory(@ModelAttribute("CURRENT_YEAR") Integer currentYear,
-                              @PathVariable Integer selectedYear, 
+    public String showHistory(@PathVariable Integer selectedYear, 
                               Model model) {
                 
         // Get all of the active years
@@ -221,7 +210,7 @@ public class SantaController extends BaseController {
         
         List<String> years = jdbcTemplate.query(
                 SQL, 
-                new Object[] {currentYear},
+                new Object[] {getCurrentYear()},
                 (rs, rowNum) -> new String(rs.getString("year")));
         
         // Get all recipients for the selected year
@@ -239,7 +228,7 @@ public class SantaController extends BaseController {
     }
     
     @GetMapping("/pick/status")
-    public String showPickStatus(@ModelAttribute("CURRENT_YEAR") Integer currentYear, Model model) {
+    public String showPickStatus(Model model) {
         
         // Get all of the pickers
         String SQL = "SELECT recipient.user_name, recipient, year, assigned " +
@@ -247,7 +236,7 @@ public class SantaController extends BaseController {
                  "INNER JOIN " + getSchema() + ".santa_user ON recipient.user_name = santa_user.user_name " +
                       "WHERE year = ?";
         
-        List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{currentYear}, new RecipientMapper());
+        List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{getCurrentYear()}, new RecipientMapper());
         
         model.addAttribute("PICKERS", recipients);
         
