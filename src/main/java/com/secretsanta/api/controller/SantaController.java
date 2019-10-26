@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.secretsanta.api.dao.SystemDao;
 import com.secretsanta.api.mapper.RecipientMapper;
 import com.secretsanta.api.mapper.UserMapper;
 import com.secretsanta.api.model.PasswordChangeForm;
@@ -41,13 +42,13 @@ public class SantaController extends BaseController {
     @Autowired
     private AuthenticationProvider authenticationProvider;
     
+    @Autowired
+    private SystemDao systemDao;
+    
     @GetMapping("/login")
     public String showLogin(Model model) {
-        // get the current year
-        String SQL = "SELECT attribute_value " +
-                       "FROM system.system ";
-        
-        String currentYear = jdbcTemplate.queryForObject(SQL, new Object[]{}, String.class);
+
+        int currentYear = systemDao.getCurrentYear();
         
         model.addAttribute("CURRENT_YEAR", currentYear);
         
@@ -87,13 +88,7 @@ public class SantaController extends BaseController {
             throw new IllegalArgumentException("Passwords must match");
         }
         
-        // Update the password
-        String SQL = "UPDATE " + getSchema() + ".santa_user " + 
-                        "SET password = ?, "  +
-                           " password_expired = 'false' " +
-                      "WHERE user_name = ?";
         
-        jdbcTemplate.update(SQL, new Object[] {passwordEncoder.encode(password), username});
         
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
         

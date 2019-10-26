@@ -1,8 +1,15 @@
 package com.secretsanta.api.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.client.RestTemplate;
 
 import com.secretsanta.api.mapper.UserMapper;
 import com.secretsanta.api.model.User;
@@ -17,6 +25,8 @@ import com.secretsanta.api.model.User;
 @Controller
 @SessionAttributes({"CURRENT_YEAR", "CURRENT_USER", "RECIPIENT"})
 public class EmailController extends BaseController {
+    
+    private static final String uri = "http://www.pmshockey.com/wp-admin/admin-ajax.php?";
     
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -48,21 +58,18 @@ public class EmailController extends BaseController {
                       "WHERE recipient." + filterColumn + " = ? AND Year = ?";
 
         User user = jdbcTemplate.queryForObject(SQL, new Object[]{currentUser, currentYear}, new UserMapper());
-               
+        
+        String message = request.getParameter("message");
+
+        RestTemplate restTemplate = new RestTemplate();
+        
+        restTemplate.getForEntity("http://www.pmshockey.com/wp-admin/admin-ajax.php?to=jamie.e.shaw@gmail.com&"
+                                                                                 + "subject=My Subject&"
+                                                                                 + "action=send_email&"
+                                                                                 + "message=sage", String.class);
+        
         return "email";
         
-//            emailMessage = Request.Form("message")
-//
-//            url = "http://www.pmshockey.com/wp-admin/admin-ajax.php?"
-//
-//            args = "action=send_email"
-//            args = args + "&to=" + emailTo
-//            args = args + "&message=" + emailMessage
-//        
-//            Set xmlHttp = Server.Createobject("MSXML2.ServerXMLHTTP.6.0")
-//            xmlHttp.Open "GET", url + args, False
-//
-//            xmlHttp.setRequestHeader "content-type", "application/x-www-form-urlencoded"
     }
     
 }
