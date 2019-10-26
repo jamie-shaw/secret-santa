@@ -16,11 +16,10 @@
             <input type="radio" name="to" value="santa" checked/> My Secret Santa&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="radio" name="to" value="recipient"/> My Recipient <br/>
         </fieldset>
-        <br />
 
         Please enter your message below:
         <br/>
-        <textarea name="Message" rows="3" cols="40" maxlength="250" id="Message"></textarea>
+        <textarea name="message" rows="3" cols="40" maxlength="250"></textarea>
         <br/>
     
         <button formaction="/email">Send Message</button>
