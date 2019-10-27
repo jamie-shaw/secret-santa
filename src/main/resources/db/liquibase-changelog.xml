@@ -3,9 +3,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     
-    <include file="/db/changelog/create-schemas.xml"/>
-    <include file="/db/changelog/create-system-table.xml"/>
-    <include file="/db/changelog/2018-rollover.xml"/>
+    <include file="/db/changelog/system/create-schemas.xml"/>
+    <include file="/db/changelog/system/create-system-table.xml"/>
+    <include file="/db/changelog/system/2018-rollover.xml"/>
     
     <include file="/db/changelog/shaw/01-create-user-table.xml"/>
     <include file="/db/changelog/shaw/02-create-recipient-table.xml"/>
@@ -15,5 +15,19 @@
     <include file="/db/changelog/fernald/01-create-user-table.xml"/>
     <include file="/db/changelog/fernald/02-create-recipient-table.xml"/>
     <include file="/db/changelog/fernald/03-create-gift-table.xml"/>
+    <include file="/db/changelog/fernald/2001-rollover.xml"/>
+    <include file="/db/changelog/fernald/2002-rollover.xml"/>
+    <include file="/db/changelog/fernald/2003-rollover.xml"/>
+    <include file="/db/changelog/fernald/2004-rollover.xml"/>
+    <include file="/db/changelog/fernald/2005-rollover.xml"/>
+    <include file="/db/changelog/fernald/2006-rollover.xml"/>
+    <include file="/db/changelog/fernald/2009-rollover.xml"/>
+    <include file="/db/changelog/fernald/2010-rollover.xml"/>
+    <include file="/db/changelog/fernald/2011-rollover.xml"/>
+    <include file="/db/changelog/fernald/2012-rollover.xml"/>
+    <include file="/db/changelog/fernald/2013-rollover.xml"/>
+    <include file="/db/changelog/fernald/2014-rollover.xml"/>
+    <include file="/db/changelog/fernald/2016-rollover.xml"/>
+    <include file="/db/changelog/fernald/2017-rollover.xml"/>
     <include file="/db/changelog/fernald/2018-rollover.xml"/>
 </databaseChangeLog>
