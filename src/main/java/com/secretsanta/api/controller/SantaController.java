@@ -91,7 +91,7 @@ public class SantaController extends BaseController {
         
         SecurityContextHolder.getContext().setAuthentication(processedAuthentication);
         
-        request.getSession().setAttribute("CURRENT_USER", processedAuthentication.getPrincipal());
+        request.getSession().setAttribute("CURRENT_USER", username);
         
         return "redirect:/home";
     }
@@ -193,8 +193,7 @@ public class SantaController extends BaseController {
     }
 
     @GetMapping("/history/{selectedYear}")
-    public String showHistory(@PathVariable Integer selectedYear, 
-                              Model model) {
+    public String showHistory(@PathVariable Integer selectedYear, Model model) {
                 
         // Get all of the active years
         String SQL = "SELECT distinct year " +
@@ -217,6 +216,7 @@ public class SantaController extends BaseController {
        
         model.addAttribute("YEARS", years);
         model.addAttribute("RECIPIENTS", recipients);
+        model.addAttribute("SELECTED_YEAR", selectedYear);
         
         return "history";
     }
