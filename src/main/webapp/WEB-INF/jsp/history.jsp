@@ -6,17 +6,17 @@
 
 <section id="form-container">
 
-    <form id="mainForm" action="ui_History.asp" method="post">
+    <form id="mainForm" action="/history" method="get">
         Choose a year: 
-        <select name="selectedYear" onchange="mainForm.submit();">
+        <select name="selectedYear" id="selectedYear" onchange="updateAction();">
             <c:forEach var="year" items="${YEARS}">
-                <option value="${year}" ${year eq param.selectedYear ? 'selected' : ''} >${year}</option>
+                <option value="${year}" ${year eq SELECTED_YEAR ? 'selected' : ''} >${year}</option>
             </c:forEach>
         </select>
     </form>
 
     <table>
-        <caption><b>${param.selectedYear}</b></caption>
+        <caption><b>${SELECTED_YEAR}</b></caption>
         <tr>
             <th>Santa</th>
             <th>Recipient</th>
@@ -37,3 +37,10 @@
     <a href="/home" class="button">Back to Santa Home</a>
 
 </section>
+
+<script>
+    function updateAction() {
+        mainForm.action = "/history/" + selectedYear.value;
+        mainForm.submit();
+    }
+</script>
