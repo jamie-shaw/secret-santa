@@ -24,7 +24,7 @@
             <a class="button" href="/logout">Log Out</a>
 
             <br/>
-            <strong>Only ${DAYS_UNTIL} days 'til Santa comes!</strong>
+            <strong>Only ${systemContext.daysUntilChristmas} days 'til Santa comes!</strong>
             
         </c:when>
         <c:otherwise>

@@ -1,8 +1,5 @@
 package com.secretsanta.api.controller;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,9 +45,9 @@ public class SantaController extends BaseController {
     }
     
     @GetMapping("/login/error")
-    public String showLoginError(Model model) {
+    public String showLoginError(HttpServletRequest request) {
         
-        model.addAttribute("ERROR", true);
+        setErrorMessage(request, "Your login failed.  Please check your username and password and try again.");
         
         return "login";
     }
@@ -76,7 +74,8 @@ public class SantaController extends BaseController {
         String password = form.getPassword();
         
         if (!password.equals(form.getConfirmPassword())) {
-            throw new IllegalArgumentException("Passwords must match");
+            setErrorMessage(request, "Passwords must match");
+            return "redirect:/changePassword";
         }
         
         // Update the password
@@ -87,10 +86,13 @@ public class SantaController extends BaseController {
         
         jdbcTemplate.update(SQL, new Object[] {passwordEncoder.encode(password), username});
         
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
+        Authentication initialAuthentication = new UsernamePasswordAuthenticationToken(username, password);
+        Authentication processedAuthentication = authenticationProvider.authenticate(initialAuthentication);
         
-        authenticationProvider.authenticate(authentication);
-              
+        SecurityContextHolder.getContext().setAuthentication(processedAuthentication);
+        
+        request.getSession().setAttribute("CURRENT_USER", processedAuthentication.getPrincipal());
+        
         return "redirect:/home";
     }
     
@@ -154,14 +156,6 @@ public class SantaController extends BaseController {
         
         Recipient recipient = jdbcTemplate.queryForObject(SQL, new Object[]{currentUser, getCurrentYear()}, new RecipientMapper());
         model.addAttribute("RECIPIENT", recipient);
-        
-        // get the days until Christmas
-        LocalDate christmas = LocalDate.of(getCurrentYear(), Month.DECEMBER, 25);
-        LocalDate now = LocalDate.now();
-        
-        long daysUntil = ChronoUnit.DAYS.between(now, christmas);
-        
-        model.addAttribute("DAYS_UNTIL", daysUntil);
         
         return "home";
     }
