@@ -5,11 +5,6 @@
 </aside>
         
 <section id="form-container">
-
-    <div class="alert alert-success">
-        Your message has been sent.
-    </div>
-    
     <form name="bodyform" method="post" onSubmit="return validate(this)">
         <fieldset>
             <legend>&nbsp;Send message to:&nbsp;</legend>

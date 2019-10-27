@@ -63,7 +63,9 @@ public class EmailController extends BaseController {
                                       + "message=" + message + "&"
                                       + "action=send_email&", String.class);
         
-        return "email";
+       setSuccessMessage(request, "Your message has been sent.");
+       
+        return "redirect:/email";
         
     }
     
