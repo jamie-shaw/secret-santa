@@ -2,6 +2,7 @@
 
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="santa" tagdir="/WEB-INF/tags" %>
 
 <html>
     <head>
@@ -23,12 +24,14 @@
         <header>
             <h1>Secret Santa ${systemContext.currentYear}</h1>
         </header>
-    
+        
         <div id="main-content" class="container clearfix">
+            <santa:messages />
             <tiles:insertAttribute name="content" />
         </div>
 
-        <footer/>
+        <footer>
+        </footer>
 
     </body>
 
