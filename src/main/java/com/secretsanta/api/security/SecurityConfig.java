@@ -7,8 +7,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.secretsanta.api.dao.SystemDao;
+import com.secretsanta.api.filter.SystemContextFilter;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -23,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     PasswordEncoder passwordEncoder;
     
     @Autowired
-    SystemDao systemDao;
+    SystemContextFilter systemContextFilter;
     
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -51,7 +52,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
             .headers()
                 .frameOptions()
-                    .sameOrigin();
+                    .sameOrigin()
+                .and()
+            .addFilterBefore(systemContextFilter, UsernamePasswordAuthenticationFilter.class);
     }
     
     @Autowired

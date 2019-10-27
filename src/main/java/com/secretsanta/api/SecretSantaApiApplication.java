@@ -60,6 +60,5 @@ public class SecretSantaApiApplication {
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) {
         systemContext.setCurrentYear(systemDao.getCurrentYear());
-        systemContext.setSchema("shaw");
     }
 }
