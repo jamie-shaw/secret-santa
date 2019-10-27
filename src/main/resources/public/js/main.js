@@ -8,11 +8,3 @@ function limitTextArea(textArea) {
     }
 
 }
-
-function setFocus() {
-    if (loginform.UserName) {
-        loginform.UserName.focus();
-    } else {
-        loginform.NewPassword.focus();
-    }
-}
