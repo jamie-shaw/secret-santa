@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+                            http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    
+    <changeSet author="admin" id="fernald-recipient-2012">
+        <insert tableName="recipient" schemaName="fernald">
+            <column name="user_name" value="Fernald"/>
+            <column name="year" value="2012"/>
+            <column name="recipient" value="Shaw"/>
+            <column name="assigned" value="true"/>
+        </insert>
+        <insert tableName="recipient" schemaName="fernald">
+            <column name="user_name" value="Garcia"/>
+            <column name="year" value="2012"/>
+            <column name="recipient" value="Woolson"/>
+            <column name="assigned" value="true"/>
+        </insert>
+        <insert tableName="recipient" schemaName="fernald">
+            <column name="user_name" value="Shaw"/>
+            <column name="year" value="2012"/>
+            <column name="recipient" value="Fernald"/>
+            <column name="assigned" value="true"/>
+        </insert>
+        <insert tableName="recipient" schemaName="fernald">
+            <column name="user_name" value="Woolson"/>
+            <column name="year" value="2012"/>
+            <column name="recipient" value="Garcia"/>
+            <column name="assigned" value="true"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
