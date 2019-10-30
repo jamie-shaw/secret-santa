@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.secretsanta.api.model.SystemContext;
+import com.secretsanta.api.model.SessionContext;
 
 @Component
-public class SystemContextFilter extends OncePerRequestFilter {
+public class SessionContextFilter extends OncePerRequestFilter {
 
     @Autowired
-    SystemContext systemContext;
+    private SessionContext sessionContext;
     
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -25,7 +25,7 @@ public class SystemContextFilter extends OncePerRequestFilter {
         String edition = request.getParameter("edition");
         
         if (edition != null && !edition.contentEquals("")) {
-            systemContext.setSchema(edition);
+            sessionContext.setSchema(edition);
         }
         
         chain.doFilter(request, response);

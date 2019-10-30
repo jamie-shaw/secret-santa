@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.secretsanta.api.filter.SystemContextFilter;
+import com.secretsanta.api.filter.SessionContextFilter;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     PasswordEncoder passwordEncoder;
     
     @Autowired
-    SystemContextFilter systemContextFilter;
+    SessionContextFilter sessionContextFilter;
     
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions()
                     .sameOrigin()
                 .and()
-            .addFilterBefore(systemContextFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(sessionContextFilter, UsernamePasswordAuthenticationFilter.class);
     }
     
     @Autowired
