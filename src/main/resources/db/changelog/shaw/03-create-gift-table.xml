@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
                             http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     
-    <changeSet author="admin" id="shaw-gift-1" runOnChange="${rebuild}">
+    <changeSet author="admin" id="shaw-gift-1" runAlways="${rebuild}">
     
         <createTable tableName="gift" schemaName="shaw">
             <column name="gift_id" type="int" autoIncrement="true">

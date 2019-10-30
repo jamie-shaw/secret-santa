@@ -6,19 +6,19 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
                             http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     
-    <changeSet author="admin" id="schema-1" runOnChange="${rebuild}">
+    <changeSet author="admin" id="schema-1" runAlways="${rebuild}">
         <sql dbms="postgresql" endDelimiter=";">
             CREATE SCHEMA shaw
         </sql>
     </changeSet>
 
-    <changeSet author="admin" id="schema-2">
+    <changeSet author="admin" id="schema-2" runAlways="${rebuild}">
         <sql dbms="postgresql" endDelimiter=";">
             CREATE SCHEMA fernald
         </sql>
     </changeSet>
     
-    <changeSet author="admin" id="schema-3">
+    <changeSet author="admin" id="schema-3" runAlways="${rebuild}">
         <sql dbms="postgresql" endDelimiter=";">
             CREATE SCHEMA system
         </sql>

@@ -6,35 +6,35 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
                             http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     
-    <changeSet author="admin" id="shaw-rollover-2018" runAlways="${rebuild}">
+    <changeSet author="admin" id="shaw-rollover-2019" runAlways="${rebuild}">
         
         <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Jamie"/>
-            <column name="year" value="2018"/>
-            <column name="recipient" value="Ted"/>
+            <column name="year" value="2019"/>
+            <column name="recipient" value=""/>
             <column name="assigned" value="false"/>
         </insert>
         <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Margoe"/>
-            <column name="year" value="2018"/>
+            <column name="year" value="2019"/>
             <column name="recipient" value=""/>
             <column name="assigned" value="false"/>
         </insert>
         <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Joan"/>
-            <column name="year" value="2018"/>
+            <column name="year" value="2019"/>
             <column name="recipient" value=""/>
             <column name="assigned" value="false"/>
         </insert>
         <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Ted"/>
-            <column name="year" value="2018"/>
+            <column name="year" value="2019"/>
             <column name="recipient" value=""/>
             <column name="assigned" value="false"/>
         </insert>
         <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Mark"/>
-            <column name="year" value="2018"/>
+            <column name="year" value="2019"/>
             <column name="recipient" value=""/>
             <column name="assigned" value="false"/>
         </insert>
