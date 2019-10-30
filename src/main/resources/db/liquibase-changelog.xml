@@ -3,9 +3,11 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     
+    <property name="rebuild" value="false"/>
+    
     <include file="/db/changelog/system/create-schemas.xml"/>
     <include file="/db/changelog/system/create-system-table.xml"/>
-    <include file="/db/changelog/system/2018-rollover.xml"/>
+    <include file="/db/changelog/system/2019-rollover.xml"/>
     
     <include file="/db/changelog/shaw/01-create-user-table.xml"/>
     <include file="/db/changelog/shaw/02-create-recipient-table.xml"/>

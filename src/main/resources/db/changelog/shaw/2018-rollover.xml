@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
                             http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     
-    <changeSet author="admin" id="shaw-rollover-2018">
+    <changeSet author="admin" id="shaw-rollover-2018" runOnChange="${rebuild}">
         
         <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Jamie"/>
