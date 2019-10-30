@@ -63,7 +63,10 @@ public class SantaController extends BaseController {
     }
     
     @GetMapping("/changePassword")
-    public String showPasswordChange() {
+    public String showPasswordChange(HttpServletRequest request) {
+        
+        setErrorMessage(request, "Please enter a new password");
+        
         return "change-password";
     }
     
@@ -210,7 +213,7 @@ public class SantaController extends BaseController {
         SQL = "SELECT user_name, recipient, year, assigned " +
                 "FROM " + getSchema() + ".recipient " +
                "WHERE year = ? " +
-            "ORDER BY user_name";
+            "ORDER BY user_name ASC";
         
         List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{selectedYear},new RecipientMapper());
        
@@ -228,8 +231,8 @@ public class SantaController extends BaseController {
         String SQL = "SELECT recipient.user_name, recipient, year, assigned " +
                        "FROM " + getSchema() + ".recipient " +
                  "INNER JOIN " + getSchema() + ".santa_user ON recipient.user_name = santa_user.user_name " +
-                   "ORDER BY santa_user.user_name " +
-                      "WHERE year = ?";
+                      "WHERE year = ? " +
+                   "ORDER BY santa_user.user_name";
         
         List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{getCurrentYear()}, new RecipientMapper());
         
