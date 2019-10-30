@@ -228,6 +228,7 @@ public class SantaController extends BaseController {
         String SQL = "SELECT recipient.user_name, recipient, year, assigned " +
                        "FROM " + getSchema() + ".recipient " +
                  "INNER JOIN " + getSchema() + ".santa_user ON recipient.user_name = santa_user.user_name " +
+                   "ORDER BY santa_user.user_name " +
                       "WHERE year = ?";
         
         List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{getCurrentYear()}, new RecipientMapper());
