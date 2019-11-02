@@ -2,26 +2,13 @@ package com.secretsanta.api.dao;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.secretsanta.api.mapper.GiftMapper;
 import com.secretsanta.api.model.Gift;
-import com.secretsanta.api.model.SessionContext;
-import com.secretsanta.api.model.SystemContext;
 
 @Component
-public class GiftDao {
-    
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    
-    @Autowired
-    SystemContext systemContext;
-    
-    @Autowired
-    private SessionContext sessionContext;
+public class GiftDao extends BaseDao {
     
     /**
      * Get the list of gift ideas a recipient is suggesting to their Santa
@@ -105,14 +92,6 @@ public class GiftDao {
                        "WHERE gift_id = ?";
         
         jdbcTemplate.update(SQL, new Object[]{giftId});
-    }
-    
-    private String getSchema() {
-        return sessionContext.getSchema();
-    }
-    
-    private int getCurrentYear() {
-        return systemContext.getCurrentYear();
     }
     
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.secretsanta.api.dao.RecipientDao;
 import com.secretsanta.api.mapper.RecipientMapper;
 import com.secretsanta.api.mapper.UserMapper;
 import com.secretsanta.api.model.PasswordChangeForm;
@@ -29,6 +30,9 @@ import com.secretsanta.api.model.User;
 @Controller
 @SessionAttributes({"CURRENT_USER", "RECIPIENT"})
 public class SantaController extends BaseController {
+    
+    @Autowired
+    private RecipientDao recipientDao;
     
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -102,12 +106,8 @@ public class SantaController extends BaseController {
     @PostMapping("/pick")
     public String processPick(@ModelAttribute("CURRENT_USER") String currentUser) {
         
-        // select all recipients that haven't already been assigned
-        String SQL = "SELECT * " +
-                       "FROM " + getSchema() + ".recipient " +
-                      "WHERE assigned = 'N' AND user_name <> ? AND year = ?";
+        List<Recipient> recipients = recipientDao.getUnassignedRecipients(currentUser);
         
-        List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{currentUser, getCurrentYear()}, new RecipientMapper());
         Recipient recipient = null;
         
         if (recipients.size() > 2) {
@@ -131,19 +131,8 @@ public class SantaController extends BaseController {
             
         }
         
-        // Update recipient record
-        SQL = "UPDATE " + getSchema() + ".recipient " + 
-                 "SET assigned = 'Y' " +
-               "WHERE user_name = ? AND year = ?";
-        
-        jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), getCurrentYear()});
-        
-        // Update user record
-        SQL = "UPDATE " + getSchema() + ".recipient " +
-                 "SET recipient = ? " +
-               "WHERE user_name = ? AND year = ?";
-        
-        jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), currentUser, getCurrentYear()});
+        // assign the recipient to the current user
+        recipientDao.assignRecipient(currentUser, recipient);
         
         return "redirect:/home";
     }
@@ -152,12 +141,7 @@ public class SantaController extends BaseController {
     public String showHome(@ModelAttribute("CURRENT_USER") String currentUser,
                            Model model) {
         
-        // get the recipient for the current user
-        String SQL = "SELECT * " +
-                       "FROM " + getSchema() + ".recipient " +
-                      "WHERE user_name = ? AND year = ?";
-        
-        Recipient recipient = jdbcTemplate.queryForObject(SQL, new Object[]{currentUser, getCurrentYear()}, new RecipientMapper());
+        Recipient recipient = recipientDao.getRecipientForCurrentUser(currentUser);
         model.addAttribute("RECIPIENT", recipient);
         
         return "home";
@@ -228,14 +212,7 @@ public class SantaController extends BaseController {
     public String showPickStatus(Model model) {
         
         // Get all of the pickers
-        String SQL = "SELECT recipient.user_name, recipient, year, assigned " +
-                       "FROM " + getSchema() + ".recipient " +
-                 "INNER JOIN " + getSchema() + ".santa_user ON recipient.user_name = santa_user.user_name " +
-                      "WHERE year = ? " +
-                   "ORDER BY santa_user.user_name";
-        
-        List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{getCurrentYear()}, new RecipientMapper());
-        
+        List<Recipient> recipients = recipientDao.getAllRecipients();
         model.addAttribute("PICKERS", recipients);
         
         return "pick-status";
