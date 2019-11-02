@@ -8,8 +8,11 @@
 </c:if>
 
 <c:if test="${not empty ERROR_MESSAGE}">
-    <div class="alert alert-error">
-        ${ERROR_MESSAGE}
-    </div>
+    <section id="message-container">
+        <div class="alert alert-error">
+            ${ERROR_MESSAGE}
+        </div>
+    </section>
+    
     <c:remove var="ERROR_MESSAGE" scope="session" />
 </c:if>

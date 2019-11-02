@@ -48,10 +48,17 @@ header h1 {
     margin: 20px auto;
 }
 #form-container {
+    width: 55%;
+}
+#message-container {
+    width: 97%;
+}
+#form-container,
+#message-container {
     float: left;
-    width: 58%;
     margin-top: 5px;
     padding-left: 10px;
+    padding-right: 10px;
 }
 #image-container {
     border-radius: 5px;
@@ -199,17 +206,17 @@ tr:first-child td {
 
 @media (max-width: 500px) {
    
-    #form-container {
+    #form-container,
+    #message-container {
         width: 90%;
         float: none;
         margin: 0 auto;
+        padding-left: 0px;
     }  
     #image-container {
        display: none;
     }
-    #form-container {
-        padding-left: 0px;
-    }
+
 }
 
 /* GLOBAL */
