@@ -6,12 +6,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.secretsanta.api.dao.RecipientDao;
-import com.secretsanta.api.mapper.RecipientMapper;
-import com.secretsanta.api.mapper.UserMapper;
+import com.secretsanta.api.dao.UserDao;
 import com.secretsanta.api.model.PasswordChangeForm;
 import com.secretsanta.api.model.Recipient;
 import com.secretsanta.api.model.User;
@@ -33,12 +30,9 @@ public class SantaController extends BaseController {
     
     @Autowired
     private RecipientDao recipientDao;
-    
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-    
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UserDao userDao;
     
     @Autowired
     private AuthenticationProvider authenticationProvider;
@@ -85,14 +79,10 @@ public class SantaController extends BaseController {
             return "redirect:/changePassword";
         }
         
-        // Update the password
-        String SQL = "UPDATE " + getSchema() + ".santa_user " + 
-                        "SET password = ?, "  +
-                           " password_expired = 'false' " +
-                      "WHERE user_name = ?";
+        // change the password
+        userDao.changePassword(username, password);
         
-        jdbcTemplate.update(SQL, new Object[] {passwordEncoder.encode(password), username});
-        
+        // and update the authentication
         Authentication initialAuthentication = new UsernamePasswordAuthenticationToken(username, password);
         Authentication processedAuthentication = authenticationProvider.authenticate(initialAuthentication);
         
@@ -150,10 +140,8 @@ public class SantaController extends BaseController {
     @GetMapping("/resetPassword")
     public String showResetPassword(Model model) {
         
-        String SQL = "SELECT user_name, display_name, email " + 
-                       "FROM " + getSchema() + ".santa_user";
+        List<User> users = userDao.getAllUsers();
         
-        List<User> users = jdbcTemplate.query(SQL, new UserMapper());
         model.addAttribute("USERS", users);
         
         return "reset-password";
@@ -164,43 +152,18 @@ public class SantaController extends BaseController {
         
         List<String> usernames = Arrays.asList(request.getParameterValues("username"));
         
-        if (usernames.size() > 0) {
-            String SQL = "UPDATE " + getSchema() + ".santa_user " +
-                            "SET password = ?, password_expired = true " +
-                          "WHERE user_name = ?";
-            
-            for (String username : usernames) {
-                String password = passwordEncoder.encode("santa");
-                jdbcTemplate.update(SQL, new Object[] {password, username});
-            }
-        
-        }
+        userDao.resetPasswords(usernames);
         
         return "home";
     }
 
     @GetMapping("/history/{selectedYear}")
     public String showHistory(@PathVariable Integer selectedYear, Model model) {
-                
-        // Get all of the active years
-        String SQL = "SELECT distinct year " +
-                       "FROM " + getSchema() + ".recipient " +
-                      "WHERE year <> ? " +
-                   "ORDER BY year DESC";
         
-        List<String> years = jdbcTemplate.query(
-                SQL, 
-                new Object[] {getCurrentYear()},
-                (rs, rowNum) -> new String(rs.getString("year")));
+        List<String> years = recipientDao.getActiveYears();
         
-        // Get all recipients for the selected year
-        SQL = "SELECT user_name, recipient, year, assigned " +
-                "FROM " + getSchema() + ".recipient " +
-               "WHERE year = ? " +
-            "ORDER BY user_name ASC";
+        List<Recipient> recipients = recipientDao.getAllRecipientsForCurrentYear();
         
-        List<Recipient> recipients = jdbcTemplate.query(SQL, new Object[]{selectedYear},new RecipientMapper());
-       
         model.addAttribute("YEARS", years);
         model.addAttribute("RECIPIENTS", recipients);
         model.addAttribute("SELECTED_YEAR", selectedYear);

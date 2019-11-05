@@ -43,7 +43,7 @@ public class RecipientDao extends BaseDao {
                        "FROM " + getSchema() + ".recipient " +
                       "WHERE assigned = 'N' AND user_name <> ? AND year = ?";
         
-        return jdbcTemplate.query(SQL, new Object[]{currentUser, getCurrentYear()}, new RecipientMapper());
+        return jdbcTemplate.query(SQL, new Object[] {currentUser, getCurrentYear()}, new RecipientMapper());
     }
     
     public Recipient getRecipientForCurrentUser(String currentUser) {
@@ -52,7 +52,7 @@ public class RecipientDao extends BaseDao {
                        "FROM " + getSchema() + ".recipient " +
                       "WHERE user_name = ? AND year = ?";
         
-       return jdbcTemplate.queryForObject(SQL, new Object[]{currentUser, getCurrentYear()}, new RecipientMapper());
+       return jdbcTemplate.queryForObject(SQL, new Object[] {currentUser, getCurrentYear()}, new RecipientMapper());
     }
 
     public List<Recipient> getAllRecipients() {
@@ -65,5 +65,25 @@ public class RecipientDao extends BaseDao {
                    "ORDER BY santa_user.user_name";
         
         return jdbcTemplate.query(SQL, new Object[]{getCurrentYear()}, new RecipientMapper());
+    } 
+    
+    public List<Recipient> getAllRecipientsForCurrentYear() {
+        // Get all recipients for the selected year
+        String SQL = "SELECT user_name, recipient, year, assigned " +
+                       "FROM " + getSchema() + ".recipient " +
+                      "WHERE year = ? " +
+                   "ORDER BY user_name ASC";
+        
+        return jdbcTemplate.query(SQL, new Object[] {getCurrentYear()}, new RecipientMapper());
+    }
+
+    public List<String> getActiveYears() {
+        // Get all of the active years
+        String SQL = "SELECT distinct year " +
+                       "FROM " + getSchema() + ".recipient " +
+                      "WHERE year <> ? " +
+                   "ORDER BY year DESC";
+        
+        return jdbcTemplate.queryForList(SQL, new Object[] {getCurrentYear()}, String.class);
     }
 }

@@ -8,7 +8,7 @@ import com.secretsanta.api.model.SessionContext;
 import com.secretsanta.api.model.SystemContext;
 
 @Component
-public class BaseDao {
+public abstract class BaseDao {
     
     @Autowired
     JdbcTemplate jdbcTemplate;
