@@ -16,11 +16,6 @@
             <a class="button" href="/email">Send a Message</a>
             <a class="button" href="/pick/status">See Who's Picked a Recipient</a>
             <a class="button" href="/history/${systemContext.currentYear - 1}">See Ghosts of Christmas Past</a>
-
-            <sec:authorize access="hasAnyRole('ADMIN')">
-                 <a class="button" href="admin">Santa Admin</a>
-            </sec:authorize>
-
             <a class="button" href="/logout">Log Out</a>
 
             <br/>
@@ -34,8 +29,12 @@
             <form>
                 <button class="button" formaction="/pick" formmethod="post">Choose a recipient</button>
             </form>
-             
         </c:otherwise>
     </c:choose>
+
+    <sec:authorize access="hasAnyRole('ADMIN')">
+         <a class="button" href="admin">Santa Admin</a>
+    </sec:authorize>
+
 </section>
 

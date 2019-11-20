@@ -23,6 +23,7 @@ import com.secretsanta.api.dao.UserDao;
 import com.secretsanta.api.model.PasswordChangeForm;
 import com.secretsanta.api.model.Recipient;
 import com.secretsanta.api.model.User;
+import com.secretsanta.api.service.PickService;
 
 @Controller
 @SessionAttributes({"CURRENT_USER", "RECIPIENT"})
@@ -36,6 +37,9 @@ public class SantaController extends BaseController {
     
     @Autowired
     private AuthenticationProvider authenticationProvider;
+    
+    @Autowired
+    private PickService pickService;
     
     @GetMapping("/login")
     public String showLogin(Model model) {
@@ -57,6 +61,17 @@ public class SantaController extends BaseController {
     
     @GetMapping("/admin")
     public String showAdmin() {
+        return "admin";
+    }
+    
+    @GetMapping("/rollOver")
+    public String rollSantaOver(HttpServletRequest request) {
+        
+        do {}
+        while (!pickService.pickRecipients());
+        
+        setSuccessMessage(request, "Rollover complete.");
+        
         return "admin";
     }
     
@@ -93,8 +108,7 @@ public class SantaController extends BaseController {
         return "redirect:/home";
     }
     
-    @PostMapping("/pick")
-    public String processPick(@ModelAttribute("CURRENT_USER") String currentUser) {
+    public String processPick(String currentUser) {
         
         List<Recipient> recipients = recipientDao.getUnassignedRecipients(currentUser);
         

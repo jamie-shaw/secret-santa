@@ -86,4 +86,23 @@ public class RecipientDao extends BaseDao {
         
         return jdbcTemplate.queryForList(SQL, new Object[] {getCurrentYear()}, String.class);
     }
+    
+    public int getSelfAssignedRecipients() {
+        // Get all of the active years
+        String SQL = "SELECT count(*) " +
+                       "FROM " + getSchema() + ".recipient " +
+                      "WHERE year = ? " +
+                        "AND user_name = recipient";
+        
+        return jdbcTemplate.queryForObject(SQL, new Object[] {getCurrentYear()}, Integer.class);
+    }
+
+    public void clearPicks() {
+        String SQL = "UPDATE " + getSchema() + ".recipient " +
+                        "SET recipient = '', assigned = false " +
+                      "WHERE year = ?";
+       
+       jdbcTemplate.update(SQL, new Object[] {getCurrentYear()});
+        
+    }
 }
