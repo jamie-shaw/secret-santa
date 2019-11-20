@@ -1,7 +1,5 @@
 package com.secretsanta.api.model;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -21,8 +19,4 @@ public class SessionContext {
         return schema;
     }
     
-    @PostConstruct
-    public void sayHello() {
-        System.out.println("hello");
-    }
 }
