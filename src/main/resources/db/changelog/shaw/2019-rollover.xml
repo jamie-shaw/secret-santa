@@ -13,30 +13,35 @@
             <column name="year" value="2019"/>
             <column name="recipient" value=""/>
             <column name="assigned" value="false"/>
+            <column name="viewed" value="false"/>
         </insert>
         <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Margoe"/>
             <column name="year" value="2019"/>
             <column name="recipient" value=""/>
             <column name="assigned" value="false"/>
+            <column name="viewed" value="false"/>
         </insert>
         <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Joan"/>
             <column name="year" value="2019"/>
             <column name="recipient" value=""/>
             <column name="assigned" value="false"/>
+            <column name="viewed" value="false"/>
         </insert>
         <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Ted"/>
             <column name="year" value="2019"/>
             <column name="recipient" value=""/>
             <column name="assigned" value="false"/>
+            <column name="viewed" value="false"/>
         </insert>
         <insert tableName="recipient" schemaName="shaw">
             <column name="user_name" value="Mark"/>
             <column name="year" value="2019"/>
             <column name="recipient" value=""/>
             <column name="assigned" value="false"/>
+            <column name="viewed" value="false"/>
         </insert>
         
     </changeSet>

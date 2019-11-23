@@ -16,7 +16,8 @@ public class RecipientMapper implements RowMapper<Recipient> {
                 rs.getString("user_name"),
                 rs.getString("year"),
                 rs.getString("recipient"),
-                rs.getString("assigned").equals("Y")
+                rs.getBoolean("assigned"),
+                rs.getBoolean("viewed")
         );
         
     }

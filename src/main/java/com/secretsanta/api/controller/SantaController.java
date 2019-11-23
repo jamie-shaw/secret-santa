@@ -67,8 +67,8 @@ public class SantaController extends BaseController {
     @GetMapping("/rollOver")
     public String rollSantaOver(HttpServletRequest request) {
         
-        do {}
-        while (!pickService.pickRecipients());
+        while (!pickService.pickRecipients()) {
+        }
         
         setSuccessMessage(request, "Rollover complete.");
         
@@ -108,35 +108,10 @@ public class SantaController extends BaseController {
         return "redirect:/home";
     }
     
-    public String processPick(String currentUser) {
+    @PostMapping("/pick")
+    public String processPick(@ModelAttribute("CURRENT_USER") String currentUser) {
         
-        List<Recipient> recipients = recipientDao.getUnassignedRecipients(currentUser);
-        
-        Recipient recipient = null;
-        
-        if (recipients.size() > 2) {
-            //Generate random value between 0 and number of records returned.
-            int recordNumber = (int)(recipients.size() * Math.random());
-            
-            // Locate record corresponding to random number
-            recipient = recipients.get(recordNumber);
-            
-        } else {
-            // Choose the first unassigned user as the recipient
-            recipient = recipients.get(0);
-            
-            if (recipients.size() == 2) {
-                //Check to ensure that last user won't get themselves
-                Recipient lastUser = recipients.get(1);
-                if (lastUser.getRecipient() == null && !lastUser.isAssigned()) {
-                    recipient = lastUser;
-                }
-            }
-            
-        }
-        
-        // assign the recipient to the current user
-        recipientDao.assignRecipient(currentUser, recipient);
+        recipientDao.processPick(currentUser);
         
         return "redirect:/home";
     }

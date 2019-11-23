@@ -14,10 +14,13 @@
             <column name="year" type="int">
                 <constraints nullable="false" />
             </column>
-                <column name="recipient" type="varchar(50)">
+            <column name="recipient" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
-                <column name="assigned" type="boolean">
+            <column name="assigned" type="boolean">
+                <constraints nullable="false" />
+            </column>
+            <column name="viewed" type="boolean" defaultValueBoolean="true">
                 <constraints nullable="false" />
             </column>
         </createTable>

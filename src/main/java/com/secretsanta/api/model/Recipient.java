@@ -11,5 +11,6 @@ public class Recipient {
     private String year;
     private String recipient;
     private boolean assigned;
+    private boolean viewed;
 
 }

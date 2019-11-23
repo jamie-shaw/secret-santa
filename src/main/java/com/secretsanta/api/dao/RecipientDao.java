@@ -20,7 +20,7 @@ public class RecipientDao extends BaseDao {
         
         // Update recipient record
         String SQL = "UPDATE " + getSchema() + ".recipient " + 
-                        "SET assigned = 'Y' " +
+                        "SET assigned = true " +
                       "WHERE user_name = ? AND year = ?";
         
         jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), getCurrentYear()});
@@ -41,7 +41,7 @@ public class RecipientDao extends BaseDao {
         
         String SQL = "SELECT * " +
                        "FROM " + getSchema() + ".recipient " +
-                      "WHERE assigned = 'N' AND user_name <> ? AND year = ?";
+                      "WHERE assigned = false AND user_name <> ? AND year = ?";
         
         return jdbcTemplate.query(SQL, new Object[] {currentUser, getCurrentYear()}, new RecipientMapper());
     }
@@ -58,7 +58,7 @@ public class RecipientDao extends BaseDao {
     public List<Recipient> getAllRecipients() {
         
         // Get all of the pickers
-        String SQL = "SELECT recipient.user_name, recipient, year, assigned " +
+        String SQL = "SELECT * " +
                        "FROM " + getSchema() + ".recipient " +
                  "INNER JOIN " + getSchema() + ".santa_user ON recipient.user_name = santa_user.user_name " +
                       "WHERE year = ? " +
@@ -69,7 +69,7 @@ public class RecipientDao extends BaseDao {
     
     public List<Recipient> getAllRecipientsForCurrentYear() {
         // Get all recipients for the selected year
-        String SQL = "SELECT user_name, recipient, year, assigned " +
+        String SQL = "SELECT * " +
                        "FROM " + getSchema() + ".recipient " +
                       "WHERE year = ? " +
                    "ORDER BY user_name ASC";
@@ -104,5 +104,14 @@ public class RecipientDao extends BaseDao {
        
        jdbcTemplate.update(SQL, new Object[] {getCurrentYear()});
         
+    }
+
+    public void processPick(String currentUser) {
+        // Update recipient record
+        String SQL = "UPDATE " + getSchema() + ".recipient " + 
+                        "SET viewed = true " +
+                      "WHERE user_name = ? AND year = ?";
+        
+        jdbcTemplate.update(SQL, new Object[] {currentUser, getCurrentYear()});
     }
 }

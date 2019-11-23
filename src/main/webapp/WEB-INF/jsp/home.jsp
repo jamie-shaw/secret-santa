@@ -7,7 +7,7 @@
 
 <section id="form-container">
     <c:choose>
-        <c:when test="${not empty RECIPIENT.recipient}">
+        <c:when test="${RECIPIENT.viewed}">
       
             <h1>You're ${RECIPIENT.recipient}'s Secret Santa!</h1>
             
