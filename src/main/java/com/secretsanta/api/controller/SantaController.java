@@ -151,7 +151,7 @@ public class SantaController extends BaseController {
         
         List<String> years = recipientDao.getActiveYears();
         
-        List<Recipient> recipients = recipientDao.getAllRecipientsForCurrentYear();
+        List<Recipient> recipients = recipientDao.getAllRecipientsForSelectedYear(selectedYear);
         
         model.addAttribute("YEARS", years);
         model.addAttribute("RECIPIENTS", recipients);

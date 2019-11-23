@@ -67,14 +67,14 @@ public class RecipientDao extends BaseDao {
         return jdbcTemplate.query(SQL, new Object[]{getCurrentYear()}, new RecipientMapper());
     } 
     
-    public List<Recipient> getAllRecipientsForCurrentYear() {
+    public List<Recipient> getAllRecipientsForSelectedYear(int selectedYear) {
         // Get all recipients for the selected year
         String SQL = "SELECT * " +
                        "FROM " + getSchema() + ".recipient " +
                       "WHERE year = ? " +
                    "ORDER BY user_name ASC";
         
-        return jdbcTemplate.query(SQL, new Object[] {getCurrentYear()}, new RecipientMapper());
+        return jdbcTemplate.query(SQL, new Object[] {selectedYear}, new RecipientMapper());
     }
 
     public List<String> getActiveYears() {
