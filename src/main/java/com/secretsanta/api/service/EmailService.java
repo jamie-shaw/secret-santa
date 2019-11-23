@@ -12,9 +12,9 @@ public class EmailService {
     
     public void sendEmail(String address, String subject, String message) {
         
-        restTemplate.getForEntity(URI + "to=jamie.e.shaw@gmail.com&"
+        restTemplate.getForEntity(URI + "to=" + address + "&"
                                       + "subject=" + subject + "&"
                                       + "message=" + message + "&"
-                                      + "action=send_email&", String.class);
+                                      + "action=send_email", String.class);
     }
 }

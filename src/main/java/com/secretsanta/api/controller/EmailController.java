@@ -30,7 +30,7 @@ public class EmailController extends BaseController {
     }
     
     @PostMapping("/email")
-    public String processEmail(@ModelAttribute("CURRENT_USER") String currentUser,
+    public String sendMessage(@ModelAttribute("CURRENT_USER") String currentUser,
                                HttpServletRequest request,
                                Model model) {
         
