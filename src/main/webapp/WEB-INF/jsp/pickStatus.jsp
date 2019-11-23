@@ -17,7 +17,7 @@
                 </td>
                 <td>
                     <c:choose>
-                        <c:when test="${not empty picker.recipient}">
+                        <c:when test="${picker.viewed}">
                             <input type="checkbox" checked onclick="this.checked=true;"/>
                         </c:when>
                         <c:otherwise>
