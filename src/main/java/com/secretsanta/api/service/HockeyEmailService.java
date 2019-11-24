@@ -13,7 +13,7 @@ public class HockeyEmailService extends BaseEmailService implements EmailService
     public void sendEmail(String destinationAddress, String subject, String template, Context context) {
         
         // override destination address if necessary
-        destinationAddress = getDestinationAddress(destinationAddress);
+        destinationAddress = getFinalDestinationAddress(destinationAddress);
         
         restTemplate.getForEntity(URI + "to=" + destinationAddress + "&"
                                       + "subject=" + subject + "&"

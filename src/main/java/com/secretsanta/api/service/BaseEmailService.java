@@ -1,13 +1,14 @@
 package com.secretsanta.api.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import com.secretsanta.api.model.SessionContext;
 import com.secretsanta.api.model.SystemContext;
 
-import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -17,12 +18,15 @@ public class BaseEmailService {
     private String destinationAddressOverride;
     
     @Autowired
-    SystemContext systemContext;
+    private SystemContext systemContext;
+    
+    @Autowired
+    private SessionContext sessionContext;
     
     @Autowired
     private SpringTemplateEngine templateEngine;
     
-    String getDestinationAddress(String destinationAddress) {
+    String getFinalDestinationAddress(String destinationAddress) {
         if (StringUtils.isNotBlank(destinationAddressOverride)) {
             log.debug("Overriding destinationAddress: " + destinationAddressOverride);
             return destinationAddressOverride;
@@ -30,6 +34,10 @@ public class BaseEmailService {
             log.debug("Not overriding destinationAddress: " + destinationAddressOverride);
             return destinationAddress;
         }
+    }
+    
+    String getFinalSubject(String subject) {
+        return subject + " (" + StringUtils.capitalize(sessionContext.getSchema()) + " Edition)";
     }
     
     String buildEmailBody(String templateName, Context templateContext) {
