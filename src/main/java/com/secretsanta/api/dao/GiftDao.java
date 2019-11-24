@@ -48,7 +48,7 @@ public class GiftDao extends BaseDao {
     public Gift getGiftDetail(int giftId) {
         
         String SQL =  "SELECT gift_id, description, user_name, year " +
-                        "FROM" + getSchema() + ".gift " +
+                        "FROM " + getSchema() + ".gift " +
                        "WHERE gift_id = ?";
         
         return jdbcTemplate.queryForObject(SQL, new Object[]{giftId}, new GiftMapper());

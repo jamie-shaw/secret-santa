@@ -12,6 +12,9 @@ import com.secretsanta.api.model.User;
 @Component
 public class UserDao extends BaseDao{
     
+    public enum FilterColumn { USER_NAME, RECIPIENT};
+    
+    public static final String RECIPIENT = "recipient";
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -22,12 +25,14 @@ public class UserDao extends BaseDao{
      * @param currentUser
      * @return
      */
-    public User getUser(String username, String filterColumn) {
+    public User getUser(String username, FilterColumn recipientFilterColumn) {
         
+        FilterColumn userFilterColumn = recipientFilterColumn == FilterColumn.RECIPIENT ? FilterColumn.USER_NAME : FilterColumn.RECIPIENT;
+                
         String SQL = "SELECT santa_user.user_name, display_name, email " +
                        "FROM " + getSchema() + ".recipient " + 
-                 "INNER JOIN " + getSchema() + ".santa_user ON recipient.recipient = santa_user.user_name " +
-                      "WHERE recipient." + filterColumn + " = ? AND Year = ?";
+                 "INNER JOIN " + getSchema() + ".santa_user ON recipient." + userFilterColumn + "= santa_user.user_name " +
+                      "WHERE recipient." + recipientFilterColumn + " = ? AND Year = ?";
         
         return jdbcTemplate.queryForObject(SQL, new Object[]{username, getCurrentYear()}, new UserMapper());
     }

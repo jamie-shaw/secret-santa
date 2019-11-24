@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.secretsanta.api.dao.UserDao;
+import com.secretsanta.api.dao.UserDao.FilterColumn;
 import com.secretsanta.api.model.User;
 import com.secretsanta.api.service.EmailService;
 
@@ -34,17 +35,17 @@ public class EmailController extends BaseController {
                                HttpServletRequest request,
                                Model model) {
         
+        FilterColumn filterColumn;
         String message = request.getParameter("message");
-        String filterColumn;
         String subject;
         
         if (request.getParameter("to").equals("recipient")) {
             // Get the info for the current user
-            filterColumn = "user_name";
+            filterColumn = FilterColumn.USER_NAME;
             subject = "A message from your Secret Santa";
         } else {
             // Get the info for the current user's santa
-            filterColumn = "recipient";
+            filterColumn = FilterColumn.RECIPIENT;
             subject = "A message from your Secret Santa recipient";
         }
             
@@ -54,7 +55,7 @@ public class EmailController extends BaseController {
         
         setSuccessMessage(request, "Your message has been sent.");
        
-        return "redirect:/email";
+        return "redirect:/home";
         
     }
     
