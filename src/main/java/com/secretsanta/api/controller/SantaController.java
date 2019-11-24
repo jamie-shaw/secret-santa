@@ -25,6 +25,8 @@ import com.secretsanta.api.model.Recipient;
 import com.secretsanta.api.model.User;
 import com.secretsanta.api.service.PickService;
 
+import io.micrometer.core.instrument.util.StringUtils;
+
 @Controller
 @SessionAttributes({"CURRENT_USER", "RECIPIENT"})
 public class SantaController extends BaseController {
@@ -78,7 +80,9 @@ public class SantaController extends BaseController {
     @GetMapping("/changePassword")
     public String showPasswordChange(HttpServletRequest request) {
         
-        setErrorMessage(request, "Please enter a new password");
+        if (!messagesExist(request)) {
+            setErrorMessage(request, "Please enter a new password");
+        }
         
         return "change-password";
     }
@@ -89,8 +93,13 @@ public class SantaController extends BaseController {
         String username = (String)request.getSession().getAttribute("username");
         String password = form.getPassword();
         
+        if (StringUtils.isBlank(password)) {
+            setErrorMessage(request, "Password must be entered.");
+            return "redirect:/changePassword";
+        }
+        
         if (!password.equals(form.getConfirmPassword())) {
-            setErrorMessage(request, "Passwords must match");
+            setErrorMessage(request, "Passwords must match.");
             return "redirect:/changePassword";
         }
         

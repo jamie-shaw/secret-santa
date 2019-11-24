@@ -33,5 +33,9 @@ public abstract class BaseController {
     void setErrorMessage(HttpServletRequest request, String message) {
         request.getSession().setAttribute(ERROR_MESSAGE, message);
     }
+    
+    boolean messagesExist(HttpServletRequest request) {
+        return null != request.getSession().getAttribute(ERROR_MESSAGE);
+    }
 
 }
