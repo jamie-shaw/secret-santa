@@ -51,7 +51,7 @@ public class EmailController extends BaseController {
             
         User user = userDao.getUser(currentUser, filterColumn);
         
-        emailService.sendEmail(user.getEmail(), subject, message);
+        emailService.sendEmail("jamie.e.shaw@gmail.com", subject, message);
         
         setSuccessMessage(request, "Your message has been sent.");
        
