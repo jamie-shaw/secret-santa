@@ -4,10 +4,14 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.temporal.ChronoUnit;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SystemContext {
+    
+    @Value("${application.url}")
+    private String applicationUrl;
     
     private int year;
     
@@ -26,4 +30,7 @@ public class SystemContext {
         return ChronoUnit.DAYS.between(now, christmas);
     }
 
+    public String getApplicationUrl() {
+        return applicationUrl;
+    }
 }

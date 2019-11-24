@@ -16,6 +16,7 @@ import com.secretsanta.api.dao.UserDao;
 import com.secretsanta.api.dao.UserDao.FilterColumn;
 import com.secretsanta.api.model.Gift;
 import com.secretsanta.api.model.Recipient;
+import com.secretsanta.api.model.SystemContext;
 import com.secretsanta.api.model.User;
 import com.secretsanta.api.service.EmailService;
 
@@ -31,6 +32,9 @@ public class GiftController extends BaseController {
     
     @Autowired
     private EmailService emailService;
+    
+    @Autowired
+    SystemContext systemContext;
     
     @GetMapping("/gift/summary")
     public String showIdeasForSanta(@ModelAttribute("CURRENT_USER") String currentUser,
@@ -75,7 +79,7 @@ public class GiftController extends BaseController {
         
         // and send the santa an email
         String subject = "Your Secret Santa recipient just gave you an idea";
-        String message = "Your Secret Santa recipient just gave you an idea.  Log in to see what it is.";
+        String message = "Your Secret Santa recipient just gave you an idea.  <a href=\"" + systemContext.getApplicationUrl() + "\">Log in</a>  to see what it is.";
         
         notifySanta(currentUser, gift, subject, message);
         
@@ -92,7 +96,7 @@ public class GiftController extends BaseController {
         
         // and send the santa an email
         String subject = "Your Secret Santa recipient just updated an idea";
-        String message = "Your Secret Santa recipient just updated an idea.  Log in to see what it is.";
+        String message = "Your Secret Santa recipient just updated an idea.  <a href=\"" + systemContext.getApplicationUrl() + "\">Log in</a> to see what it is.";
         
         notifySanta(currentUser, gift, subject, message);
         
@@ -111,7 +115,7 @@ public class GiftController extends BaseController {
         
         // and send the santa an email
         String subject = "Your Secret Santa recipient just deleted a suggestion";
-        String message = "Your Secret Santa recipient just deleted this suggestion: \n\n" + gift.getDescription() + "\n\nLog in to see other ideas.";
+        String message = "Your Secret Santa recipient just deleted this suggestion: <br><br>" + gift.getDescription() + "<br><br><a href=\"" + systemContext.getApplicationUrl() + "\">Log in</a>  to see other ideas.";
         
         notifySanta(currentUser, gift, subject, message);
         
