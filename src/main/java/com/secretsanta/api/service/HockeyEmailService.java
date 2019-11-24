@@ -1,6 +1,7 @@
 package com.secretsanta.api.service;
 
 import org.springframework.web.client.RestTemplate;
+import org.thymeleaf.context.Context;
 
 public class HockeyEmailService extends BaseEmailService implements EmailService{
     
@@ -9,14 +10,14 @@ public class HockeyEmailService extends BaseEmailService implements EmailService
     RestTemplate restTemplate = new RestTemplate();
     
     @Override
-    public void sendEmail(String destinationAddress, String subject, String message) {
+    public void sendEmail(String destinationAddress, String subject, String template, Context context) {
         
         // override destination address if necessary
         destinationAddress = getDestinationAddress(destinationAddress);
         
         restTemplate.getForEntity(URI + "to=" + destinationAddress + "&"
                                       + "subject=" + subject + "&"
-                                      + "message=" + message + "&"
+                                      + "message=" + template + "&"
                                       + "action=send_email", String.class);
         
     }

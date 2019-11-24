@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.thymeleaf.context.Context;
 
 import com.secretsanta.api.dao.UserDao;
 import com.secretsanta.api.dao.UserDao.FilterColumn;
@@ -35,23 +36,30 @@ public class EmailController extends BaseController {
                                HttpServletRequest request,
                                Model model) {
         
+        String userMessage = request.getParameter("message");
+        
+        Context templateContext = new Context();
+        templateContext.setVariable("userMessage", userMessage);
+        
         FilterColumn filterColumn;
-        String message = request.getParameter("message");
+        String templateName;
         String subject;
         
         if (request.getParameter("to").equals("recipient")) {
             // Get the info for the current user
             filterColumn = FilterColumn.USER_NAME;
             subject = "A message from your Secret Santa";
+            templateName = "messageToRecipient.html";
         } else {
             // Get the info for the current user's santa
             filterColumn = FilterColumn.RECIPIENT;
             subject = "A message from your Secret Santa recipient";
+            templateName = "messageFromRecipient.html";
         }
             
         User user = userDao.getUser(currentUser, filterColumn);
         
-        emailService.sendEmail("jamie.e.shaw@gmail.com", subject, message);
+        emailService.sendEmail(user.getEmail(), subject, templateName, templateContext);
         
         setSuccessMessage(request, "Your message has been sent.");
        
