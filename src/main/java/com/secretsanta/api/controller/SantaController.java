@@ -103,6 +103,11 @@ public class SantaController extends BaseController {
             return "redirect:/changePassword";
         }
         
+        if (password.equals("santa")) {
+            setErrorMessage(request, "Password can't be 'santa'.");
+            return "redirect:/changePassword";
+        }
+        
         // change the password
         userDao.changePassword(username, password);
         
