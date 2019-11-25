@@ -25,7 +25,7 @@ public class SantaUserDetailsService implements UserDetailsService {
         
         String SQL =  "SELECT user_name, password, password_expired " +
                         "FROM " + sessionContext.getSchema() + ".santa_user " +
-                       "WHERE user_name = ?";
+                       "WHERE upper(user_name) = upper(?)";
 
         SantaUserDetails userDetails = (SantaUserDetails) jdbcTemplate.queryForObject(SQL, new Object[]{username}, new UserDetailsMapper());
 
