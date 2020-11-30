@@ -12,48 +12,56 @@
             <column name="year" value="2005"/>
             <column name="recipient" value="Mario"/>
             <column name="assigned" value="true"/>
+            <column name="viewed" value="true"/>
         </insert>
         <insert tableName="recipient" schemaName="fernald">
             <column name="user_name" value="Dave"/>
             <column name="year" value="2005"/>
             <column name="recipient" value="Jamie"/>
             <column name="assigned" value="true"/>
+            <column name="viewed" value="true"/>
         </insert>
         <insert tableName="recipient" schemaName="fernald">
             <column name="user_name" value="Jamie"/>
             <column name="year" value="2005"/>
             <column name="recipient" value="Margoe"/>
             <column name="assigned" value="true"/>
+            <column name="viewed" value="true"/>
         </insert>
         <insert tableName="recipient" schemaName="fernald">
             <column name="user_name" value="Jon"/>
             <column name="year" value="2005"/>
             <column name="recipient" value="Robin"/>
             <column name="assigned" value="true"/>
+            <column name="viewed" value="true"/>
         </insert>
         <insert tableName="recipient" schemaName="fernald">
             <column name="user_name" value="Margoe"/>
             <column name="year" value="2005"/>
             <column name="recipient" value="Dave"/>
             <column name="assigned" value="true"/>
+            <column name="viewed" value="true"/>
         </insert>
         <insert tableName="recipient" schemaName="fernald">
             <column name="user_name" value="Mario"/>
             <column name="year" value="2005"/>
             <column name="recipient" value="Muffie"/>
             <column name="assigned" value="true"/>
+            <column name="viewed" value="true"/>
         </insert>
         <insert tableName="recipient" schemaName="fernald">
             <column name="user_name" value="Muffie"/>
             <column name="year" value="2005"/>
             <column name="recipient" value="Jon"/>
             <column name="assigned" value="true"/>
+            <column name="viewed" value="true"/>
         </insert>
         <insert tableName="recipient" schemaName="fernald">
             <column name="user_name" value="Robin"/>
             <column name="year" value="2005"/>
             <column name="recipient" value="Betsy"/>
             <column name="assigned" value="true"/>
+            <column name="viewed" value="true"/>
         </insert>
     </changeSet>
 

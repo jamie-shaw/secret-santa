@@ -20,7 +20,7 @@
             <column name="assigned" type="boolean">
                 <constraints nullable="false" />
             </column>
-            <column name="viewed" type="boolean" defaultValueBoolean="true">
+            <column name="viewed" type="boolean">
                 <constraints nullable="false" />
             </column>
         </createTable>
