@@ -1,6 +1,7 @@
 package com.secretsanta.api.controller;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +20,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.secretsanta.api.dao.RecipientDao;
+import com.secretsanta.api.dao.SystemDao;
 import com.secretsanta.api.dao.UserDao;
 import com.secretsanta.api.model.PasswordChangeForm;
 import com.secretsanta.api.model.Recipient;
+import com.secretsanta.api.model.SessionContext;
 import com.secretsanta.api.model.User;
 import com.secretsanta.api.service.PickService;
 
@@ -36,12 +39,18 @@ public class SantaController extends BaseController {
 
     @Autowired
     private UserDao userDao;
+        
+    @Autowired
+    SystemDao systemDao;
     
     @Autowired
     private AuthenticationProvider authenticationProvider;
     
     @Autowired
     private PickService pickService;
+    
+    @Autowired
+    SessionContext sessionContext;
     
     @GetMapping("/login")
     public String showLogin(Model model) {
@@ -69,8 +78,32 @@ public class SantaController extends BaseController {
     @GetMapping("/rollOver")
     public String rollSantaOver(HttpServletRequest request) {
         
-        while (!pickService.pickRecipients()) {
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        
+        // update the year
+        systemDao.setCurrentYear(year);
+        systemContext.setCurrentYear(year);
+        
+        String originalSchema = sessionContext.getSchema();
+        
+        for (String schema : Arrays.asList(new String[] {"shaw", "fernald"})) {
+            // change the active schema
+            sessionContext.setSchema(schema);
+            
+            // reset the passwords for all users
+            userDao.resetAllPasswords();
+            
+            // reset the recipients for all users
+            recipientDao.resetAllRecipients();
+            
+            // pick all recipients
+            while (!pickService.pickRecipients()) {
+                // loop until pick recipients doesn't fail
+            }
         }
+        
+        // return to the original schema
+        sessionContext.setSchema(originalSchema);
         
         setSuccessMessage(request, "Rollover complete.");
         
@@ -90,7 +123,6 @@ public class SantaController extends BaseController {
     @PostMapping("/changePassword")
     public String processPasswordChange(HttpServletRequest request, @ModelAttribute("form") PasswordChangeForm form, Model model) {
         
-        String username = (String)request.getSession().getAttribute("username");
         String password = form.getPassword();
         
         if (StringUtils.isBlank(password)) {
@@ -107,6 +139,9 @@ public class SantaController extends BaseController {
             setErrorMessage(request, "Password can't be 'santa'.");
             return "redirect:/changePassword";
         }
+        
+        User user = userDao.getUser((String)request.getSession().getAttribute("username"));
+        String username = user.getUsername();
         
         // change the password
         userDao.changePassword(username, password);

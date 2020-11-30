@@ -11,10 +11,18 @@ public class SystemDao {
     private JdbcTemplate jdbcTemplate;
     
     public int getCurrentYear() {
-        // get the current year
         String SQL = "SELECT attribute_value " +
                        "FROM system.system ";
         
         return jdbcTemplate.queryForObject(SQL, new Object[]{}, Integer.class);
     }
+    
+    
+    public void setCurrentYear(int year) {
+        String SQL = "UPDATE system.system " +
+                     "   SET attribute_value = ?";
+        
+        jdbcTemplate.update(SQL, new Object[] {year});
+    }
+
 }

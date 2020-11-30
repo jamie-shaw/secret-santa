@@ -2,13 +2,18 @@ package com.secretsanta.api.dao;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.secretsanta.api.mapper.RecipientMapper;
 import com.secretsanta.api.model.Recipient;
+import com.secretsanta.api.model.User;
 
 @Component
 public class RecipientDao extends BaseDao {
+    
+    @Autowired
+    UserDao userDao;
     
     /**
      * Assigns the recipient to the current user
@@ -47,7 +52,6 @@ public class RecipientDao extends BaseDao {
     }
     
     public Recipient getRecipientForCurrentUser(String currentUser) {
-        // get the recipient for the current user
         String SQL = "SELECT * " +
                        "FROM " + getSchema() + ".recipient " +
                       "WHERE user_name = ? AND year = ?";
@@ -56,8 +60,6 @@ public class RecipientDao extends BaseDao {
     }
 
     public List<Recipient> getAllRecipients() {
-        
-        // Get all of the pickers
         String SQL = "SELECT * " +
                        "FROM " + getSchema() + ".recipient " +
                  "INNER JOIN " + getSchema() + ".santa_user ON recipient.user_name = santa_user.user_name " +
@@ -68,7 +70,6 @@ public class RecipientDao extends BaseDao {
     } 
     
     public List<Recipient> getAllRecipientsForSelectedYear(int selectedYear) {
-        // Get all recipients for the selected year
         String SQL = "SELECT * " +
                        "FROM " + getSchema() + ".recipient " +
                       "WHERE year = ? " +
@@ -78,7 +79,6 @@ public class RecipientDao extends BaseDao {
     }
 
     public List<String> getActiveYears() {
-        // Get all of the active years
         String SQL = "SELECT distinct year " +
                        "FROM " + getSchema() + ".recipient " +
                       "WHERE year <> ? " +
@@ -88,7 +88,6 @@ public class RecipientDao extends BaseDao {
     }
     
     public int getSelfAssignedRecipients() {
-        // Get all of the active years
         String SQL = "SELECT count(*) " +
                        "FROM " + getSchema() + ".recipient " +
                       "WHERE year = ? " +
@@ -107,11 +106,26 @@ public class RecipientDao extends BaseDao {
     }
 
     public void processPick(String currentUser) {
-        // Update recipient record
         String SQL = "UPDATE " + getSchema() + ".recipient " + 
                         "SET viewed = true " +
                       "WHERE user_name = ? AND year = ?";
         
         jdbcTemplate.update(SQL, new Object[] {currentUser, getCurrentYear()});
     }
+    
+    public void resetAllRecipients() {
+        List<User> users = userDao.getAllUsers();
+        
+        for (User user : users) {
+            createRecipient(user);
+        }
+    }
+    
+    private void createRecipient(User user) {
+        String SQL =  "INSERT INTO " + getSchema() + ".recipient " +
+                      "VALUES(?, ?, ?, ?, ?)";
+        
+        jdbcTemplate.update(SQL, new Object[] {user.getUsername(), getCurrentYear(), "", false, false});
+    }
+
 }
