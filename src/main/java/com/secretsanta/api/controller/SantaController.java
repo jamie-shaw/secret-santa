@@ -47,9 +47,6 @@ public class SantaController extends BaseController {
     private AuthenticationProvider authenticationProvider;
     
     @Autowired
-    private PickService pickService;
-    
-    @Autowired
     SessionContext sessionContext;
     
     @GetMapping("/login")
@@ -68,46 +65,6 @@ public class SantaController extends BaseController {
     @GetMapping("/logout")
     public String logout() {
         return "login";
-    }
-    
-    @GetMapping("/admin")
-    public String showAdmin() {
-        return "admin";
-    }
-    
-    @GetMapping("/rollOver")
-    public String rollSantaOver(HttpServletRequest request) {
-        
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        
-        // update the year
-        systemDao.setCurrentYear(year);
-        systemContext.setCurrentYear(year);
-        
-        String originalSchema = sessionContext.getSchema();
-        
-        for (String schema : Arrays.asList(new String[] {"shaw", "fernald"})) {
-            // change the active schema
-            sessionContext.setSchema(schema);
-            
-            // reset the passwords for all users
-            userDao.resetAllPasswords();
-            
-            // reset the recipients for all users
-            recipientDao.resetAllRecipients();
-            
-            // pick all recipients
-            while (!pickService.pickRecipients()) {
-                // loop until pick recipients doesn't fail
-            }
-        }
-        
-        // return to the original schema
-        sessionContext.setSchema(originalSchema);
-        
-        setSuccessMessage(request, "Rollover complete.");
-        
-        return "admin";
     }
     
     @GetMapping("/changePassword")

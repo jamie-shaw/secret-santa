@@ -19,7 +19,7 @@
         
         <insert tableName="system" schemaName="system">
             <column name="attribute_name" value="year"/>
-            <column name="attribute_value" value="2017"/>
+            <column name="attribute_value" value="2020"/>
         </insert>
         
         <rollback>

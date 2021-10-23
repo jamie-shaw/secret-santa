@@ -7,6 +7,7 @@
     <include file="/db/changelog/system/create-schemas.xml"/>
     <include file="/db/changelog/system/create-system-table.xml"/>
     <include file="/db/changelog/system/2019-rollover.xml"/>
+    <include file="/db/changelog/system/2020-rollover.xml"/>
     
     <include file="/db/changelog/shaw/01-create-user-table.xml"/>
     <include file="/db/changelog/shaw/02-create-recipient-table.xml"/>
@@ -14,8 +15,9 @@
     <include file="/db/changelog/shaw/2017-rollover.xml"/>
     <include file="/db/changelog/shaw/2018-rollover.xml"/>
     <include file="/db/changelog/shaw/2019-rollover.xml"/>
-        
-    <include file="/db/changelog/fernald/01-create-user-table.xml"/>
+    <include file="/db/changelog/shaw/2020-rollover.xml"/>
+    
+    <include file="/db/changelog/fernald/01-create-user-table-couples.xml"/>
     <include file="/db/changelog/fernald/02-create-recipient-table.xml"/>
     <include file="/db/changelog/fernald/03-create-gift-table.xml"/>
     <include file="/db/changelog/fernald/2001-rollover.xml"/>
@@ -34,4 +36,5 @@
     <include file="/db/changelog/fernald/2017-rollover.xml"/>
     <include file="/db/changelog/fernald/2018-rollover.xml"/>
     <include file="/db/changelog/fernald/2019-rollover.xml"/>
+    <include file="/db/changelog/fernald/2020-rollover.xml"/>
 </databaseChangeLog>
