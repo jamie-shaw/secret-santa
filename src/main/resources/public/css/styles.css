@@ -138,6 +138,9 @@ legend {
     padding: 0 1em;
 }
 
+select, option {
+    background-color: #ffffff;
+}
 
 /* TABLES */
 
