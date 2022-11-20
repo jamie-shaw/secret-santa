@@ -16,7 +16,10 @@ import com.secretsanta.api.dao.UserDao;
 import com.secretsanta.api.model.SessionContext;
 import com.secretsanta.api.service.PickService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 @SessionAttributes({"CURRENT_USER", "RECIPIENT"})
 public class AdminController extends BaseController {
     
@@ -71,6 +74,8 @@ public class AdminController extends BaseController {
         sessionContext.setSchema(originalSchema);
         
         setSuccessMessage(request, "Rollover complete.");
+        
+        log.debug("Rollover complete.");
         
         return "admin";
     }

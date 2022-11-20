@@ -44,7 +44,7 @@ public class SmtpEmailService extends BaseEmailService implements EmailService {
             
             javaMailSender.send(msg);
             
-            log.info("Mail Sent Successfully to " + destinationAddress);
+            log.info("Mail Sent Successfully to " + destinationAddress + " for '" + subject + "'");
             
         } catch (Exception e) {
             log.error("SMTP error", e);
