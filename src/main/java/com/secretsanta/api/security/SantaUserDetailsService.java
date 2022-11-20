@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.secretsanta.api.mapper.UserDetailsMapper;
+import com.secretsanta.api.dao.mapper.UserDetailsMapper;
 import com.secretsanta.api.model.SessionContext;
 
 @Service("userDetailsService")

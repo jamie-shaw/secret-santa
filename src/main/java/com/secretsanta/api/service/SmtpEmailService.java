@@ -1,8 +1,8 @@
 package com.secretsanta.api.service;
 
+import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -15,11 +15,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SmtpEmailService extends BaseEmailService implements EmailService {
     
-    @Autowired 
+    @Resource
     private JavaMailSender javaMailSender;
     
     RestTemplate restTemplate = new RestTemplate();
-    
+
+    /**
+     * Sends email using well-known Spring props.  Username and password come from JVM args or 
+     * Heroku config values
+     */
     public void sendEmail(String destinationAddress, String subject, String templateName, Context templateContext) {
         
         // override destination address if necessary

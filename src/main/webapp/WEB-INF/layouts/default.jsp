@@ -20,19 +20,16 @@
     </head>
 
     <body onload="setFocus();">
-
-        <header>
-            <h1>Secret Santa ${systemContext.currentYear}</h1>
-        </header>
+        
+        <tiles:insertAttribute name="header" />
         
         <div id="main-content" class="container clearfix">
             <santa:messages />
             <tiles:insertAttribute name="content" />
         </div>
-
-        <footer>
-        </footer>
-
+        
+        <tiles:insertAttribute name="footer" />
+        
     </body>
 
 </html>

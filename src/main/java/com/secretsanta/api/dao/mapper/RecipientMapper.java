@@ -1,4 +1,4 @@
-package com.secretsanta.api.mapper;
+package com.secretsanta.api.dao.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

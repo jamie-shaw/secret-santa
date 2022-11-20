@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.secretsanta.api.mapper.GiftMapper;
+import com.secretsanta.api.dao.mapper.GiftMapper;
 import com.secretsanta.api.model.Gift;
 
 @Component

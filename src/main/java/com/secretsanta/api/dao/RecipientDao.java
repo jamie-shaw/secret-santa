@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.secretsanta.api.mapper.RecipientMapper;
+import com.secretsanta.api.dao.mapper.RecipientMapper;
 import com.secretsanta.api.model.Recipient;
 import com.secretsanta.api.model.User;
 

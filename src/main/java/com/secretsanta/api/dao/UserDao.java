@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.secretsanta.api.mapper.UserMapper;
+import com.secretsanta.api.dao.mapper.UserMapper;
 import com.secretsanta.api.model.User;
 
 @Component
