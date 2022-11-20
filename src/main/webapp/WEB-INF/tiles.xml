@@ -54,4 +54,8 @@
     <definition name="email" extends="base">
         <put-attribute name="content" value="/WEB-INF/jsp/email.jsp" />
     </definition>
+    
+    <definition name="error-page" extends="base">
+        <put-attribute name="content" value="/WEB-INF/jsp/error.jsp" />
+    </definition>
 </tiles-definitions>
