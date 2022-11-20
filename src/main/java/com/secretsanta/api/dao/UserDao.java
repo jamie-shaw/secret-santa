@@ -2,7 +2,8 @@ package com.secretsanta.api.dao;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ public class UserDao extends BaseDao {
     
     public static final String RECIPIENT = "recipient";
     
-    @Autowired
+    @Resource
     private PasswordEncoder passwordEncoder;
     
     /**

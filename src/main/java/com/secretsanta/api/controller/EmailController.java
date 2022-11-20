@@ -1,8 +1,8 @@
 package com.secretsanta.api.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +20,10 @@ import com.secretsanta.api.service.EmailService;
 @SessionAttributes({"CURRENT_USER", "RECIPIENT"})
 public class EmailController extends BaseController {
     
-    @Autowired
+    @Resource
     private UserDao userDao;
     
-    @Autowired
+    @Resource
     private EmailService emailService;
     
     @GetMapping("/email")
@@ -46,12 +46,12 @@ public class EmailController extends BaseController {
         String subject;
         
         if (request.getParameter("to").equals("recipient")) {
-            // Get the info for the current user
+            // get the info for the current user
             filterColumn = FilterColumn.USER_NAME;
             subject = "A message from your Secret Santa";
             templateName = "messageToRecipient.html";
         } else {
-            // Get the info for the current user's santa
+            // get the info for the current user's santa
             filterColumn = FilterColumn.RECIPIENT;
             subject = "A message from your Secret Santa recipient";
             templateName = "messageFromRecipient.html";

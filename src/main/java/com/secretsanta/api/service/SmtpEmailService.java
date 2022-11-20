@@ -6,7 +6,6 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.context.Context;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +17,6 @@ public class SmtpEmailService extends BaseEmailService implements EmailService {
     @Resource
     private JavaMailSender javaMailSender;
     
-    RestTemplate restTemplate = new RestTemplate();
-
     /**
      * Sends email using well-known Spring props.  Username and password come from JVM args or 
      * Heroku config values
@@ -48,10 +45,8 @@ public class SmtpEmailService extends BaseEmailService implements EmailService {
             javaMailSender.send(msg);
             
             log.info("Mail Sent Successfully to " + destinationAddress);
-        }
- 
-        // Catch block to handle the exceptions
-        catch (Exception e) {
+            
+        } catch (Exception e) {
             log.error("SMTP error", e);
         }
     }

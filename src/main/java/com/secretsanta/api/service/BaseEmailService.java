@@ -1,7 +1,8 @@
 package com.secretsanta.api.service;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -17,13 +18,13 @@ public class BaseEmailService {
     @Value("${email.destinationAddressOverride}")
     private String destinationAddressOverride;
     
-    @Autowired
+    @Resource
     private SystemContext systemContext;
     
-    @Autowired
+    @Resource
     private SessionContext sessionContext;
     
-    @Autowired
+    @Resource
     private SpringTemplateEngine templateEngine;
     
     String getFinalDestinationAddress(String destinationAddress) {

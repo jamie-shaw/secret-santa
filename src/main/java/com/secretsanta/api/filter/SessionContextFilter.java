@@ -2,12 +2,12 @@ package com.secretsanta.api.filter;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -16,7 +16,7 @@ import com.secretsanta.api.model.SessionContext;
 @Component
 public class SessionContextFilter extends OncePerRequestFilter {
 
-    @Autowired
+    @Resource
     private SessionContext sessionContext;
     
     @Override

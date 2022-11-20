@@ -1,12 +1,11 @@
 package com.secretsanta.api.controller;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,7 +25,6 @@ import com.secretsanta.api.model.PasswordChangeForm;
 import com.secretsanta.api.model.Recipient;
 import com.secretsanta.api.model.SessionContext;
 import com.secretsanta.api.model.User;
-import com.secretsanta.api.service.PickService;
 
 import io.micrometer.core.instrument.util.StringUtils;
 
@@ -34,19 +32,19 @@ import io.micrometer.core.instrument.util.StringUtils;
 @SessionAttributes({"CURRENT_USER", "RECIPIENT"})
 public class SantaController extends BaseController {
     
-    @Autowired
+    @Resource
     private RecipientDao recipientDao;
 
-    @Autowired
+    @Resource
     private UserDao userDao;
         
-    @Autowired
+    @Resource
     SystemDao systemDao;
     
-    @Autowired
+    @Resource
     private AuthenticationProvider authenticationProvider;
     
-    @Autowired
+    @Resource
     SessionContext sessionContext;
     
     @GetMapping("/login")

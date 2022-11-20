@@ -2,7 +2,8 @@ package com.secretsanta.api.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,13 +25,13 @@ import com.secretsanta.api.service.EmailService;
 @SessionAttributes({"CURRENT_USER", "RECIPIENT"})
 public class GiftController extends BaseController {
     
-    @Autowired
+    @Resource
     private GiftDao dao;
     
-    @Autowired
+    @Resource
     private UserDao userDao;
     
-    @Autowired
+    @Resource
     private EmailService emailService;
     
     @GetMapping("/gift/summary")

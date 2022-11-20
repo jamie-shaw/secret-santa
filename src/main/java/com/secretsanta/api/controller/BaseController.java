@@ -1,8 +1,7 @@
 package com.secretsanta.api.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.secretsanta.api.model.SessionContext;
 import com.secretsanta.api.model.SystemContext;
@@ -12,10 +11,10 @@ public abstract class BaseController {
     static final String SUCCESS_MESSAGE = "SUCCESS_MESSAGE";
     static final String ERROR_MESSAGE = "ERROR_MESSAGE";
     
-    @Autowired
+    @Resource
     SystemContext systemContext;
     
-    @Autowired
+    @Resource
     private SessionContext sessionContext;
     
     public String getSchema() {

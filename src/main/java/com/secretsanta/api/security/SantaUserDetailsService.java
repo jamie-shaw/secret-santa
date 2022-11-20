@@ -1,6 +1,7 @@
 package com.secretsanta.api.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,10 +15,10 @@ import com.secretsanta.api.model.SessionContext;
 @Service("userDetailsService")
 public class SantaUserDetailsService implements UserDetailsService {
     
-    @Autowired
+    @Resource
     private JdbcTemplate jdbcTemplate;
     
-    @Autowired
+    @Resource
     private SessionContext sessionContext;
     
     @Override

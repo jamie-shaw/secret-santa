@@ -1,5 +1,7 @@
 package com.secretsanta.api.security;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,16 +16,16 @@ import com.secretsanta.api.filter.SessionContextFilter;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+    @Resource
     private AuthenticationProvider authenticationProvider;
 
-    @Autowired
+    @Resource
     private SecurityHandler loginHandler;
     
-    @Autowired
+    @Resource
     PasswordEncoder passwordEncoder;
     
-    @Autowired
+    @Resource
     SessionContextFilter sessionContextFilter;
     
     protected void configure(HttpSecurity http) throws Exception {

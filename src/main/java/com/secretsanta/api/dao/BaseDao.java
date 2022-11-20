@@ -1,6 +1,7 @@
 package com.secretsanta.api.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -10,13 +11,13 @@ import com.secretsanta.api.model.SystemContext;
 @Component
 public abstract class BaseDao {
     
-    @Autowired
+    @Resource
     JdbcTemplate jdbcTemplate;
     
-    @Autowired
+    @Resource
     SystemContext systemContext;
     
-    @Autowired
+    @Resource
     SessionContext sessionContext;
     
     String getSchema() {

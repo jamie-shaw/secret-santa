@@ -3,7 +3,8 @@ package com.secretsanta.api;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,10 +24,10 @@ import com.secretsanta.api.model.SystemContext;
 @ComponentScan(basePackages = "com.secretsanta.api")
 public class SecretSantaApiApplication {
 
-    @Autowired
+    @Resource
     SystemContext systemContext;
     
-    @Autowired
+    @Resource
     SystemDao systemDao;
     
     public static void main(String[] args) {

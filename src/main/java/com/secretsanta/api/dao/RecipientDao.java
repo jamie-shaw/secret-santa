@@ -2,7 +2,8 @@ package com.secretsanta.api.dao;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
 import com.secretsanta.api.dao.mapper.RecipientMapper;
@@ -12,7 +13,7 @@ import com.secretsanta.api.model.User;
 @Component
 public class RecipientDao extends BaseDao {
     
-    @Autowired
+    @Resource
     UserDao userDao;
     
     /**
