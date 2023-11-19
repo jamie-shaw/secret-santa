@@ -14,7 +14,9 @@
                 <c:forEach items="${GIFTS}" var="gift">
                     <tr>
                         <td width="100%">
-                            <c:out value="${gift.description}"/>
+                            <div class="wrap-all"><c:out value="${gift.description}"/></div>
+                            <br/><br/>
+                            <a href="${gift.link}" target="_blank">Link</a>
                         </td>
                         <td>
                             <form>

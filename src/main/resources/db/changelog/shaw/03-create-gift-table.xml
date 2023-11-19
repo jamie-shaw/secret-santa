@@ -15,10 +15,13 @@
             <column name="user_name" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
-                <column name="description" type="varchar(250)">
+            <column name="description" type="varchar(250)">
                 <constraints nullable="false" />
             </column>
-                <column name="year" type="int">
+            <column name="link" type="varchar(1000)">
+                <constraints nullable="true" />
+            </column>
+            <column name="year" type="int">
                 <constraints nullable="false" />
             </column>
         </createTable>

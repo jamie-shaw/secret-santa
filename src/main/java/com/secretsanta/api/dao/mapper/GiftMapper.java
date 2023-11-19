@@ -16,6 +16,7 @@ public class GiftMapper implements RowMapper<Gift> {
                 rs.getString("gift_id"),
                 rs.getString("user_name"),
                 rs.getString("description"),
+                rs.getString("link"),
                 rs.getString("year")
         );
         

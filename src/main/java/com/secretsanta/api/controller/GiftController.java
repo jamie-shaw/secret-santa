@@ -73,7 +73,7 @@ public class GiftController extends BaseController {
                              @ModelAttribute("CURRENT_USER") String currentUser) {
         
         // store the idea
-        dao.createGift(currentUser, gift.getDescription());
+        dao.createGift(currentUser, gift.getDescription(), gift.getLink());
         
         // and send the santa an email
         String subject = "Your Secret Santa recipient just gave you an idea";
@@ -88,7 +88,7 @@ public class GiftController extends BaseController {
                              @ModelAttribute("CURRENT_USER") String currentUser) {
         
         // store the idea
-        dao.updateGift(giftId, gift.getDescription());
+        dao.updateGift(giftId, gift.getDescription(), gift.getLink());
         
         // and send the santa an email
         String subject = "Your Secret Santa recipient just updated an idea";

@@ -16,7 +16,10 @@
     <form action="${action}" method="post" onSubmit="return validate(this)">
         <p>
             <b>Please enter a description of your gift idea:</b>
-            <textarea name="Description" rows="3" cols="40" id="Description"><c:out value="${GIFT.description}"></c:out></textarea>
+            <textarea name="description" rows="2" cols="40" id="description" maxlength="250"><c:out value="${GIFT.description}"></c:out></textarea>
+            <br/>
+            <b>Please paste a link to your gift idea (optional):</b>
+            <textarea name="link" rows="2" cols="40" id="link" maxlength="1000"><c:out value="${GIFT.link}"></c:out></textarea>
             <br/>
             <button>Save Idea</button>
         </p>

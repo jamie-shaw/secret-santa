@@ -8,13 +8,17 @@
     
     <h1>${RECIPIENT.recipient}'s Ideas for Santa</h1>
     
+
     <table>
         <c:choose>
             <c:when test="${not empty IDEAS}">
                 <c:forEach var="idea" items="${IDEAS}">
                     <tr>
                         <td>
-                            ${idea.description}
+                            <div class="wrap-all">${idea.description}</div>
+                        </td>
+                        <td style="text-align:right">
+                            <a href="${idea.link}" target="_blank">Link</a>
                         </td>
                     </tr>
                 </c:forEach>

@@ -10,6 +10,7 @@ import com.secretsanta.api.model.Gift;
 @Component
 public class GiftDao extends BaseDao {
     
+    private static final String GIFT_FIELDS = "gift_id, description, link, user_name, year ";
     /**
      * Get the list of gift ideas a recipient is suggesting to their Santa
      * 
@@ -18,7 +19,7 @@ public class GiftDao extends BaseDao {
      */
     public List<Gift> getIdeasForSanta(String currentUser) {
         
-        String SQL = "SELECT gift_id, description, user_name, year " + 
+        String SQL = "SELECT " + GIFT_FIELDS +
                      "  FROM " + getSchema() + ".gift " + 
                      " WHERE user_name = ? AND year = ?";
         
@@ -34,7 +35,7 @@ public class GiftDao extends BaseDao {
      */
     public List<Gift> getIdeasFromSanta(String recipientUserName) {
         
-        String SQL = "SELECT gift_id, user_name, description, year " +
+        String SQL = "SELECT " + GIFT_FIELDS +
                        "FROM " + getSchema() + ".gift " +
                       "WHERE user_name = ? AND year = ?";
         
@@ -47,7 +48,7 @@ public class GiftDao extends BaseDao {
      */
     public Gift getGiftDetail(int giftId) {
         
-        String SQL =  "SELECT gift_id, description, user_name, year " +
+        String SQL =  "SELECT  " + GIFT_FIELDS +
                         "FROM " + getSchema() + ".gift " +
                        "WHERE gift_id = ?";
         
@@ -60,12 +61,12 @@ public class GiftDao extends BaseDao {
      * @param model
      * @return
      */
-    public void createGift(String currentUser, String description) {
+    public void createGift(String currentUser, String description, String link) {
         
         String SQL =  "INSERT INTO " + getSchema() + ".gift " +
-                      "VALUES(DEFAULT, ?, ?, ?)";
+                      "VALUES(DEFAULT, ?, ?, ?, ?)";
         
-        jdbcTemplate.update(SQL, new Object[]{currentUser, description, getCurrentYear()});
+        jdbcTemplate.update(SQL, new Object[]{currentUser, description, link, getCurrentYear()});
     }
     
     /**
@@ -73,13 +74,14 @@ public class GiftDao extends BaseDao {
      * @param description
      * @return
      */
-    public void updateGift(int giftId, String description) {
+    public void updateGift(int giftId, String description, String link) {
         
         String SQL = "UPDATE " + getSchema() + ".gift " + 
-                        "SET description = ? " +
+                        "SET description = ?, " +
+                            "link = ? " +
                       "WHERE gift_id = ?";
         
-        jdbcTemplate.update(SQL, new Object[]{description, giftId});
+        jdbcTemplate.update(SQL, new Object[]{description, link, giftId});
     }
     
     /**
