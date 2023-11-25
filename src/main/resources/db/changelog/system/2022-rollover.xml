@@ -6,9 +6,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
                             http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     
-    <changeSet author="admin" id="system-rollover-2021" runAlways="${rebuild}">
+    <changeSet author="admin" id="system-rollover-2022" runAlways="${rebuild}">
         <update tableName="system" schemaName="system">
-            <column name="attribute_value" value="2021" />
+            <column name="attribute_value" value="2022" />
             <where>attribute_name = 'year'</where>
         </update>
     </changeSet>
