@@ -22,7 +22,7 @@
 <!--             <input type="radio" name="edition" value="shaw" /> Shaw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
 <!--             <input type="radio" name="edition" value="fernald"/> Fernald<br/> -->
 <!--         </fieldset> -->
-        <input type="hidden" name="edition" value="shaw" />
+        <input type="hidden" name="edition" value="fernald" />
         
         <button type="submit">Log In To Secret Santa</button>
 
