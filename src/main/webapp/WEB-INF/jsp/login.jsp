@@ -17,11 +17,12 @@
         <label for="Password">Enter your password:</label>
         <input type="password" name="password" id="password" size="15" />
 
-        <fieldset>
-            <legend>Edition</legend>
-            <input type="radio" name="edition" value="shaw" /> Shaw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="radio" name=edition value="fernald"/> Fernald<br/>
-        </fieldset>
+<!--         <fieldset> -->
+<!--             <legend>Edition</legend> -->
+<!--             <input type="radio" name="edition" value="shaw" /> Shaw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+<!--             <input type="radio" name="edition" value="fernald"/> Fernald<br/> -->
+<!--         </fieldset> -->
+        <input type="hidden" name="edition" value="shaw" />
         
         <button type="submit">Log In To Secret Santa</button>
 
