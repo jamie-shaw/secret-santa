@@ -35,12 +35,12 @@ public class SecretSantaApiApplication {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
     
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) {
+    DaoAuthenticationProvider daoAuthenticationProvider(PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
@@ -48,7 +48,7 @@ public class SecretSantaApiApplication {
     }
     
     @Bean
-    public ServletContextAttributeExporter servletContextAttributeExporter() {
+    ServletContextAttributeExporter servletContextAttributeExporter() {
         ServletContextAttributeExporter exporter = new ServletContextAttributeExporter();
         
         Map<String, Object> attributes = new HashMap<>();

@@ -76,7 +76,7 @@ public class SantaController extends BaseController {
     }
     
     @PostMapping("/changePassword")
-    public String processPasswordChange(HttpServletRequest request, @ModelAttribute("form") PasswordChangeForm form, Model model) {
+    public String processPasswordChange(HttpServletRequest request, PasswordChangeForm form, Model model) {
         
         String password = form.getPassword();
         

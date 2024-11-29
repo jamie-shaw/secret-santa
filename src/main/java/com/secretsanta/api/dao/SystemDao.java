@@ -15,7 +15,7 @@ public class SystemDao {
         String SQL = "SELECT attribute_value " +
                        "FROM system.system ";
         
-        return jdbcTemplate.queryForObject(SQL, new Object[]{}, Integer.class);
+        return jdbcTemplate.queryForObject(SQL, Integer.class);
     }
     
     
@@ -23,7 +23,7 @@ public class SystemDao {
         String SQL = "UPDATE system.system " +
                      "   SET attribute_value = ?";
         
-        jdbcTemplate.update(SQL, new Object[] {year});
+        jdbcTemplate.update(SQL, year);
     }
 
 }

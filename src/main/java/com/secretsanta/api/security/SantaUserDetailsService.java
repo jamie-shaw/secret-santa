@@ -28,7 +28,7 @@ public class SantaUserDetailsService implements UserDetailsService {
                         "FROM " + sessionContext.getSchema() + ".santa_user " +
                        "WHERE upper(user_name) = upper(?)";
 
-        SantaUserDetails userDetails = (SantaUserDetails) jdbcTemplate.queryForObject(SQL, new Object[]{username}, new UserDetailsMapper());
+        SantaUserDetails userDetails = (SantaUserDetails) jdbcTemplate.queryForObject(SQL, new UserDetailsMapper(), username);
 
         if (username.equalsIgnoreCase("jamie")) {
             SimpleGrantedAuthority admin = new SimpleGrantedAuthority("ROLE_ADMIN");

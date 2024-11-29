@@ -3,34 +3,32 @@ package com.secretsanta.api.security;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.secretsanta.api.filter.SessionContextFilter;
 
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     @Resource
     private AuthenticationProvider authenticationProvider;
 
     @Resource
     private SecurityHandler loginHandler;
-    
-    @Resource
-    PasswordEncoder passwordEncoder;
-    
+
     @Resource
     SessionContextFilter sessionContextFilter;
     
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
+            .authorizeHttpRequests()
                 .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/images/**").permitAll()
@@ -57,6 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sameOrigin()
                 .and()
             .addFilterBefore(sessionContextFilter, UsernamePasswordAuthenticationFilter.class);
+        
+        return http.build();
     }
     
     @Autowired

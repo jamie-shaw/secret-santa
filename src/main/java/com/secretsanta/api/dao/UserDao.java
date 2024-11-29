@@ -35,7 +35,7 @@ public class UserDao extends BaseDao {
                  "INNER JOIN " + getSchema() + ".santa_user ON recipient." + userFilterColumn + "= santa_user.user_name " +
                       "WHERE recipient." + recipientFilterColumn + " = ? AND Year = ?";
         
-        return jdbcTemplate.queryForObject(SQL, new Object[]{username, getCurrentYear()}, new UserMapper());
+        return jdbcTemplate.queryForObject(SQL, new UserMapper(), username, getCurrentYear());
     }
 
     public User getUser(String username) {
@@ -44,7 +44,7 @@ public class UserDao extends BaseDao {
                        "FROM " + getSchema() + ".santa_user " + 
                       "WHERE UPPER(user_name) = UPPER(?)";
         
-        return jdbcTemplate.queryForObject(SQL, new Object[]{username}, new UserMapper());
+        return jdbcTemplate.queryForObject(SQL, new UserMapper(), username);
     }
     
     public void changePassword(String username, String password) {
@@ -53,7 +53,7 @@ public class UserDao extends BaseDao {
                            " password_expired = false " +
                       "WHERE user_name = ?";
         
-        jdbcTemplate.update(SQL, new Object[] {passwordEncoder.encode(password), username});
+        jdbcTemplate.update(SQL, passwordEncoder.encode(password), username);
     }
 
     public void resetPasswords(List<String> usernames) {
@@ -65,7 +65,7 @@ public class UserDao extends BaseDao {
                           "WHERE user_name = ?";
             
             for (String username : usernames) {
-                jdbcTemplate.update(SQL, new Object[] {password, username});
+                jdbcTemplate.update(SQL, password, username);
             }
         
         }
@@ -78,7 +78,7 @@ public class UserDao extends BaseDao {
         SQL = "UPDATE " + getSchema() + ".santa_user " +
                  "SET password = ?, password_expired = true ";
         
-        jdbcTemplate.update(SQL, new Object[] {password});
+        jdbcTemplate.update(SQL, password);
     }
     
     public List<User> getAllUsers() {

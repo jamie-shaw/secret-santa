@@ -23,7 +23,7 @@ public class GiftDao extends BaseDao {
                      "  FROM " + getSchema() + ".gift " + 
                      " WHERE user_name = ? AND year = ?";
         
-        return jdbcTemplate.query(SQL, new Object[]{currentUser, getCurrentYear()}, new GiftMapper());
+        return jdbcTemplate.query(SQL, new GiftMapper(), currentUser, getCurrentYear());
     }
     
     
@@ -39,7 +39,7 @@ public class GiftDao extends BaseDao {
                        "FROM " + getSchema() + ".gift " +
                       "WHERE user_name = ? AND year = ?";
         
-        return jdbcTemplate.query(SQL, new Object[]{recipientUserName, getCurrentYear()}, new GiftMapper());
+        return jdbcTemplate.query(SQL, new GiftMapper(), recipientUserName, getCurrentYear());
     }
     
     /**
@@ -52,7 +52,7 @@ public class GiftDao extends BaseDao {
                         "FROM " + getSchema() + ".gift " +
                        "WHERE gift_id = ?";
         
-        return jdbcTemplate.queryForObject(SQL, new Object[]{giftId}, new GiftMapper());
+        return jdbcTemplate.queryForObject(SQL, new GiftMapper(), giftId);
     }
     
     /**
@@ -66,7 +66,7 @@ public class GiftDao extends BaseDao {
         String SQL =  "INSERT INTO " + getSchema() + ".gift " +
                       "VALUES(DEFAULT, ?, ?, ?, ?)";
         
-        jdbcTemplate.update(SQL, new Object[]{currentUser, description, link, getCurrentYear()});
+        jdbcTemplate.update(SQL, currentUser, description, link, getCurrentYear());
     }
     
     /**
@@ -81,7 +81,7 @@ public class GiftDao extends BaseDao {
                             "link = ? " +
                       "WHERE gift_id = ?";
         
-        jdbcTemplate.update(SQL, new Object[]{description, link, giftId});
+        jdbcTemplate.update(SQL, description, link, giftId);
     }
     
     /**
@@ -93,7 +93,7 @@ public class GiftDao extends BaseDao {
                         "FROM " + getSchema() + ".gift " +
                        "WHERE gift_id = ?";
         
-        jdbcTemplate.update(SQL, new Object[]{giftId});
+        jdbcTemplate.update(SQL, giftId);
     }
     
 }

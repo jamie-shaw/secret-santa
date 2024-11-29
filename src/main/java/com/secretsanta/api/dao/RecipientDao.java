@@ -29,14 +29,14 @@ public class RecipientDao extends BaseDao {
                         "SET assigned = true " +
                       "WHERE user_name = ? AND year = ?";
         
-        jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), getCurrentYear()});
+        jdbcTemplate.update(SQL, recipient.getUserName(), getCurrentYear());
         
         // Update user record
         SQL = "UPDATE " + getSchema() + ".recipient " +
                  "SET recipient = ? " +
                "WHERE user_name = ? AND year = ?";
         
-        jdbcTemplate.update(SQL, new Object[] {recipient.getUserName(), currentUser, getCurrentYear()});
+        jdbcTemplate.update(SQL, recipient.getUserName(), currentUser, getCurrentYear());
     }
 
     /**
@@ -49,7 +49,7 @@ public class RecipientDao extends BaseDao {
                        "FROM " + getSchema() + ".recipient " +
                       "WHERE assigned = false AND user_name <> ? AND year = ?";
         
-        return jdbcTemplate.query(SQL, new Object[] {currentUser, getCurrentYear()}, new RecipientMapper());
+        return jdbcTemplate.query(SQL, new RecipientMapper(), currentUser, getCurrentYear());
     }
     
     public Recipient getRecipientForCurrentUser(String currentUser) {
@@ -57,7 +57,7 @@ public class RecipientDao extends BaseDao {
                        "FROM " + getSchema() + ".recipient " +
                       "WHERE user_name = ? AND year = ?";
         
-       return jdbcTemplate.queryForObject(SQL, new Object[] {currentUser, getCurrentYear()}, new RecipientMapper());
+       return jdbcTemplate.queryForObject(SQL, new RecipientMapper(), currentUser, getCurrentYear());
     }
 
     public List<Recipient> getAllRecipients() {
@@ -67,7 +67,7 @@ public class RecipientDao extends BaseDao {
                       "WHERE year = ? " +
                    "ORDER BY santa_user.user_name";
         
-        return jdbcTemplate.query(SQL, new Object[]{getCurrentYear()}, new RecipientMapper());
+        return jdbcTemplate.query(SQL, new RecipientMapper(), getCurrentYear());
     } 
     
     public List<Recipient> getAllRecipientsForSelectedYear(int selectedYear) {
@@ -76,7 +76,7 @@ public class RecipientDao extends BaseDao {
                       "WHERE year = ? " +
                    "ORDER BY user_name ASC";
         
-        return jdbcTemplate.query(SQL, new Object[] {selectedYear}, new RecipientMapper());
+        return jdbcTemplate.query(SQL, new RecipientMapper(), selectedYear);
     }
 
     public List<String> getActiveYears() {
@@ -85,7 +85,7 @@ public class RecipientDao extends BaseDao {
                       "WHERE year <> ? " +
                    "ORDER BY year DESC";
         
-        return jdbcTemplate.queryForList(SQL, new Object[] {getCurrentYear()}, String.class);
+        return jdbcTemplate.queryForList(SQL, String.class, getCurrentYear());
     }
     
     public int getSelfAssignedRecipients() {
@@ -94,7 +94,7 @@ public class RecipientDao extends BaseDao {
                       "WHERE year = ? " +
                         "AND user_name = recipient";
         
-        return jdbcTemplate.queryForObject(SQL, new Object[] {getCurrentYear()}, Integer.class);
+        return jdbcTemplate.queryForObject(SQL, Integer.class, getCurrentYear());
     }
 
     public void clearPicks() {
@@ -102,7 +102,7 @@ public class RecipientDao extends BaseDao {
                         "SET recipient = '', assigned = false " +
                       "WHERE year = ?";
        
-       jdbcTemplate.update(SQL, new Object[] {getCurrentYear()});
+       jdbcTemplate.update(SQL, getCurrentYear());
         
     }
 
@@ -111,7 +111,7 @@ public class RecipientDao extends BaseDao {
                         "SET viewed = true " +
                       "WHERE user_name = ? AND year = ?";
         
-        jdbcTemplate.update(SQL, new Object[] {currentUser, getCurrentYear()});
+        jdbcTemplate.update(SQL, currentUser, getCurrentYear());
     }
     
     public void resetAllRecipients() {
@@ -126,7 +126,7 @@ public class RecipientDao extends BaseDao {
         String SQL =  "INSERT INTO " + getSchema() + ".recipient " +
                       "VALUES(?, ?, ?, ?, ?)";
         
-        jdbcTemplate.update(SQL, new Object[] {user.getUsername(), getCurrentYear(), "", false, false});
+        jdbcTemplate.update(SQL, user.getUsername(), getCurrentYear(), "", false, false);
     }
 
 }
