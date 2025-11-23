@@ -40,4 +40,5 @@
     <include file="/db/changelog/fernald/2021-recipients.xml"/>
     <include file="/db/changelog/fernald/2022-recipients.xml"/>
     <include file="/db/changelog/fernald/2023-recipients.xml"/>
+    <include file="/db/changelog/fernald/2024-recipients.xml"/>
 </databaseChangeLog>
