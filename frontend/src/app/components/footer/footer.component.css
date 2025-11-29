@@ -1,0 +1,7 @@
+.lights {
+    background-image: url("/assets/images/ChristmasLightsUp.gif");
+    background-repeat: repeat-x;
+    background-position: bottom; 
+    height: 20px;
+    margin: 0 auto;
+}

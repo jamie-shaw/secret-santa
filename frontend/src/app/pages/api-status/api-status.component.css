@@ -1,0 +1,70 @@
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+h2 {
+  color: #2d6f2e;
+  margin-bottom: 15px;
+}
+
+h3 {
+  margin-bottom: 10px;
+}
+
+.content p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.api-status {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.loading {
+  color: #666;
+  font-style: italic;
+  padding: 10px;
+}
+
+.error {
+  color: #c41e3a;
+  padding: 10px;
+  background-color: #ffe6e6;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.success {
+  color: #2d6f2e;
+  padding: 10px;
+  background-color: #e6ffe6;
+  border-radius: 4px;
+}
+
+.api-details {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.api-details p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.btn {
+  background-color: #7f2b00;
+  color: white;
+}
+
+.btn:hover {
+  background-color: #a01828;
+}

@@ -34,6 +34,8 @@ public class SecurityConfig {
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/fonts/**").permitAll()
+                .antMatchers("/app/**").permitAll()  // Allow access to Angular app
+                .antMatchers("/api/**").permitAll()  // Allow access to REST API endpoints
                 .antMatchers("/changePassword").permitAll()
                 .antMatchers("/login/error").permitAll()
                 .anyRequest().authenticated()

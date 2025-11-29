@@ -1,0 +1,38 @@
+@font-face {
+    font-family: "Harrington Regular";
+    font-style: normal;
+    font-weight: normal;
+    src: url("/assets/fonts/HARNGTON.woff");
+}
+
+.lights {
+    background-image: url("/assets/images/ChristmasLightsDown.gif");
+    background-repeat: repeat-x;
+    background-position: bottom; 
+    height: 40px;
+}
+h1 {
+    font-family: 'Harrington Regular';
+    font-weight: normal;
+    font-size: 32px;
+    text-shadow: 3px 4px 3px #777777;
+    margin: 0;
+}
+
+@media ( min-width : 320px) {
+    h1 {
+        font-size: 40px;
+    }
+}
+
+@media ( min-width : 400px) {
+    h1 {
+        font-size: 48px;
+    }
+}
+
+@media ( min-width : 600px) {
+    h1 {
+        font-size: 64px;
+    }
+}
