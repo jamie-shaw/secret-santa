@@ -1,14 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #ffffdf;
-  color: #7f2b00;
-  border-top: 5px solid #7f2b00;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffdf;
+    color: #7f2b00;
+    border-top: 5px solid #7f2b00;
 }
-button, .button {
-    transition: all .4s ease;
+
+#image-container {
+    border-radius: 5px;
+    color: #333333;
+    float: right;
+    padding: 10px;
+    width: 35%;
+}
+
+#form-container {
+    width: 55%;
+    float: left;
+    margin-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+button,
+.button {
+    transition: all 0.4s ease;
     border: #7f2b00 1px solid;
     font-weight: 700;
     color: #7f2b00;
@@ -21,7 +39,9 @@ button, .button {
     font-size: 14px;
     font-family: Arial, Verdana, Helvetica, sans-serif;
 }
-button:hover, .button:hover {
+
+button:hover,
+.button:hover {
     cursor: pointer;
     text-shadow: none;
     color: #ffffff;
@@ -29,6 +49,49 @@ button:hover, .button:hover {
     text-decoration: none;
     opacity: 1;
 }
-button:focus, .button:hover {
-    outline: 0;
+
+input,
+select,
+textarea,
+a {
+    margin: 10px 0 10px 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    width: 100%;
+    line-height: 1.3;
+}
+input[type="radio"] {
+    width: auto;
+}
+input:focus,
+select:focus,
+textarea:focus {
+    outline-width: 0px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline-width: 5px;
+}
+
+fieldset {
+    padding-bottom: 8px;
+    border: 1px solid #7f2b00;
+    border-radius: 4px;
+    margin-top: 0.75em;
+    margin-bottom: 2.5em;
+}
+
+legend {
+    margin: auto;
+    padding: 0 1em;
+}
+
+select,
+option {
+    background-color: #ffffff;
 }

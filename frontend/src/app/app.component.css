@@ -1,27 +1,27 @@
 /* Global app styles */
 :host {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  text-align: center;
+    text-align: center;
 }
 
 header {
-  width: 100%;
-  max-width: 600px;
-  height: 115px;
-  margin: 5px auto 0 auto;
+    width: 100%;
+    max-width: 600px;
+    height: 115px;
+    margin: 5px auto 0 auto;
 }
 
 main {
-  flex: 1;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto 0 auto;
+    flex: 1;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto 20px auto;
 }
 
 footer {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto 0 auto;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 0 auto;
 }
