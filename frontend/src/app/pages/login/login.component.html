@@ -1,0 +1,28 @@
+<aside id="image-container">
+    <img src="/assets/images/SantaHead.gif" alt="Santa" />
+</aside>
+
+<section id="form-container">
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+        <!--         <c:if test="${ERROR ne null}">
+            <div class="alert alert-error">
+                Your login failed. Please check your username and password and try again.
+            </div>
+        </c:if> -->
+
+        <label for="UserName">Enter your user name:</label>
+        <input type="text" name="username" id="username" size="15" autocomplete="off" ngModel />
+
+        <label for="Password">Enter your password:</label>
+        <input type="password" name="password" id="password" size="15" ngModel />
+
+        <!--         <fieldset> -->
+        <!--             <legend>Edition</legend> -->
+        <!--             <input type="radio" name="edition" value="shaw" /> Shaw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+        <!--             <input type="radio" name="edition" value="fernald"/> Fernald<br/> -->
+        <!--         </fieldset> -->
+        <input type="hidden" name="edition" [(ngModel)]="edition" />
+
+        <button type="submit">Log In To Secret Santa</button>
+    </form>
+</section>
