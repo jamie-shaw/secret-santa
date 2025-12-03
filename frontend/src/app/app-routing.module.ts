@@ -2,10 +2,30 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { ApiStatusComponent } from "./pages/api-status/api-status.component";
 import { LoginComponent } from "./pages/login/login.component";
+import { HomeComponent } from "./pages/home/home.component";
+import { AdminComponent } from "./pages/admin/admin.component";
+import { GiftDetailComponent } from "./pages/gift-detail/gift-detail.component";
+import { GiftSummaryComponent } from "./pages/gift-summary/gift-summary.component";
+import { HistoryComponent } from "./pages/history/history.component";
+import { PickStatusComponent } from "./pages/pick-status/pick-status.component";
+import { PasswordChangeComponent } from "./pages/password-change/password-change.component";
+import { PasswordResetComponent } from "./pages/password-reset/password-reset.component";
+import { EmailComponent } from "./pages/email/email.component";
+import { IdeasComponent } from "./pages/ideas/ideas.component";
 
 const routes: Routes = [
     { path: "", component: LoginComponent },
-    { path: "api-status", component: ApiStatusComponent }
+    { path: "home", component: HomeComponent },
+    { path: "admin", component: AdminComponent },
+    { path: "gift-detail", component: GiftDetailComponent },
+    { path: "gift-summary", component: GiftSummaryComponent },
+    { path: "history", component: HistoryComponent },
+    { path: "pick-status", component: PickStatusComponent },
+    { path: "password-change", component: PasswordChangeComponent },
+    { path: "password-reset", component: PasswordResetComponent },
+    { path: "email", component: EmailComponent },
+    { path: "ideas", component: IdeasComponent },
+    { path: "api-status", component: ApiStatusComponent },
 ];
 
 @NgModule({
