@@ -64,7 +64,7 @@
         <insert tableName="santa_user" schemaName="fernald">
             <column name="user_name" value="Jon"/>
             <column name="display_name" value ="Jon"/>
-            <column name="email" value ="jon.woolson@suz.com"/>
+            <column name="email" value ="jonathanwoolson@gmail.com"/>
             <column name="password" value ="{noop}santa"/>
             <column name="password_expired" value ="true"/>
         </insert>
