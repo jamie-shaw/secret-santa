@@ -20,9 +20,7 @@ export class LoginComponent {
         private router: Router,
     ) {}
     onSubmit(form: NgForm) {
-        console.log('Form values:', form.value); // Debug log
         const { username, password, edition } = form.value;
-        console.log('Edition value:', edition); // Debug log
         this.http.post(`/api/auth/login`, { username, password, edition }).subscribe({
             next: (response) => {
                 // Success (2xx status codes)
