@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Authentication Controller for handling login/logout operations
@@ -46,7 +47,7 @@ public class AuthController {
      * Response: { "token": "jwt-token", "type": "Bearer", "username": "user", "displayName": "User Name", "email": "user@example.com" }
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
         try {
             // Set the edition in session context
             sessionContext.setSchema(loginRequest.getEdition());
@@ -76,6 +77,8 @@ public class AuthController {
                     user.getEmail()
             );
 
+            request.getSession().setAttribute("CURRENT_USER", user.getUsername());
+            
             return ResponseEntity.ok(response);
 
         } catch (BadCredentialsException e) {
