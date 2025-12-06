@@ -1,6 +1,7 @@
 package com.secretsanta.api.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,10 +19,10 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
+    @Inject
     private JwtTokenProvider tokenProvider;
 
-    @Autowired
+    @Inject
     private SantaUserDetailsService userDetailsService;
 
     @Override

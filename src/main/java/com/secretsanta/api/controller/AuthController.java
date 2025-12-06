@@ -1,13 +1,9 @@
 package com.secretsanta.api.controller;
 
-import com.secretsanta.api.dao.UserDao;
-import com.secretsanta.api.dto.ErrorResponse;
-import com.secretsanta.api.dto.LoginRequest;
-import com.secretsanta.api.dto.LoginResponse;
-import com.secretsanta.api.model.SessionContext;
-import com.secretsanta.api.model.User;
-import com.secretsanta.api.security.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,10 +12,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import com.secretsanta.api.dao.UserDao;
+import com.secretsanta.api.dto.ErrorResponse;
+import com.secretsanta.api.dto.LoginRequest;
+import com.secretsanta.api.dto.LoginResponse;
+import com.secretsanta.api.model.SessionContext;
+import com.secretsanta.api.model.User;
+import com.secretsanta.api.security.JwtTokenProvider;
 
 /**
  * Authentication Controller for handling login/logout operations
@@ -28,10 +33,10 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
+    @Inject
     private AuthenticationManager authenticationManager;
 
-    @Autowired
+    @Inject
     private JwtTokenProvider tokenProvider;
 
     @Resource

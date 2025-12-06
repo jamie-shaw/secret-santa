@@ -1,8 +1,8 @@
 package com.secretsanta.api.security;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -27,56 +27,53 @@ public class SecurityConfig {
     @Resource
     SessionContextFilter sessionContextFilter;
     
-    @Autowired
+    @Inject
     private JwtAuthenticationFilter jwtAuthenticationFilter;
-    
+
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
     
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests()
-                .antMatchers("/favicon.ico").permitAll()
-                .antMatchers("/css/**").permitAll()
-                .antMatchers("/images/**").permitAll()
-                .antMatchers("/js/**").permitAll()
-                .antMatchers("/fonts/**").permitAll()
-                .antMatchers("/app/**").permitAll()  // Allow access to Angular app
-                .antMatchers("/api/status").permitAll()  // Allow status endpoint
-                .antMatchers("/api/health").permitAll()  // Allow health endpoint
-                .antMatchers("/api/auth/login").permitAll()  // Allow login endpoint
-                .antMatchers("/api/auth/logout").permitAll()  // Allow logout endpoint
-                .antMatchers("/api/**").authenticated()  // Require authentication for other API endpoints
-                .antMatchers("/changePassword").permitAll()
-                .antMatchers("/login/error").permitAll()
-                .anyRequest().authenticated()
-                .and()
-            .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .successHandler(loginHandler)
-                .failureHandler(loginHandler)
-                .and()
-            .logout()
-                .logoutUrl("/logout")
-                .deleteCookies("JSESSIONID")
-                .and()
-            .csrf()
-                .disable()
-            .headers()
-                .frameOptions()
-                    .sameOrigin()
-                .and()
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(sessionContextFilter, UsernamePasswordAuthenticationFilter.class);
+                .authorizeHttpRequests(requests -> requests
+                        .antMatchers("/favicon.ico").permitAll()
+                        .antMatchers("/css/**").permitAll()
+                        .antMatchers("/images/**").permitAll()
+                        .antMatchers("/js/**").permitAll()
+                        .antMatchers("/fonts/**").permitAll()
+                        .antMatchers("/app/**").permitAll()  // Allow access to Angular app
+                        .antMatchers("/api/status").permitAll()  // Allow status endpoint
+                        .antMatchers("/api/health").permitAll()  // Allow health endpoint
+                        .antMatchers("/api/auth/login").permitAll()  // Allow login endpoint
+                        .antMatchers("/api/auth/logout").permitAll()  // Allow logout endpoint
+                        .antMatchers("/api/system/currentYear").permitAll()  // Allow current year endpoint
+                        .antMatchers("/api/**").authenticated()  // Require authentication for other API endpoints
+                        .antMatchers("/changePassword").permitAll()
+                        .antMatchers("/login/error").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .permitAll()
+                        .successHandler(loginHandler)
+                        .failureHandler(loginHandler))
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .deleteCookies("JSESSIONID"))
+                .csrf(csrf -> csrf
+                        .disable())
+                .headers(headers -> headers
+                        .frameOptions()
+                        .sameOrigin())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(sessionContextFilter, UsernamePasswordAuthenticationFilter.class);
         
         return http.build();
     }
     
-    @Autowired
+    @Inject
     public void configureAuthManager(AuthenticationManagerBuilder authenticationManagerBuilder) {
         authenticationManagerBuilder.authenticationProvider(authenticationProvider);
     }
