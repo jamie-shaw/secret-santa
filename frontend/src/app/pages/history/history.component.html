@@ -1,4 +1,42 @@
-<div class="history-container">
-    <h1>Gift History</h1>
-    <p>View past Secret Santa gift exchanges.</p>
-</div>
+<aside id="image-container">
+    <img border="0" src="/assets/images/SantaPresents2.gif" alt="Santa with Presents" />
+</aside>
+
+<section id="form-container">
+    <div *ngIf="loading" class="loading">Checking the archives...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <div *ngIf="recipients && !loading" class="success">
+        <form id="mainForm" action="/history" method="get">
+            Choose a year:
+            <select name="selectedYear" id="selectedYear" onchange="updateAction()">
+                c:forEach var="year" items="YEARS">
+                <option value="year">year</option>
+                /c:forEach>
+            </select>
+        </form>
+
+        <table>
+            <caption>
+                <b>SELECTED_YEAR</b>
+            </caption>
+            <tr>
+                <th>Santa</th>
+                <th>Recipient</th>
+            </tr>
+
+            <tr *ngFor="let recipient of recipients">
+                <td>{{ recipient.userName }}</td>
+                <td>{{ recipient.recipient }}</td>
+            </tr>
+        </table>
+
+        <a href="/home" class="button">Back to Santa Home</a>
+    </div>
+</section>
+
+<script>
+    function updateAction() {
+        mainForm.action = "/history/" + selectedYear.value;
+        mainForm.submit();
+</script>
