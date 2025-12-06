@@ -1,4 +1,31 @@
-<div class="home-container">
-    <h1>Welcome to Secret Santa! 🎅🎄</h1>
-    <p>Manage your Secret Santa gift exchange here.</p>
-</div>
+<aside id="image-container">
+    <img border="0" src="/assets/images/SantaPointing2.gif" alt="Santa" />
+</aside>
+
+<section id="form-container">
+    <div *ngIf="true">
+        <h1>You're xx's Secret Santa!</h1>
+
+        <a class="button" href="/ideas">See Ideas from xx</a>
+        <a class="button" href="/gift-summary">Give My Secret Santa Some Ideas</a>
+        <a class="button" href="/email">Send a Message</a>
+        <a class="button" href="/pick-status">See Who's Picked a Recipient</a>
+        <a class="button" href="/history">See Ghosts of Christmas Past</a>
+        <a class="button" href="/logout">Log Out</a>
+
+        <br />
+        <strong>Only xx days 'til Santa comes!</strong>
+    </div>
+    <div *ngIf="false">
+        <br />
+        <h1>You haven't chosen a recipient yet!</h1>
+        <br />
+        <form>
+            <button class="button" formaction="/pick" formmethod="post">Choose a recipient</button>
+        </form>
+    </div>
+
+    <!--<seauthorize access="hasAnyRole('ADMIN')">-->
+    <a class="button" href="admin">Santa Admin</a>
+    <!--</seauthorize>-->
+</section>
