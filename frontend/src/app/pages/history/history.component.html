@@ -3,22 +3,25 @@
 </aside>
 
 <section id="form-container">
-    <div *ngIf="loading" class="loading">Checking the archives...</div>
+    <div *ngIf="loading$ | async" class="loading">Checking the archives...</div>
     <div *ngIf="error" class="error">{{ error }}</div>
 
-    <div *ngIf="recipients && !loading" class="success">
-        <form id="mainForm" action="/history" method="get">
+    <div *ngIf="!(loading$ | async) && !error" class="success">
+        <form id="mainForm">
             Choose a year:
-            <select name="selectedYear" id="selectedYear" onchange="updateAction()">
-                c:forEach var="year" items="YEARS">
-                <option value="year">year</option>
-                /c:forEach>
+            <select
+                name="selectedYear"
+                id="selectedYear"
+                [value]="selectedYear"
+                (change)="onYearChange($event)"
+            >
+                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
             </select>
         </form>
 
         <table>
             <caption>
-                <b>SELECTED_YEAR</b>
+                <b>{{ selectedYear }}</b>
             </caption>
             <tr>
                 <th>Santa</th>
@@ -34,9 +37,3 @@
         <a href="/home" class="button">Back to Santa Home</a>
     </div>
 </section>
-
-<script>
-    function updateAction() {
-        mainForm.action = "/history/" + selectedYear.value;
-        mainForm.submit();
-</script>

@@ -1,0 +1,33 @@
+package com.secretsanta.api.controller;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.secretsanta.api.dao.RecipientDao;
+import com.secretsanta.api.model.Recipient;
+
+@RestController
+@SessionAttributes({"CURRENT_USER", "RECIPIENT"})
+@RequestMapping("/api")
+public class RecipientController extends BaseController {
+    
+    @Resource
+    private RecipientDao recipientDao;
+    
+    @GetMapping("/history/years")
+    public List<String> getAvailableYears() {
+        return recipientDao.getActiveYears();
+    }
+    
+    @GetMapping("/history/{selectedYear}")
+    public List<Recipient> getPickHistory(@PathVariable Integer selectedYear) {
+        return recipientDao.getAllRecipientsForSelectedYear(selectedYear);
+    }
+}
