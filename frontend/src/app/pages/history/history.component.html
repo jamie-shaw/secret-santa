@@ -3,22 +3,23 @@
 </aside>
 
 <section id="form-container">
-    <div *ngIf="loading$ | async" class="loading">Checking the archives...</div>
     <div *ngIf="error" class="error">{{ error }}</div>
 
-    <div *ngIf="!(loading$ | async) && !error" class="success">
-        <form id="mainForm">
-            Choose a year:
-            <select
-                name="selectedYear"
-                id="selectedYear"
-                [value]="selectedYear"
-                (change)="onYearChange($event)"
-            >
-                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-            </select>
-        </form>
+    <form id="mainForm" *ngIf="!(yearsLoading$ | async)">
+        Choose a year:
+        <select
+            name="selectedYear"
+            id="selectedYear"
+            [(ngModel)]="selectedYear"
+            (ngModelChange)="onYearChange($event)"
+        >
+            <option *ngFor="let year of years" [ngValue]="year">{{ year }}</option>
+        </select>
+    </form>
 
+    <div *ngIf="loading$ | async" class="loading">Checking the archives...</div>
+
+    <div *ngIf="!(recipientsLoading$ | async) && !error" class="success">
         <table>
             <caption>
                 <b>{{ selectedYear }}</b>
