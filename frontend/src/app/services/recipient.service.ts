@@ -7,9 +7,6 @@ import { Recipient } from "../models/recipient.model";
     providedIn: "root",
 })
 export class RecipientService {
-    private currentRecipientSubject = new BehaviorSubject<number | null>(null);
-    public currentRecipient$ = this.currentRecipientSubject.asObservable();
-
     constructor(private http: HttpClient) {}
 
     getRecipient(): Observable<Recipient> {
