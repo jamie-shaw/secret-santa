@@ -1,7 +1,6 @@
 package com.secretsanta.api.controller;
 
 import javax.annotation.Resource;
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -18,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.secretsanta.api.dao.RecipientDao;
 import com.secretsanta.api.dao.UserDao;
 import com.secretsanta.api.dto.ErrorResponse;
 import com.secretsanta.api.dto.LoginRequest;
 import com.secretsanta.api.dto.LoginResponse;
+import com.secretsanta.api.model.Recipient;
 import com.secretsanta.api.model.SessionContext;
 import com.secretsanta.api.model.User;
 import com.secretsanta.api.security.JwtTokenProvider;
@@ -33,14 +34,17 @@ import com.secretsanta.api.security.JwtTokenProvider;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Inject
+    @Resource
     private AuthenticationManager authenticationManager;
 
-    @Inject
+    @Resource
     private JwtTokenProvider tokenProvider;
 
     @Resource
     private UserDao userDao;
+    
+    @Resource
+    private RecipientDao recipientDao;
     
     @Resource
     private SessionContext sessionContext;
@@ -83,6 +87,9 @@ public class AuthController {
             );
 
             request.getSession().setAttribute("CURRENT_USER", user.getUsername());
+            
+            Recipient recipient = recipientDao.getRecipientForCurrentUser(user.getUsername());
+            request.getSession().setAttribute("RECIPIENT", recipient);
             
             return ResponseEntity.ok(response);
 
