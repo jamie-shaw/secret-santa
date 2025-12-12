@@ -7,11 +7,12 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
+import { RecipientService } from "./services/recipient.service";
 
 @NgModule({
     declarations: [AppComponent],
-    bootstrap: [AppComponent],
     imports: [BrowserModule, AppRoutingModule, FormsModule, HeaderComponent, FooterComponent],
-    providers: [provideHttpClient(withInterceptorsFromDi())],
+    providers: [RecipientService, provideHttpClient(withInterceptorsFromDi())],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -10,6 +10,10 @@ export class GiftService {
     constructor(private http: HttpClient) {}
 
     getIdeasForSanta(): Observable<Gift[]> {
+        return this.http.get<Gift[]>("/api/gift/summary");
+    }
+
+    getIdeasFromRecipient(): Observable<Gift[]> {
         return this.http.get<Gift[]>("/api/idea/summary");
     }
 }

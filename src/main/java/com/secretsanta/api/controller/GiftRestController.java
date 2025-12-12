@@ -38,14 +38,14 @@ public class GiftRestController extends BaseController {
     private EmailService emailService;
     
     @GetMapping("/gift/summary")
-    public List<Gift> showIdeasForSanta(@ModelAttribute("CURRENT_USER") String currentUser,
+    public List<Gift> getIdeasForSanta(@ModelAttribute("CURRENT_USER") String currentUser,
                                   Model model) {
         
         return dao.getIdeasForSanta(currentUser);
     }
     
     @GetMapping("/idea/summary")
-    public List<Gift> showIdeasFromSanta(@ModelAttribute("RECIPIENT") Recipient recipient) {
+    public List<Gift> getIdeasFromRecipient(@ModelAttribute("RECIPIENT") Recipient recipient) {
         return dao.getIdeasFromSanta(recipient.getRecipient());
     }
     

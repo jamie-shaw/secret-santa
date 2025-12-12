@@ -1,10 +1,9 @@
 <aside id="image-container">
-    <img border="0" src="/assets/images/SantaPointing2.gif" alt="Santa" />
+    <img src="/assets/images/SantaPointing2.gif" alt="Santa" />
 </aside>
 
 <section id="form-container">
-    <h1>'s Ideas for Santa</h1>
-
+    <h1>{{ recipientName }}'s Ideas for Santa</h1>
     <table>
         <ng-container *ngIf="ideas">
             <tr *ngFor="let idea of ideas">

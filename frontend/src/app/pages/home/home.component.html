@@ -1,12 +1,12 @@
 <aside id="image-container">
-    <img border="0" src="/assets/images/SantaPointing2.gif" alt="Santa" />
+    <img src="/assets/images/SantaPointing2.gif" alt="Santa" />
 </aside>
 
 <section id="form-container">
     <div *ngIf="true">
-        <h1>You're xx's Secret Santa!</h1>
+        <h1>You're {{ recipient?.recipient }}'s Secret Santa!</h1>
 
-        <a class="button" href="/ideas">See Ideas from xx</a>
+        <a class="button" href="/ideas">See Ideas from {{ recipient?.recipient }}</a>
         <a class="button" href="/gift-summary">Give My Secret Santa Some Ideas</a>
         <a class="button" href="/email">Send a Message</a>
         <a class="button" href="/pick-status">See Who's Picked a Recipient</a>

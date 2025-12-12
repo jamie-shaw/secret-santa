@@ -15,6 +15,7 @@ import { IdeasComponent } from "./pages/ideas/ideas.component";
 
 const routes: Routes = [
     { path: "", component: LoginComponent },
+    { path: "logout", component: LoginComponent },
     { path: "home", component: HomeComponent },
     { path: "admin", component: AdminComponent },
     { path: "gift-detail", component: GiftDetailComponent },
