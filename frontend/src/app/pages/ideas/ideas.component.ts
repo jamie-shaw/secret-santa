@@ -6,10 +6,9 @@ import { GiftService } from "src/app/services/gift.service";
 
 @Component({
     selector: "app-ideas",
-    standalone: true,
     imports: [CommonModule],
     templateUrl: "./ideas.component.html",
-    styleUrl: "./ideas.component.css",
+    styleUrl: "./ideas.component.css"
 })
 export class IdeasComponent {
     ideas: Gift[] = [];

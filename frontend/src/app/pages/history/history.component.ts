@@ -7,10 +7,9 @@ import { combineLatest, map, BehaviorSubject } from "rxjs";
 
 @Component({
     selector: "app-history",
-    standalone: true,
     imports: [CommonModule, FormsModule],
     templateUrl: "./history.component.html",
-    styleUrl: "./history.component.css",
+    styleUrl: "./history.component.css"
 })
 export class HistoryComponent {
     recipients: Recipient[] = [];

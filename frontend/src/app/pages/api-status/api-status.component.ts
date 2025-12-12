@@ -3,11 +3,10 @@ import { HttpClient } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: "app-api-status",
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: "./api-status.component.html",
-  styleUrl: "./api-status.component.css",
+    selector: "app-api-status",
+    imports: [CommonModule],
+    templateUrl: "./api-status.component.html",
+    styleUrl: "./api-status.component.css"
 })
 export class ApiStatusComponent implements OnInit {
   apiStatus: any = null;
