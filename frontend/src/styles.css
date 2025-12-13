@@ -154,3 +154,8 @@ p {
 .wrap-all {
     word-break: break-all;
 }
+.loading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}

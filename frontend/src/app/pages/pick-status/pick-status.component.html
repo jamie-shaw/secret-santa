@@ -3,19 +3,28 @@
 </aside>
 
 <section id="form-container">
-    <table>
-        <caption>
-            Secret Santa Pick Status
-        </caption>
-        <tr *ngFor="let picker of pickers">
-            <td>
-                {{ picker.userName }}
-            </td>
-            <td>
-                <input type="checkbox" [checked]="picker.viewed" onclick="this.checked = true" />
-            </td>
-        </tr>
-    </table>
+    <div *ngIf="loading$ | async" class="loading">Checking the list...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <div *ngIf="pickers && !(loading$ | async)" class="success">
+        <table>
+            <caption>
+                Secret Santa Pick Status
+            </caption>
+            <tr *ngFor="let picker of pickers">
+                <td>
+                    {{ picker.userName }}
+                </td>
+                <td>
+                    <input
+                        type="checkbox"
+                        [checked]="picker.viewed"
+                        onclick="this.checked = true"
+                    />
+                </td>
+            </tr>
+        </table>
+    </div>
 
     <a class="button" routerLink="/home">Back to Santa Home</a>
 </section>
