@@ -3,24 +3,28 @@
 </aside>
 
 <section id="form-container">
-    <h1>{{ recipientName }}'s Ideas for Santa</h1>
-    <table>
-        <ng-container *ngIf="ideas">
-            <tr *ngFor="let idea of ideas">
-                <td>
-                    <div class="wrap-all">{{ idea.description }}</div>
-                </td>
-                <td style="text-align: right">
-                    <a href="{{ idea.link }}" target="_blank">Link</a>
-                </td>
-            </tr>
-        </ng-container>
-        <ng-container *ngIf="ideas.length == 0">
-            <tr>
-                <td class="align-center">No suggestions have been made yet.</td>
-            </tr>
-        </ng-container>
-    </table>
+    <div *ngIf="loading$ | async" class="loading">Checking the list...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
 
+    <div *ngIf="ideas && !(loading$ | async)" class="success">
+        <h1>{{ recipientName }}'s Ideas for Santa</h1>
+        <table>
+            <ng-container *ngIf="ideas">
+                <tr *ngFor="let idea of ideas">
+                    <td>
+                        <div class="wrap-all">{{ idea.description }}</div>
+                    </td>
+                    <td style="text-align: right">
+                        <a href="{{ idea.link }}" target="_blank">Link</a>
+                    </td>
+                </tr>
+            </ng-container>
+            <ng-container *ngIf="ideas.length == 0">
+                <tr>
+                    <td class="align-center">No suggestions have been made yet.</td>
+                </tr>
+            </ng-container>
+        </table>
+    </div>
     <a class="button" routerLink="/home">Back to Santa Home</a>
 </section>

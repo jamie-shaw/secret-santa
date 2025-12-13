@@ -16,9 +16,13 @@ export class PickStatusComponent {
     constructor(private recipientService: RecipientService) {}
 
     ngOnInit() {
-        this.recipientService.fetchPickStatus().subscribe((data) => {
-            console.log("Pick Status Data:", data);
-            this.pickers = data;
+        this.recipientService.fetchPickStatus().subscribe({
+            next: (pickers) => {
+                this.pickers = pickers;
+            },
+            error: (err) => {
+                console.error("Failed to fetch pick status", err);
+            },
         });
     }
 }
