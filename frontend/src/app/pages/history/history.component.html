@@ -1,9 +1,11 @@
 <aside id="image-container">
-    <img border="0" src="/assets/images/SantaPresents2.gif" alt="Santa with Presents" />
+    <img src="/assets/images/SantaPresents2.gif" alt="Santa with Presents" />
 </aside>
 
 <section id="form-container">
-    <div *ngIf="error" class="error">{{ error }}</div>
+    @if (error$ | async; as error) {
+        <div class="error">{{ error }}</div>
+    }
 
     <form id="mainForm" *ngIf="!(yearsLoading$ | async)">
         Choose a year:
@@ -19,7 +21,7 @@
 
     <div *ngIf="loading$ | async" class="loading">Checking the archives...</div>
 
-    <div *ngIf="!(recipientsLoading$ | async) && !error" class="success">
+    <div *ngIf="!(recipientsLoading$ | async) && !(error$ | async)" class="success">
         <table>
             <caption>
                 <b>{{ selectedYear }}</b>

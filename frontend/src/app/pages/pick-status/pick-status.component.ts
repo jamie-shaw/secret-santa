@@ -1,35 +1,35 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { BehaviorSubject } from "rxjs";
 import { Recipient } from "src/app/models/recipient.model";
 import { RecipientService } from "src/app/services/recipient.service";
+import { LoadingStateService } from "src/app/services/loading-state.service";
 
 @Component({
     selector: "app-pick-status",
     imports: [CommonModule, RouterLink],
+    providers: [LoadingStateService],
     templateUrl: "./pick-status.component.html",
     styleUrl: "./pick-status.component.css",
 })
 export class PickStatusComponent {
-    loading$ = new BehaviorSubject<boolean>(true);
-    error: string | null = null;
+    loading$ = this.loadingState.loading$;
+    error$ = this.loadingState.error$;
 
     pickers: Recipient[] = [];
 
-    constructor(private recipientService: RecipientService) {}
+    constructor(
+        private recipientService: RecipientService,
+        private loadingState: LoadingStateService,
+    ) {}
 
     ngOnInit() {
-        this.recipientService.fetchPickStatus().subscribe({
-            next: (pickers) => {
-                this.pickers = pickers;
-                this.loading$.next(false);
-            },
-            error: (err) => {
-                this.loading$.next(false);
-                this.error = "Failed to fetch pick status";
-                console.error(this.error, err);
-            },
-        });
+        this.loadingState
+            .withLoading(this.recipientService.fetchPickStatus(), "Failed to fetch pick status")
+            .subscribe({
+                next: (pickers) => {
+                    this.pickers = pickers;
+                },
+            });
     }
 }

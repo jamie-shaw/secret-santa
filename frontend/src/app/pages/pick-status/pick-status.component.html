@@ -4,7 +4,7 @@
 
 <section id="form-container">
     <div *ngIf="loading$ | async" class="loading">Checking the list...</div>
-    <div *ngIf="error" class="error">{{ error }}</div>
+    <div *ngIf="error$ | async" class="error">{{ error$ | async }}</div>
 
     <div *ngIf="pickers && !(loading$ | async)" class="success">
         <table>

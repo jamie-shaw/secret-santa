@@ -1,28 +1,29 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { BehaviorSubject } from "rxjs";
 import { Gift } from "src/app/models/gift.model";
 import { GiftService } from "src/app/services/gift.service";
 import { RecipientService } from "src/app/services/recipient.service";
+import { LoadingStateService } from "src/app/services/loading-state.service";
 
 @Component({
     selector: "app-ideas",
     standalone: true,
     imports: [CommonModule, RouterLink],
+    providers: [LoadingStateService],
     templateUrl: "./ideas.component.html",
     styleUrl: "./ideas.component.css",
 })
 export class IdeasComponent {
     ideas: Gift[] = [];
     recipientName: string | undefined;
-    error: string | null = null;
-
-    loading$ = new BehaviorSubject<boolean>(true);
+    loading$ = this.loadingState.loading$;
+    error$ = this.loadingState.error$;
 
     constructor(
         private giftService: GiftService,
         private recipientService: RecipientService,
+        private loadingState: LoadingStateService,
     ) {}
 
     ngOnInit() {
@@ -31,19 +32,13 @@ export class IdeasComponent {
     }
 
     private getIdeas() {
-        this.giftService.fetchIdeasFromRecipient().subscribe({
-            next: (ideas) => {
-                this.ideas = ideas;
-                this.loading$.next(false);
-                console.log(this.ideas);
-            },
-            error: (err) => this.handleError(err),
-        });
-    }
-
-    private handleError(err: any) {
-        this.error = "Failed to get history data";
-        this.loading$.next(false);
-        console.error("API Error:", err);
+        this.loadingState
+            .withLoading(this.giftService.fetchIdeasFromRecipient(), "Failed to get ideas data")
+            .subscribe({
+                next: (ideas) => {
+                    this.ideas = ideas;
+                    console.log(this.ideas);
+                },
+            });
     }
 }
