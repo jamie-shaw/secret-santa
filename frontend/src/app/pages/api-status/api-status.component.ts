@@ -6,33 +6,33 @@ import { CommonModule } from "@angular/common";
     selector: "app-api-status",
     imports: [CommonModule],
     templateUrl: "./api-status.component.html",
-    styleUrl: "./api-status.component.css"
+    styleUrl: "./api-status.component.css",
 })
 export class ApiStatusComponent implements OnInit {
-  apiStatus: any = null;
-  loading = false;
-  error: string | null = null;
+    apiStatus: any = null;
+    loading = false;
+    error: string | null = null;
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-    this.checkApiStatus();
-  }
+    ngOnInit() {
+        this.checkApiStatus();
+    }
 
-  checkApiStatus() {
-    this.loading = true;
-    this.error = null;
+    checkApiStatus() {
+        this.loading = true;
+        this.error = null;
 
-    this.http.get("/api/status").subscribe({
-      next: (data) => {
-        this.apiStatus = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        this.error = "Failed to connect to API";
-        this.loading = false;
-        console.error("API Error:", err);
-      },
-    });
-  }
+        this.http.get("/api/status").subscribe({
+            next: (data) => {
+                this.apiStatus = data;
+                this.loading = false;
+            },
+            error: (err) => {
+                this.error = "Failed to connect to API";
+                this.loading = false;
+                console.error("API Error:", err);
+            },
+        });
+    }
 }

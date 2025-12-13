@@ -1,22 +1,20 @@
 <div class="content">
-  <h2>Angular Integration Complete!</h2>
-  <p>This is your Angular application embedded in Spring Boot.</p>
-  <p>You can now start building your Secret Santa features here!</p>
+    <h2>Angular Integration Complete!</h2>
+    <p>This is your Angular application embedded in Spring Boot.</p>
+    <p>You can now start building your Secret Santa features here!</p>
 
-  <div class="api-status">
-    <h3>API Connection Status</h3>
-    <div *ngIf="loading" class="loading">Checking API connection...</div>
-    <div *ngIf="error" class="error">{{ error }}</div>
-    <div *ngIf="apiStatus && !loading" class="success">
-      <p>✓ Successfully connected to Spring Boot API!</p>
-      <div class="api-details">
-        <p><strong>Status:</strong> {{ apiStatus.status }}</p>
-        <p><strong>Message:</strong> {{ apiStatus.message }}</p>
-        <p>
-          <strong>Timestamp:</strong> {{ apiStatus.timestamp | date: "medium" }}
-        </p>
-      </div>
+    <div class="api-status">
+        <h3>API Connection Status</h3>
+        <div *ngIf="loading" class="loading">Checking API connection...</div>
+        <div *ngIf="error" class="error">{{ error }}</div>
+        <div *ngIf="apiStatus && !loading" class="success">
+            <p>✓ Successfully connected to Spring Boot API!</p>
+            <div class="api-details">
+                <p><strong>Status:</strong> {{ apiStatus.status }}</p>
+                <p><strong>Message:</strong> {{ apiStatus.message }}</p>
+                <p><strong>Timestamp:</strong> {{ apiStatus.timestamp | date: "medium" }}</p>
+            </div>
+        </div>
+        <button (click)="checkApiStatus()" class="btn">Refresh Status</button>
     </div>
-    <button (click)="checkApiStatus()" class="btn">Refresh Status</button>
-  </div>
 </div>
