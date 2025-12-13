@@ -31,7 +31,7 @@ export class IdeasComponent {
     }
 
     private getIdeas() {
-        this.giftService.getIdeasFromRecipient().subscribe({
+        this.giftService.fetchIdeasFromRecipient().subscribe({
             next: (ideas) => {
                 this.ideas = ideas;
                 this.loading$.next(false);

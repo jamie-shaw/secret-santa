@@ -9,11 +9,11 @@ import { Gift } from "../models/gift.model";
 export class GiftService {
     constructor(private http: HttpClient) {}
 
-    getIdeasForSanta(): Observable<Gift[]> {
+    fetchIdeasForSanta(): Observable<Gift[]> {
         return this.http.get<Gift[]>("/api/gift/summary");
     }
 
-    getIdeasFromRecipient(): Observable<Gift[]> {
+    fetchIdeasFromRecipient(): Observable<Gift[]> {
         return this.http.get<Gift[]>("/api/idea/summary");
     }
 }

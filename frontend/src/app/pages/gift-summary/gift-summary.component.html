@@ -1,4 +1,42 @@
-<div class="gift-summary-container">
-    <h1>Gift Summary</h1>
-    <p>View a summary of all gifts.</p>
-</div>
+<aside id="image-container">
+    <img src="/assets/images/SantaLaughing2.gif" alt="Santa Laughing" />
+</aside>
+
+<section id="form-container">
+    <table class="bodytable">
+        <caption>
+            Ideas for My Santa
+        </caption>
+
+        <tr *ngFor="let gift of gifts">
+            <td width="100%">
+                <div class="wrap-all">{{ gift.description }}</div>
+                <br /><br />
+                <a href="{{ gift.link }}" target="_blank">Link</a>
+            </td>
+            <td>
+                <form>
+                    <button type="submit" formmethod="get" formaction="/gift/{{ gift.id }}">
+                        Change
+                    </button>
+                    <button type="submit" formmethod="post" formaction="/gift/{{ gift.id }}/delete">
+                        Remove
+                    </button>
+                </form>
+            </td>
+        </tr>
+        <tr *ngIf="gifts.length == 0">
+            <td class="align-center">No suggestions have been made yet.</td>
+        </tr>
+    </table>
+
+    <a class="button" routerLink="/gift">
+        @if (gifts && gifts.length > 0) {
+            Add Another Idea
+        } @else {
+            Add An Idea
+        }
+    </a>
+
+    <a class="button" href="/home">Back to Santa Home</a>
+</section>
