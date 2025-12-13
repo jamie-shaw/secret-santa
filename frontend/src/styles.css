@@ -24,6 +24,9 @@ th {
     font-weight: bold;
     padding: 8px 10px;
 }
+caption + tr td {
+    border-top: 0px;
+}
 tr:first-child td {
     border-top: 0px;
 }

@@ -65,4 +65,8 @@ export class RecipientService {
     fetchHistoryYears(): Observable<number[]> {
         return this.http.get<number[]>("/api/history/years");
     }
+
+    fetchPickStatus(): Observable<Recipient[]> {
+        return this.http.get<Recipient[]>("/api/pick/status");
+    }
 }

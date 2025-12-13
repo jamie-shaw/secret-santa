@@ -1,4 +1,21 @@
-<div class="pick-status-container">
-    <h1>Pick Status</h1>
-    <p>View the status of Secret Santa picks.</p>
-</div>
+<aside id="image-container">
+    <img src="/assets/images/SantaRunning2.gif" alt="Santa Running" />
+</aside>
+
+<section id="form-container">
+    <table>
+        <caption>
+            Secret Santa Pick Status
+        </caption>
+        <tr *ngFor="let picker of pickers">
+            <td>
+                {{ picker.userName }}
+            </td>
+            <td>
+                <input type="checkbox" [checked]="picker.viewed" onclick="this.checked = true" />
+            </td>
+        </tr>
+    </table>
+
+    <a class="button" routerLink="/home">Back to Santa Home</a>
+</section>

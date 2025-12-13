@@ -1,7 +1,10 @@
 package com.secretsanta.api.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,5 +25,10 @@ public class RecipientRestController extends BaseController {
     @GetMapping("/recipient")
     public Recipient getRecipient(@ModelAttribute("CURRENT_USER") String currentUser) {
         return recipientDao.getRecipientForCurrentUser(currentUser);
+    }
+    
+    @GetMapping("/pick/status")
+    public List<Recipient> showPickStatus(Model model) {
+        return recipientDao.getAllRecipients();
     }
 }
