@@ -112,14 +112,6 @@ public class SantaController extends BaseController {
         return "redirect:/home";
     }
     
-    @PostMapping("/pick")
-    public String processPick(@ModelAttribute("CURRENT_USER") String currentUser) {
-        
-        recipientDao.processPick(currentUser);
-        
-        return "redirect:/home";
-    }
-    
     @GetMapping({"/", "/home"})
     public String showHome(@ModelAttribute("CURRENT_USER") String currentUser,
                            Model model) {
