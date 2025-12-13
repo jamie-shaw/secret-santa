@@ -6,6 +6,7 @@ body {
     background-color: #ffffdf;
     color: #7f2b00;
     border-top: 5px solid #7f2b00;
+    font-size: 14px;
 }
 table {
     color: #7f2b00;
@@ -14,11 +15,13 @@ table {
     border-radius: 5px;
     width: 100%;
     margin-bottom: 30px;
+    line-height: 170%;
 }
 td {
     border-top: #7f2b00 1px solid;
     vertical-align: middle;
     padding: 8px 10px;
+    text-align: left;
 }
 th {
     font-weight: bold;
