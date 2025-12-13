@@ -17,9 +17,9 @@ export class RecipientService {
 
     constructor(private http: HttpClient) {
         console.log("RecipientService constructor called. Instance ID:", this.instanceId);
-        
+
         // Restore from sessionStorage if available
-        const stored = sessionStorage.getItem('currentRecipient');
+        const stored = sessionStorage.getItem("currentRecipient");
         if (stored) {
             const recipient = JSON.parse(stored);
             this.currentRecipientSubject.next(recipient);
@@ -44,13 +44,18 @@ export class RecipientService {
     }
 
     fetchRecipient(): Observable<Recipient> {
-        return this.http
-            .get<Recipient>("/api/recipient")
-            .pipe(tap((recipient) => {
-                console.log("Setting currentRecipient in service. Instance ID:", this.instanceId, "Recipient:", recipient);
+        return this.http.get<Recipient>("/api/recipient").pipe(
+            tap((recipient) => {
+                console.log(
+                    "Setting currentRecipient in service. Instance ID:",
+                    this.instanceId,
+                    "Recipient:",
+                    recipient,
+                );
                 this.currentRecipientSubject.next(recipient);
-                sessionStorage.setItem('currentRecipient', JSON.stringify(recipient));
-            }));
+                sessionStorage.setItem("currentRecipient", JSON.stringify(recipient));
+            }),
+        );
     }
 
     fetchAllRecipients(year: number): Observable<Recipient[]> {

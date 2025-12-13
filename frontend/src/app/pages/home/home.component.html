@@ -6,12 +6,12 @@
     <div *ngIf="true">
         <h1>You're {{ recipient?.recipient }}'s Secret Santa!</h1>
 
-        <a class="button" href="/ideas">See Ideas from {{ recipient?.recipient }}</a>
-        <a class="button" href="/gift-summary">Give My Secret Santa Some Ideas</a>
-        <a class="button" href="/email">Send a Message</a>
-        <a class="button" href="/pick-status">See Who's Picked a Recipient</a>
-        <a class="button" href="/history">See Ghosts of Christmas Past</a>
-        <a class="button" href="/logout">Log Out</a>
+        <a class="button" routerLink="/ideas">See Ideas from {{ recipient?.recipient }}</a>
+        <a class="button" routerLink="/gift-summary">Give My Secret Santa Some Ideas</a>
+        <a class="button" routerLink="/email">Send a Message</a>
+        <a class="button" routerLink="/pick-status">See Who's Picked a Recipient</a>
+        <a class="button" routerLink="/history">See Ghosts of Christmas Past</a>
+        <a class="button" routerLink="/logout">Log Out</a>
 
         <br />
         <strong>Only xx days 'til Santa comes!</strong>
@@ -26,6 +26,6 @@
     </div>
 
     <!--<seauthorize access="hasAnyRole('ADMIN')">-->
-    <a class="button" href="admin">Santa Admin</a>
+    <a class="button" routerLink="/admin">Santa Admin</a>
     <!--</seauthorize>-->
 </section>

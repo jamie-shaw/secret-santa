@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { BehaviorSubject } from "rxjs";
 import { Gift } from "src/app/models/gift.model";
 import { GiftService } from "src/app/services/gift.service";
@@ -8,7 +9,7 @@ import { RecipientService } from "src/app/services/recipient.service";
 @Component({
     selector: "app-ideas",
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, RouterLink],
     templateUrl: "./ideas.component.html",
     styleUrl: "./ideas.component.css",
 })
@@ -26,7 +27,7 @@ export class IdeasComponent {
 
     ngOnInit() {
         this.getIdeas();
-        this.recipientName = this.recipientService.currentRecipient?.userName;
+        this.recipientName = this.recipientService.currentRecipient?.recipient;
     }
 
     private getIdeas() {

@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { RecipientService } from "../../services/recipient.service";
 import { Recipient } from "src/app/models/recipient.model";
 import { CommonModule } from "@angular/common";
@@ -7,7 +8,7 @@ import { combineLatest, map, BehaviorSubject } from "rxjs";
 
 @Component({
     selector: "app-history",
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, RouterLink],
     templateUrl: "./history.component.html",
     styleUrl: "./history.component.css"
 })

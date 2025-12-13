@@ -1,13 +1,14 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
 import { RecipientService } from "src/app/services/recipient.service";
 import { Recipient } from "src/app/models/recipient.model";
 
 @Component({
     selector: "app-home",
-    imports: [CommonModule],
+    imports: [CommonModule, RouterLink],
     templateUrl: "./home.component.html",
-    styleUrl: "./home.component.css"
+    styleUrl: "./home.component.css",
 })
 export class HomeComponent {
     recipient: Recipient | null = null;
@@ -15,16 +16,13 @@ export class HomeComponent {
     constructor(private recipientService: RecipientService) {}
 
     ngOnInit() {
-        // Preload recipient data
-        console.log("Fetching recipient data...");
-        this.recipientService.fetchRecipient().subscribe({
-            next: (recipient) => {
-                this.recipient = recipient;
-                console.log("Recipient data fetched:", recipient);
-            },
-            error: (err) => {
-                console.error("Failed to fetch recipient data:", err);
-            },
-        });
+        if (this.recipient == null) {
+            // Preload recipient data
+            console.log("Fetching recipient data...");
+            this.recipientService.fetchRecipient();
+            this.recipient = this.recipientService.currentRecipient;
+        } else {
+            this.recipient = this.recipientService.currentRecipient;
+        }
     }
 }
