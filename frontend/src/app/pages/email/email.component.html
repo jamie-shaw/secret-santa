@@ -1,4 +1,40 @@
-<div class="email-container">
-    <h1>Email Notifications</h1>
-    <p>Send and manage email notifications.</p>
-</div>
+<aside id="image-container">
+    <img src="assets/images/SantaPointing2.gif" alt="Santa Pointing" />
+</aside>
+
+<section id="form-container">
+    <div *ngIf="loading$ | async" class="loading">Sending message...</div>
+    <div *ngIf="error$ | async" class="error">{{ error$ | async }}</div>
+    <div *ngIf="success" class="success">{{ success }}</div>
+
+    <form #emailForm="ngForm" (ngSubmit)="onSubmit(emailForm)">
+        <fieldset>
+            <legend>&nbsp;Send message to:&nbsp;</legend>
+            <input type="radio" name="to" value="SANTA" [(ngModel)]="emailRequest.addressee" /> My
+            Secret Santa&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="to" value="RECIPIENT" [(ngModel)]="emailRequest.addressee" />
+            My Recipient <br />
+        </fieldset>
+
+        Please enter your message below:
+        <br />
+        <textarea
+            #messageField="ngModel"
+            id="message"
+            name="message"
+            [(ngModel)]="emailRequest.message"
+            rows="3"
+            cols="40"
+            maxlength="250"
+            required
+        ></textarea>
+        <div *ngIf="messageField.invalid && (messageField.dirty || messageField.touched)">
+            <small *ngIf="messageField.errors?.['required']">Message is required.</small>
+        </div>
+        <br />
+
+        <button type="submit" [disabled]="emailForm.invalid">Send Message</button>
+    </form>
+
+    <a class="button" routerLink="/home">Back to Santa Home</a>
+</section>
