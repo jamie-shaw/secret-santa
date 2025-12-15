@@ -50,12 +50,8 @@ public class GiftRestController extends BaseController {
     }
     
     @GetMapping("/gift/{giftId}")
-    public String showGiftDetail(@PathVariable int giftId, Model model) {
-        
-        Gift gift = dao.getGiftDetail(giftId);
-        model.addAttribute("GIFT", gift);
-
-        return "gift-detail";
+    public Gift showGiftDetail(@PathVariable int giftId, Model model) {
+        return dao.getGiftDetail(giftId);
     }
     
     @GetMapping("/gift")

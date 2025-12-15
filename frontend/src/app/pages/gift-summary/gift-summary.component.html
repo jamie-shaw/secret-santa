@@ -19,10 +19,9 @@
                     <a href="{{ gift.link }}" target="_blank">Link</a>
                 </td>
                 <td>
+                    <a class="button" routerLink="/gift/{{ gift.id }}">Change</a>
+
                     <form>
-                        <button type="submit" formmethod="get" formaction="/gift/{{ gift.id }}">
-                            Change
-                        </button>
                         <button
                             type="submit"
                             formmethod="post"

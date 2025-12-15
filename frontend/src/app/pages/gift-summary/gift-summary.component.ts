@@ -13,22 +13,19 @@ import { LoadingStateService } from "src/app/services/loading-state.service";
     styleUrl: "./gift-summary.component.css",
 })
 export class GiftSummaryComponent {
-    loading$ = this.loadingState.loading$;
-    error$ = this.loadingState.error$;
+    loading$ = this.loadingStateService.loading$;
+    error$ = this.loadingStateService.error$;
 
     gifts: Gift[] = [];
 
     constructor(
         private giftService: GiftService,
-        private loadingState: LoadingStateService,
+        private loadingStateService: LoadingStateService,
     ) {}
 
     ngOnInit() {
-        this.loadingState
-            .withLoading(
-                this.giftService.fetchIdeasForSanta(),
-                "Failed to fetch gift ideas for Santa",
-            )
+        this.loadingStateService
+            .fetch(this.giftService.fetchIdeasForSanta(), "Failed to fetch gift ideas for Santa")
             .subscribe({
                 next: (gifts) => {
                     this.gifts = gifts;

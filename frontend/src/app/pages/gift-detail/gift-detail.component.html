@@ -1,4 +1,24 @@
-<div class="gift-detail-container">
-    <h1>Gift Details</h1>
-    <p>View and manage gift information.</p>
-</div>
+<aside id="image-container">
+    <img src="/assets/images/SantaLaughing2.gif" alt="Santa Laughing" />
+</aside>
+
+<section id="form-container">
+    <form method="post" onSubmit="onSubmit()">
+        <p>
+            <b>Please enter a description of your gift idea:</b>
+            <textarea name="description" rows="2" cols="40" id="description" maxlength="250">{{
+                gift?.description
+            }}</textarea>
+            <br />
+            <b>Please paste a link to your gift idea (optional):</b>
+            <textarea name="link" rows="2" cols="40" id="link" maxlength="1000">{{
+                gift?.link
+            }}</textarea>
+            <br />
+            <button>Save Idea</button>
+        </p>
+    </form>
+    <p>
+        <a class="button" routerLink="/give/summary">Cancel</a>
+    </p>
+</section>

@@ -16,4 +16,8 @@ export class GiftService {
     fetchIdeasFromRecipient(): Observable<Gift[]> {
         return this.http.get<Gift[]>("/api/idea/summary");
     }
+
+    fetchGift(id: string): Observable<Gift> {
+        return this.http.get<Gift>(`/api/gift/${id}`);
+    }
 }
