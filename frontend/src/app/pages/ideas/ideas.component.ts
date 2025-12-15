@@ -33,7 +33,7 @@ export class IdeasComponent {
 
     private getIdeas() {
         this.loadingState
-            .withLoading(this.giftService.fetchIdeasFromRecipient(), "Failed to get ideas data")
+            .fetch(this.giftService.fetchIdeasFromRecipient(), "Failed to get ideas data")
             .subscribe({
                 next: (ideas) => {
                     this.ideas = ideas;

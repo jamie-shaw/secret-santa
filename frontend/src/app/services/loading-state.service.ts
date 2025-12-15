@@ -17,7 +17,7 @@ export class LoadingStateService {
     /**
      * Wraps an observable with automatic loading state management
      */
-    withLoading<T>(
+    fetch<T>(
         observable: Observable<T>,
         errorMessage: string = "Failed to load data",
     ): Observable<T> {

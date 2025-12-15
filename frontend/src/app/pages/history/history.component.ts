@@ -50,7 +50,7 @@ export class HistoryComponent {
 
     private getHistoryYears() {
         this.yearsLoading
-            .withLoading(this.recipientService.fetchHistoryYears(), "Failed to get history years")
+            .fetch(this.recipientService.fetchHistoryYears(), "Failed to get history years")
             .subscribe({
                 next: (years) => {
                     this.years = years;
@@ -63,7 +63,7 @@ export class HistoryComponent {
 
     private getAllRecipientsForYear(year: number) {
         this.recipientsLoading
-            .withLoading(this.recipientService.fetchAllRecipients(year), "Failed to get recipients")
+            .fetch(this.recipientService.fetchAllRecipients(year), "Failed to get recipients")
             .subscribe({
                 next: (recipients) => {
                     this.recipients = recipients;

@@ -25,7 +25,7 @@ export class PickStatusComponent {
 
     ngOnInit() {
         this.loadingState
-            .withLoading(this.recipientService.fetchPickStatus(), "Failed to fetch pick status")
+            .fetch(this.recipientService.fetchPickStatus(), "Failed to fetch pick status")
             .subscribe({
                 next: (pickers) => {
                     this.pickers = pickers;

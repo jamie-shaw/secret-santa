@@ -32,7 +32,7 @@ export class EmailComponent {
 
         this.success = null;
         this.loadingState
-            .withLoading(this.emailService.sendEmail(this.emailRequest), "Failed to send email")
+            .fetch(this.emailService.sendEmail(this.emailRequest), "Failed to send email")
             .subscribe({
                 next: () => {
                     this.success = "Message sent successfully!";
