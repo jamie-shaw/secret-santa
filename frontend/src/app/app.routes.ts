@@ -1,6 +1,4 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { ApiStatusComponent } from "./pages/api-status/api-status.component";
+import { Routes } from "@angular/router";
 import { LoginComponent } from "./pages/login/login.component";
 import { HomeComponent } from "./pages/home/home.component";
 import { AdminComponent } from "./pages/admin/admin.component";
@@ -12,8 +10,9 @@ import { PasswordChangeComponent } from "./pages/password-change/password-change
 import { PasswordResetComponent } from "./pages/password-reset/password-reset.component";
 import { EmailComponent } from "./pages/email/email.component";
 import { IdeasComponent } from "./pages/ideas/ideas.component";
+import { ApiStatusComponent } from "./pages/api-status/api-status.component";
 
-const routes: Routes = [
+export const routes: Routes = [
     { path: "", component: LoginComponent },
     { path: "logout", component: LoginComponent },
     { path: "home", component: HomeComponent },
@@ -28,9 +27,3 @@ const routes: Routes = [
     { path: "ideas", component: IdeasComponent },
     { path: "api-status", component: ApiStatusComponent },
 ];
-
-@NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule],
-})
-export class AppRoutingModule {}

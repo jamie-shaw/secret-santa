@@ -3,47 +3,54 @@
 </aside>
 
 <section id="form-container">
-    <div *ngIf="loading$ | async" class="loading">Checking the list...</div>
-    <div *ngIf="error$ | async" class="error">{{ error$ | async }}</div>
+    @if (loading$ | async) {
+        <div class="loading">Checking the list...</div>
+    }
+    @if (error$ | async) {
+        <div class="error">{{ error$ | async }}</div>
+    }
 
-    <div *ngIf="gifts && gifts.length != 0 && !(loading$ | async)" class="success">
-        <table class="bodytable">
-            <caption>
-                Ideas for My Santa
-            </caption>
-
-            <tr *ngFor="let gift of gifts">
-                <td width="100%">
-                    <div class="wrap-all">{{ gift.description }}</div>
-                    <br /><br />
-                    <a href="{{ gift.link }}" target="_blank">Link</a>
-                </td>
-                <td>
-                    <a class="button" routerLink="/gift/{{ gift.id }}">Change</a>
-
-                    <form>
-                        <button
-                            type="submit"
-                            formmethod="post"
-                            formaction="/gift/{{ gift.id }}/delete"
-                        >
-                            Remove
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            <tr *ngIf="gifts.length == 0">
-                <td class="align-center">No suggestions have been made yet.</td>
-            </tr>
-        </table>
-
-        <a class="button" routerLink="/gift">
-            @if (gifts && gifts.length > 0) {
-                Add Another Idea
-            } @else {
-                Add An Idea
-            }
-        </a>
-    </div>
+    @if (gifts && gifts.length != 0 && !(loading$ | async)) {
+        <div class="success">
+            <table class="bodytable">
+                <caption>
+                    Ideas for My Santa
+                </caption>
+                @for (gift of gifts; track gift.id) {
+                    <tr>
+                        <td width="100%">
+                            <div class="wrap-all">{{ gift.description }}</div>
+                            <br /><br />
+                            <a href="{{ gift.link }}" target="_blank">Link</a>
+                        </td>
+                        <td>
+                            <a class="button" routerLink="/gift/{{ gift.id }}">Change</a>
+                            <form>
+                                <button
+                                    type="submit"
+                                    formmethod="post"
+                                    formaction="/gift/{{ gift.id }}/delete"
+                                >
+                                    Remove
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                @if (gifts.length == 0) {
+                    <tr>
+                        <td class="align-center">No suggestions have been made yet.</td>
+                    </tr>
+                }
+            </table>
+            <a class="button" routerLink="/gift">
+                @if (gifts && gifts.length > 0) {
+                    Add Another Idea
+                } @else {
+                    Add An Idea
+                }
+            </a>
+        </div>
+    }
     <a class="button" href="/home">Back to Santa Home</a>
 </section>

@@ -3,28 +3,36 @@
 </aside>
 
 <section id="form-container">
-    <div *ngIf="loading$ | async" class="loading">Checking the list...</div>
-    <div *ngIf="error$ | async" class="error">{{ error$ | async }}</div>
+    @if (loading$ | async) {
+        <div class="loading">Checking the list...</div>
+    }
+    @if (error$ | async) {
+        <div class="error">{{ error$ | async }}</div>
+    }
 
-    <div *ngIf="pickers && !(loading$ | async)" class="success">
-        <table>
-            <caption>
-                Secret Santa Pick Status
-            </caption>
-            <tr *ngFor="let picker of pickers">
-                <td>
-                    {{ picker.userName }}
-                </td>
-                <td>
-                    <input
-                        type="checkbox"
-                        [checked]="picker.viewed"
-                        onclick="this.checked = true"
-                    />
-                </td>
-            </tr>
-        </table>
-    </div>
+    @if (pickers && !(loading$ | async)) {
+        <div class="success">
+            <table>
+                <caption>
+                    Secret Santa Pick Status
+                </caption>
+                @for (picker of pickers; track picker.userName) {
+                    <tr>
+                        <td>
+                            {{ picker.userName }}
+                        </td>
+                        <td>
+                            <input
+                                type="checkbox"
+                                [checked]="picker.viewed"
+                                onclick="this.checked = true"
+                            />
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
 
     <a class="button" routerLink="/home">Back to Santa Home</a>
 </section>

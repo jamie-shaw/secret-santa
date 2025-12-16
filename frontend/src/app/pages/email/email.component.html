@@ -3,9 +3,15 @@
 </aside>
 
 <section id="form-container">
-    <div *ngIf="loading$ | async" class="loading">Sending message...</div>
-    <div *ngIf="error$ | async" class="error">{{ error$ | async }}</div>
-    <div *ngIf="success" class="success">{{ success }}</div>
+    @if (loading$ | async) {
+        <div class="loading">Sending message...</div>
+    }
+    @if (error$ | async) {
+        <div class="error">{{ error$ | async }}</div>
+    }
+    @if (success) {
+        <div class="success">{{ success }}</div>
+    }
 
     <form #emailForm="ngForm" (ngSubmit)="onSubmit(emailForm)">
         <fieldset>
@@ -28,9 +34,13 @@
             maxlength="250"
             required
         ></textarea>
-        <div *ngIf="messageField.invalid && (messageField.dirty || messageField.touched)">
-            <small *ngIf="messageField.errors?.['required']">Message is required.</small>
-        </div>
+        @if (messageField.invalid && (messageField.dirty || messageField.touched)) {
+            <div>
+                @if (messageField.errors?.["required"]) {
+                    <small>Message is required.</small>
+                }
+            </div>
+        }
         <br />
 
         <button type="submit" [disabled]="emailForm.invalid">Send Message</button>

@@ -1,6 +1,29 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { bootstrapApplication } from "@angular/platform-browser";
+import { provideZoneChangeDetection } from "@angular/core";
+import { provideRouter } from "@angular/router";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { providePrimeNG } from "primeng/config";
+import Aura from "@primeng/themes/aura";
+import { MessageService as PrimeMessageService } from "primeng/api";
 
-import { AppModule } from './app/app.module';
+import { AppComponent } from "./app/app.component";
+import { routes } from "./app/app.routes";
+import { RecipientService } from "./app/services/recipient.service";
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+    providers: [
+        provideZoneChangeDetection({ eventCoalescing: true }),
+        provideRouter(routes),
+        provideHttpClient(withInterceptorsFromDi()),
+        providePrimeNG({
+            theme: {
+                preset: Aura,
+                options: {
+                    darkModeSelector: false || "none",
+                },
+            },
+        }),
+        RecipientService,
+        PrimeMessageService,
+    ],
+}).catch((err) => console.error(err));
