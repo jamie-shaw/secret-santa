@@ -8,7 +8,7 @@ import { FooterComponent } from "./components/footer/footer.component";
     templateUrl: "./app.component.html",
     styleUrls: ["./app.component.css"],
     standalone: true,
-    imports: [RouterOutlet, HeaderComponent, FooterComponent]
+    imports: [RouterOutlet, HeaderComponent, FooterComponent],
 })
 export class AppComponent implements OnInit {
     title = "Secret Santa";
