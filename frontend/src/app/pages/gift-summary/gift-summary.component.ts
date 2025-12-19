@@ -4,10 +4,13 @@ import { RouterLink } from "@angular/router";
 import { Gift } from "src/app/models/gift.model";
 import { GiftService } from "src/app/services/gift.service";
 import { LoadingStateService } from "src/app/services/loading-state.service";
+import { ToastModule } from "primeng/toast";
+import { MessageService as PrimeMessageService } from "primeng/api";
+import { MessageService } from "src/app/services/message.service";
 
 @Component({
     selector: "app-gift-summary",
-    imports: [CommonModule, RouterLink],
+    imports: [CommonModule, RouterLink, ToastModule],
     providers: [LoadingStateService],
     templateUrl: "./gift-summary.component.html",
     styleUrl: "./gift-summary.component.css",
@@ -21,6 +24,7 @@ export class GiftSummaryComponent {
     constructor(
         private giftService: GiftService,
         private loadingStateService: LoadingStateService,
+        private messageService: MessageService,
     ) {}
 
     ngOnInit() {
@@ -31,5 +35,12 @@ export class GiftSummaryComponent {
                     this.gifts = gifts;
                 },
             });
+
+        // Subscribe to errors and show toast
+        this.error$.subscribe((error) => {
+            if (error) {
+                this.messageService.showError(error);
+            }
+        });
     }
 }

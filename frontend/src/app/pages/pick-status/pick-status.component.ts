@@ -4,10 +4,13 @@ import { RouterLink } from "@angular/router";
 import { Recipient } from "src/app/models/recipient.model";
 import { RecipientService } from "src/app/services/recipient.service";
 import { LoadingStateService } from "src/app/services/loading-state.service";
+import { ToastModule } from "primeng/toast";
+import { MessageService as PrimeMessageService } from "primeng/api";
+import { MessageService } from "src/app/services/message.service";
 
 @Component({
     selector: "app-pick-status",
-    imports: [CommonModule, RouterLink],
+    imports: [CommonModule, RouterLink, ToastModule],
     providers: [LoadingStateService],
     templateUrl: "./pick-status.component.html",
     styleUrl: "./pick-status.component.css",
@@ -21,6 +24,7 @@ export class PickStatusComponent {
     constructor(
         private recipientService: RecipientService,
         private loadingState: LoadingStateService,
+        private messageService: MessageService,
     ) {}
 
     ngOnInit() {
@@ -31,5 +35,11 @@ export class PickStatusComponent {
                     this.pickers = pickers;
                 },
             });
+
+        this.error$.subscribe((error) => {
+            if (error) {
+                this.messageService.showError(error);
+            }
+        });
     }
 }

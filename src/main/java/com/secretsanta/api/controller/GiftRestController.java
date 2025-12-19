@@ -78,6 +78,10 @@ public class GiftRestController extends BaseController {
                              @ModelAttribute("giftForm") Gift gift,
                              @ModelAttribute("CURRENT_USER") String currentUser) {
         
+        int a = 1;
+        if (a == 1) {
+            throw new RuntimeException("busted");
+        }
         // store the idea
         dao.updateGift(giftId, gift.getDescription(), gift.getLink());
         

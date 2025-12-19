@@ -1,3 +1,5 @@
+<p-toast position="top-center" />
+
 <aside id="image-container">
     <img src="/assets/images/SantaLaughing2.gif" alt="Santa Laughing" />
 </aside>
@@ -5,9 +7,6 @@
 <section id="form-container">
     @if (loading$ | async) {
         <div class="loading">Checking the list...</div>
-    }
-    @if (error$ | async) {
-        <div class="error">{{ error$ | async }}</div>
     }
 
     @if (gifts && gifts.length != 0 && !(loading$ | async)) {
@@ -36,21 +35,15 @@
                             </form>
                         </td>
                     </tr>
-                }
-                @if (gifts.length == 0) {
+                } @empty {
                     <tr>
                         <td class="align-center">No suggestions have been made yet.</td>
                     </tr>
                 }
             </table>
-            <a class="button" routerLink="/gift">
-                @if (gifts && gifts.length > 0) {
-                    Add Another Idea
-                } @else {
-                    Add An Idea
-                }
-            </a>
+            <a class="button" routerLink="/gift">Add An Idea </a>
         </div>
     }
+    [[]]
     <a class="button" href="/home">Back to Santa Home</a>
 </section>

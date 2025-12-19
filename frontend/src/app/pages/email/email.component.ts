@@ -4,10 +4,13 @@ import { FormsModule, NgForm } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { EmailRequest, EmailService } from "src/app/services/email.service";
 import { LoadingStateService } from "src/app/services/loading-state.service";
+import { ToastModule } from "primeng/toast";
+import { MessageService as PrimeMessageService } from "primeng/api";
+import { MessageService } from "src/app/services/message.service";
 
 @Component({
     selector: "app-email",
-    imports: [CommonModule, FormsModule, RouterLink],
+    imports: [CommonModule, FormsModule, RouterLink, ToastModule],
     providers: [LoadingStateService],
     templateUrl: "./email.component.html",
     styleUrl: "./email.component.css",
@@ -23,7 +26,16 @@ export class EmailComponent {
     constructor(
         private emailService: EmailService,
         private loadingState: LoadingStateService,
+        private messageService: MessageService,
     ) {}
+
+    ngOnInit() {
+        this.error$.subscribe((error) => {
+            if (error) {
+                this.messageService.showError(error);
+            }
+        });
+    }
 
     onSubmit(emailForm: NgForm) {
         if (emailForm.invalid) {
@@ -35,7 +47,7 @@ export class EmailComponent {
             .fetch(this.emailService.sendEmail(this.emailRequest), "Failed to send email")
             .subscribe({
                 next: () => {
-                    this.success = "Message sent successfully!";
+                    this.messageService.showSuccess("Message sent successfully!");
                     this.emailRequest.message = "";
                     emailForm.resetForm({ addressee: this.emailRequest.addressee });
                 },

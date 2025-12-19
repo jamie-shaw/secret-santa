@@ -6,10 +6,13 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { combineLatest, map } from "rxjs";
 import { LoadingStateService } from "src/app/services/loading-state.service";
+import { ToastModule } from "primeng/toast";
+import { MessageService as PrimeMessageService } from "primeng/api";
+import { MessageService } from "src/app/services/message.service";
 
 @Component({
     selector: "app-history",
-    imports: [CommonModule, FormsModule, RouterLink],
+    imports: [CommonModule, FormsModule, RouterLink, ToastModule],
     providers: [
         LoadingStateService,
         { provide: "recipientsLoading", useClass: LoadingStateService },
@@ -38,10 +41,17 @@ export class HistoryComponent {
         private recipientService: RecipientService,
         private recipientsLoading: LoadingStateService,
         private yearsLoading: LoadingStateService,
+        private messageService: MessageService,
     ) {}
 
     ngOnInit() {
         this.getHistoryYears();
+
+        this.error$.subscribe((error) => {
+            if (error) {
+                this.messageService.showError(error);
+            }
+        });
     }
 
     onYearChange(year: number) {

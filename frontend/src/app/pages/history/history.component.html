@@ -1,12 +1,10 @@
+<p-toast position="top-center" />
+
 <aside id="image-container">
     <img src="/assets/images/SantaPresents2.gif" alt="Santa with Presents" />
 </aside>
 
 <section id="form-container">
-    @if (error$ | async; as error) {
-        <div class="error">{{ error }}</div>
-    }
-
     @if (!(yearsLoading$ | async)) {
         <form id="mainForm">
             Choose a year:
