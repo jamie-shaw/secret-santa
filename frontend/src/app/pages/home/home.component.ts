@@ -16,13 +16,6 @@ export class HomeComponent {
     constructor(private recipientService: RecipientService) {}
 
     ngOnInit() {
-        if (this.recipient == null) {
-            // Preload recipient data
-            console.log("Fetching recipient data...");
-            this.recipientService.fetchRecipient();
-            this.recipient = this.recipientService.currentRecipient;
-        } else {
-            this.recipient = this.recipientService.currentRecipient;
-        }
+        this.recipient = this.recipientService.currentRecipient;
     }
 }
