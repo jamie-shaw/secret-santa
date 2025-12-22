@@ -26,23 +26,21 @@
     }
 
     @if (!(recipientsLoading$ | async) && !(error$ | async)) {
-        <div class="success">
-            <table>
-                <caption>
-                    <b>{{ selectedYear }}</b>
-                </caption>
+        <table>
+            <caption>
+                <b>{{ selectedYear }}</b>
+            </caption>
+            <tr>
+                <th>Santa</th>
+                <th>Recipient</th>
+            </tr>
+            @for (recipient of recipients; track recipient) {
                 <tr>
-                    <th>Santa</th>
-                    <th>Recipient</th>
+                    <td>{{ recipient.userName }}</td>
+                    <td>{{ recipient.recipient }}</td>
                 </tr>
-                @for (recipient of recipients; track recipient) {
-                    <tr>
-                        <td>{{ recipient.userName }}</td>
-                        <td>{{ recipient.recipient }}</td>
-                    </tr>
-                }
-            </table>
-            <a routerLink="/home" class="button">Back to Santa Home</a>
-        </div>
+            }
+        </table>
+        <a routerLink="/home" class="button">Back to Santa Home</a>
     }
 </section>

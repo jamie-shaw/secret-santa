@@ -7,31 +7,28 @@
 <section id="form-container">
     @if (loading$ | async) {
         <div class="loading">Checking the list...</div>
-    }
 
-    @if (ideas && !(loading$ | async)) {
-        <div class="success">
-            <h1>{{ recipientName }}'s Ideas for Santa</h1>
-            <table>
-                @if (ideas) {
-                    @for (idea of ideas; track idea) {
-                        <tr>
-                            <td>
-                                <div class="wrap-all">{{ idea.description }}</div>
-                            </td>
-                            <td style="text-align: right">
-                                <a href="{{ idea.link }}" target="_blank">Link</a>
-                            </td>
-                        </tr>
-                    }
-                }
-                @if (ideas.length == 0) {
+    } @else {
+        <h1>{{ recipientName }}'s Ideas for Santa</h1>
+        <table>
+            @if (ideas) {
+                @for (idea of ideas; track idea) {
                     <tr>
-                        <td class="align-center">No suggestions have been made yet.</td>
+                        <td>
+                            <div class="wrap-all">{{ idea.description }}</div>
+                        </td>
+                        <td style="text-align: right">
+                            <a href="{{ idea.link }}" target="_blank">Link</a>
+                        </td>
                     </tr>
                 }
-            </table>
-        </div>
+            }
+            @if (ideas.length == 0) {
+                <tr>
+                    <td class="align-center">No suggestions have been made yet.</td>
+                </tr>
+            }
+        </table>
     }
     <a class="button" routerLink="/home">Back to Santa Home</a>
 </section>

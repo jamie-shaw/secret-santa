@@ -7,30 +7,26 @@
 <section id="form-container">
     @if (loading$ | async) {
         <div class="loading">Checking the list...</div>
-    }
-
-    @if (pickers && !(loading$ | async)) {
-        <div class="success">
-            <table>
-                <caption>
-                    Secret Santa Pick Status
-                </caption>
-                @for (picker of pickers; track picker.userName) {
-                    <tr>
-                        <td>
-                            {{ picker.userName }}
-                        </td>
-                        <td>
-                            <input
-                                type="checkbox"
-                                [checked]="picker.viewed"
-                                onclick="this.checked = true"
-                            />
-                        </td>
-                    </tr>
-                }
-            </table>
-        </div>
+    } @else {
+        <table>
+            <caption>
+                Secret Santa Pick Status
+            </caption>
+            @for (picker of pickers; track picker.userName) {
+                <tr>
+                    <td>
+                        {{ picker.userName }}
+                    </td>
+                    <td>
+                        <input
+                            type="checkbox"
+                            [checked]="picker.viewed"
+                            onclick="this.checked = true"
+                        />
+                    </td>
+                </tr>
+            }
+        </table>
     }
 
     <a class="button" routerLink="/home">Back to Santa Home</a>
