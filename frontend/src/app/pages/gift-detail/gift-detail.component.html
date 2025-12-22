@@ -5,22 +5,38 @@
 </aside>
 
 <section id="form-container">
-    <form method="post" onSubmit="onSubmit()">
+    @if (loading$ | async) {
+        <div class="loading">Loading...</div>
+    }
+
+    @if (gift && !(loading$ | async)) {
+        <form (ngSubmit)="onSubmit()" #giftForm="ngForm">
+            <p>
+                <b>Please enter a description of your gift idea:</b>
+                <textarea
+                    name="description"
+                    rows="2"
+                    cols="40"
+                    id="description"
+                    maxlength="250"
+                    [(ngModel)]="gift.description"
+                ></textarea>
+                <br />
+                <b>Please paste a link to your gift idea (optional):</b>
+                <textarea
+                    name="link"
+                    rows="2"
+                    cols="40"
+                    id="link"
+                    maxlength="1000"
+                    [(ngModel)]="gift.link"
+                ></textarea>
+                <br />
+                <button type="submit">Save Idea</button>
+            </p>
+        </form>
         <p>
-            <b>Please enter a description of your gift idea:</b>
-            <textarea name="description" rows="2" cols="40" id="description" maxlength="250">{{
-                gift?.description
-            }}</textarea>
-            <br />
-            <b>Please paste a link to your gift idea (optional):</b>
-            <textarea name="link" rows="2" cols="40" id="link" maxlength="1000">{{
-                gift?.link
-            }}</textarea>
-            <br />
-            <button>Save Idea</button>
+            <a class="button" routerLink="/gift-summary">Cancel</a>
         </p>
-    </form>
-    <p>
-        <a class="button" routerLink="/give/summary">Cancel</a>
-    </p>
+    }
 </section>

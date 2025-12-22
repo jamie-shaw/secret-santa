@@ -7,42 +7,33 @@
 <section id="form-container">
     @if (loading$ | async) {
         <div class="loading">Checking the list...</div>
-    }
 
-    @if (gifts && gifts.length != 0 && !(loading$ | async)) {
-        <div class="success">
-            <table class="bodytable">
-                <caption>
-                    Ideas for My Santa
-                </caption>
-                @for (gift of gifts; track gift.id) {
-                    <tr>
-                        <td width="100%">
-                            <div class="wrap-all">{{ gift.description }}</div>
-                            <br /><br />
-                            <a href="{{ gift.link }}" target="_blank">Link</a>
-                        </td>
-                        <td>
-                            <a class="button" routerLink="/gift/{{ gift.id }}">Change</a>
-                            <form>
-                                <button
-                                    type="submit"
-                                    formmethod="post"
-                                    formaction="/gift/{{ gift.id }}/delete"
-                                >
-                                    Remove
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                } @empty {
-                    <tr>
-                        <td class="align-center">No suggestions have been made yet.</td>
-                    </tr>
-                }
-            </table>
-            <a class="button" routerLink="/gift">Add An Idea </a>
-        </div>
+    } @else {
+        <table class="bodytable">
+            <caption>
+                Ideas for My Santa
+            </caption>
+            @for (gift of gifts; track gift.id) {
+                <tr>
+                    <td width="100%">
+                        <div class="wrap-all">{{ gift.description }}</div>
+                        <br /><br />
+                        <a href="{{ gift.link }}" target="_blank">Link</a>
+                    </td>
+                    <td>
+                        <a class="button" routerLink="/gift-detail/{{ gift.id }}">Change</a>
+                        <form>
+                            <button (click)="deleteGift(gift.id)" type="button">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            } @empty {
+                <tr>
+                    <td class="align-center">No suggestions have been made yet.</td>
+                </tr>
+            }
+        </table>
+        <a class="button" routerLink="/gift">Add An Idea </a>
     }
 
     <a class="button" href="/home">Back to Santa Home</a>

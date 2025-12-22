@@ -43,4 +43,18 @@ export class GiftSummaryComponent {
             }
         });
     }
+
+    deleteGift(giftId: string | any) {
+        if (giftId != null) {
+            this.loadingStateService
+                .fetch(this.giftService.deleteGift(giftId), "Failed to delete gift")
+                .subscribe({
+                    next: () => {
+                        this.messageService.showSuccess("Gift deleted successfully");
+                        // Remove the deleted gift from the local list
+                        this.gifts = this.gifts.filter((gift) => gift.id !== giftId);
+                    },
+                });
+        }
+    }
 }

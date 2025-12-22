@@ -20,4 +20,12 @@ export class GiftService {
     fetchGift(id: string): Observable<Gift> {
         return this.http.get<Gift>(`/api/gift/${id}`);
     }
+
+    saveGift(gift: Gift): Observable<Gift> {
+        return this.http.post<Gift>(`/api/gift/${gift.id}`, gift);
+    }
+
+    deleteGift(id: string): Observable<void> {
+        return this.http.delete<void>(`/api/gift/${id}`);
+    }
 }
