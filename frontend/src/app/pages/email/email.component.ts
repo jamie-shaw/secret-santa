@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, NgForm } from "@angular/forms";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { EmailRequest, EmailService } from "src/app/services/email.service";
 import { LoadingStateService } from "src/app/services/loading-state.service";
 import { ToastModule } from "primeng/toast";
@@ -27,6 +27,7 @@ export class EmailComponent {
         private emailService: EmailService,
         private loadingState: LoadingStateService,
         private messageService: MessageService,
+        private router: Router,
     ) {}
 
     ngOnInit() {
@@ -47,9 +48,13 @@ export class EmailComponent {
             .fetch(this.emailService.sendEmail(this.emailRequest), "Failed to send email")
             .subscribe({
                 next: () => {
-                    this.messageService.showSuccess("Message sent successfully!");
-                    this.emailRequest.message = "";
-                    emailForm.resetForm({ addressee: this.emailRequest.addressee });
+                    console.log("Email sent, queueing message");
+                    this.messageService.queueMessage(
+                        "success",
+                        "Success",
+                        "Message sent successfully!",
+                    );
+                    this.router.navigate(["/home"]);
                 },
             });
     }

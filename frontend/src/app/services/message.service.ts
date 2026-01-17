@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { MessageService as PrimeMessageService } from "primeng/api";
+import { BehaviorSubject } from "rxjs";
 
 /**
  * Wrapper service for PrimeNG MessageService
@@ -9,7 +10,34 @@ import { MessageService as PrimeMessageService } from "primeng/api";
     providedIn: "root",
 })
 export class MessageService {
+    private pendingMessage$ = new BehaviorSubject<{
+        severity: string;
+        summary: string;
+        detail: string;
+    } | null>(null);
+
     constructor(private primeMessageService: PrimeMessageService) {}
+
+    /**
+     * Get pending message observable
+     */
+    getPendingMessage() {
+        return this.pendingMessage$.asObservable();
+    }
+
+    /**
+     * Queue a message to be shown on next navigation
+     */
+    queueMessage(severity: string, summary: string, detail: string): void {
+        this.pendingMessage$.next({ severity, summary, detail });
+    }
+
+    /**
+     * Clear the pending message
+     */
+    clearPendingMessage(): void {
+        this.pendingMessage$.next(null);
+    }
 
     /**
      * Show an error message
