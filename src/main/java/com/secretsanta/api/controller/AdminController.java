@@ -25,7 +25,7 @@ public class AdminController extends BaseController {
     
     @Resource
     private RecipientDao recipientDao;
-
+    
     @Resource
     private UserDao userDao;
         
@@ -37,11 +37,6 @@ public class AdminController extends BaseController {
     
     @Resource
     SessionContext sessionContext;
-    
-    @GetMapping("/admin")
-    public String showAdmin() {
-        return "admin";
-    }
     
     @GetMapping("/rollOver")
     public String rollSantaOver(HttpServletRequest request) {

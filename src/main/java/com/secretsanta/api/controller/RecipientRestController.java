@@ -15,31 +15,56 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.secretsanta.api.dao.RecipientDao;
 import com.secretsanta.api.model.Recipient;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @SessionAttributes({"CURRENT_USER"})
 @RequestMapping("/api")
+@Tag(name = "Recipients", description = "Endpoints for managing Secret Santa recipients and pick history")
+@SecurityRequirement(name = "bearerAuth")
 public class RecipientRestController extends BaseController {
     
     @Resource
     private RecipientDao recipientDao;
     
+    @Operation(
+        summary = "Get current user's recipient",
+        description = "Retrieves the Secret Santa recipient assigned to the currently user"
+    )
     @GetMapping("/recipient")
     public Recipient getRecipient(@ModelAttribute("CURRENT_USER") String currentUser) {
         return recipientDao.getRecipientForCurrentUser(currentUser);
     }
     
+    @Operation(
+        summary = "Get pick status",
+        description = "Retrieves the list of all recipients and their pick status for the current year"
+    )
     @GetMapping("/pick/status")
     public List<Recipient> showPickStatus(Model model) {
         return recipientDao.getAllRecipients();
     }
     
+    @Operation(
+        summary = "Get available years",
+        description = "Retrieves the list of years for which historical pick data is available"
+    )
     @GetMapping("/history/years")
     public List<String> getAvailableYears() {
         return recipientDao.getActiveYears();
     }
     
+    @Operation(
+        summary = "Get pick history for a year",
+        description = "Retrieves the complete pick history for a specific year"
+    )
     @GetMapping("/history/{selectedYear}")
-    public List<Recipient> getPickHistory(@PathVariable Integer selectedYear) {
+    public List<Recipient> getPickHistory(
+            @Parameter(description = "The year to retrieve pick history for", required = true, example = "2026")
+            @PathVariable Integer selectedYear) {
         return recipientDao.getAllRecipientsForSelectedYear(selectedYear);
     }
 }

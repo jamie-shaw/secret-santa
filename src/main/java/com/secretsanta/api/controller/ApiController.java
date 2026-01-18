@@ -4,21 +4,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * REST API Controller for Angular application
- * Add your API endpoints here that the Angular app will consume
  */
 @RestController
 @RequestMapping("/api")
+@Tag(name = "System", description = "System status and health check endpoints")
 public class ApiController {
 
-    /**
-     * Example API endpoint
-     * Access at: http://localhost:8080/api/status
-     */
+    @Operation(
+        summary = "Get API status",
+        description = "Returns the current status of the Secret Santa API including timestamp"
+    )
     @GetMapping("/status")
     public Map<String, Object> getStatus() {
         Map<String, Object> response = new HashMap<>();
@@ -28,9 +31,10 @@ public class ApiController {
         return response;
     }
     
-    /**
-     * Example health check endpoint
-     */
+    @Operation(
+        summary = "Health check",
+        description = "Simple health check endpoint to verify the API is responsive"
+    )
     @GetMapping("/health")
     public Map<String, String> health() {
         Map<String, String> response = new HashMap<>();

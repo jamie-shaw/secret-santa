@@ -27,11 +27,16 @@ import com.secretsanta.api.model.SessionContext;
 import com.secretsanta.api.model.User;
 import com.secretsanta.api.security.JwtTokenProvider;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 /**
  * Authentication Controller for handling login/logout operations
  */
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "Authentication and user management endpoints")
 public class AuthController {
 
     @Resource
@@ -48,13 +53,11 @@ public class AuthController {
     
     @Resource
     private SessionContext sessionContext;
-
-    /**
-     * Login endpoint
-     * POST /api/auth/login
-     * Request body: { "username": "user", "password": "pass", "edition": "edition" }
-     * Response: { "token": "jwt-token", "type": "Bearer", "username": "user", "displayName": "User Name", "email": "user@example.com" }
-     */
+    
+    @Operation(
+        summary = "User login",
+        description = "Authenticate a user with username, password, and edition. Returns a JWT token for authenticated requests."
+    )
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
         try {
@@ -107,21 +110,23 @@ public class AuthController {
                     .body(new ErrorResponse("An error occurred during login", HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
-
-    /**
-     * Logout endpoint
-     * POST /api/auth/logout
-     */
+    
+    @Operation(
+        summary = "User logout",
+        description = "Logs out the current user by clearing the security context"
+    )
+    @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/logout")
     public ResponseEntity<?> logout() {
         SecurityContextHolder.clearContext();
         return ResponseEntity.ok().body("{\"message\": \"Logged out successfully\"}");
     }
-
-    /**
-     * Get current authenticated user
-     * GET /api/auth/me
-     */
+    
+    @Operation(
+        summary = "Get current user",
+        description = "Retrieves the details of the currently authenticated user"
+    )
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser() {
         try {

@@ -153,6 +153,12 @@
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.7.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -179,8 +185,8 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
-                            <nodeVersion>v20.10.0</nodeVersion>
-                            <npmVersion>10.2.5</npmVersion>
+                            <nodeVersion>v22.13.0</nodeVersion>
+                            <npmVersion>10.9.2</npmVersion>
                         </configuration>
                     </execution>
                     <!-- Install npm dependencies -->

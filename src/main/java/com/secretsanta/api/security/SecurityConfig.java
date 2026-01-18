@@ -50,6 +50,10 @@ public class SecurityConfig {
                         .antMatchers("/api/auth/login").permitAll()  // Allow login endpoint
                         .antMatchers("/api/auth/logout").permitAll()  // Allow logout endpoint
                         .antMatchers("/api/system/currentYear").permitAll()  // Allow current year endpoint
+                        // Swagger UI endpoints
+                        .antMatchers("/swagger-ui/**").permitAll()
+                        .antMatchers("/swagger-ui.html").permitAll()
+                        .antMatchers("/v3/api-docs/**").permitAll()
                         .antMatchers("/api/**").authenticated()  // Require authentication for other API endpoints
                         .antMatchers("/changePassword").permitAll()
                         .antMatchers("/login/error").permitAll()

@@ -17,9 +17,16 @@ import com.secretsanta.api.dto.EmailRequest.Addressee;
 import com.secretsanta.api.model.User;
 import com.secretsanta.api.service.EmailService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @SessionAttributes({"CURRENT_USER", "RECIPIENT"})
 @RequestMapping("/api")
+@Tag(name = "Email", description = "Endpoints for sending email messages between Santa and recipients")
+@SecurityRequirement(name = "bearerAuth")
 public class EmailRestController extends BaseController {
     
     @Resource
@@ -28,8 +35,15 @@ public class EmailRestController extends BaseController {
     @Resource
     private EmailService emailService;
     
+    @Operation(
+        summary = "Send email message",
+        description = "Sends an email message either to the user's Secret Santa recipient or to their Santa, depending on the addressee specified"
+    )
     @PostMapping("/email/send")
-    public void sendMessage(@ModelAttribute("CURRENT_USER") String currentUser, @RequestBody EmailRequest request) {
+    public void sendMessage(
+            @ModelAttribute("CURRENT_USER") String currentUser, 
+            @Parameter(description = "Email request with message and addressee", required = true)
+            @RequestBody EmailRequest request) {
         
         String userMessage = request.getMessage();
         
