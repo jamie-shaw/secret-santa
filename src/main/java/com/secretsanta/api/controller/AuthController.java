@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,8 +75,8 @@ public class AuthController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // Generate JWT token
-            String jwt = tokenProvider.generateToken(authentication);
-
+            String jwt = tokenProvider.generateToken(authentication, loginRequest);
+            
             // Get user details
             User user = userDao.getUser(loginRequest.getUsername());
 
@@ -120,32 +119,5 @@ public class AuthController {
     public ResponseEntity<?> logout() {
         SecurityContextHolder.clearContext();
         return ResponseEntity.ok().body("{\"message\": \"Logged out successfully\"}");
-    }
-    
-    @Operation(
-        summary = "Get current user",
-        description = "Retrieves the details of the currently authenticated user"
-    )
-    @SecurityRequirement(name = "bearerAuth")
-    @GetMapping("/me")
-    public ResponseEntity<?> getCurrentUser() {
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication != null && authentication.isAuthenticated() && 
-                !authentication.getPrincipal().equals("anonymousUser")) {
-                
-                String username = authentication.getName();
-                User user = userDao.getUser(username);
-                
-                return ResponseEntity.ok(user);
-            }
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorResponse("Not authenticated", HttpStatus.UNAUTHORIZED.value()));
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ErrorResponse("Error retrieving user information", HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
     }
 }

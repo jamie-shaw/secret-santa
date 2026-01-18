@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/api")
 @Tag(name = "Email", description = "Endpoints for sending email messages between Santa and recipients")
 @SecurityRequirement(name = "bearerAuth")
-public class EmailRestController extends BaseController {
+public class EmailRestController {
     
     @Resource
     private UserDao userDao;

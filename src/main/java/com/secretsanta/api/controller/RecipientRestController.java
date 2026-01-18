@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/api")
 @Tag(name = "Recipients", description = "Endpoints for managing Secret Santa recipients and pick history")
 @SecurityRequirement(name = "bearerAuth")
-public class RecipientRestController extends BaseController {
+public class RecipientRestController {
     
     @Resource
     private RecipientDao recipientDao;
