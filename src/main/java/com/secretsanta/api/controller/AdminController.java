@@ -14,6 +14,7 @@ import com.secretsanta.api.dao.RecipientDao;
 import com.secretsanta.api.dao.SystemDao;
 import com.secretsanta.api.dao.UserDao;
 import com.secretsanta.api.model.SessionContext;
+import com.secretsanta.api.model.SystemContext;
 import com.secretsanta.api.service.PickService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @SessionAttributes({"CURRENT_USER", "RECIPIENT"})
-public class AdminController extends BaseController {
+public class AdminController {
+    
+    static final String SUCCESS_MESSAGE = "SUCCESS_MESSAGE";
+    static final String ERROR_MESSAGE = "ERROR_MESSAGE";
     
     @Resource
     private RecipientDao recipientDao;
@@ -36,7 +40,10 @@ public class AdminController extends BaseController {
     private PickService pickService;
     
     @Resource
-    SessionContext sessionContext;
+    SystemContext systemContext;
+    
+    @Resource
+    private SessionContext sessionContext;
     
     @GetMapping("/rollOver")
     public String rollSantaOver(HttpServletRequest request) {
@@ -74,5 +81,15 @@ public class AdminController extends BaseController {
         
         return "admin";
     }
+    void setSuccessMessage(HttpServletRequest request, String message) {
+        request.getSession().setAttribute(SUCCESS_MESSAGE, message);
+    }
     
+    void setErrorMessage(HttpServletRequest request, String message) {
+        request.getSession().setAttribute(ERROR_MESSAGE, message);
+    }
+    
+    boolean messagesExist(HttpServletRequest request) {
+        return null != request.getSession().getAttribute(ERROR_MESSAGE);
+    }
 }
