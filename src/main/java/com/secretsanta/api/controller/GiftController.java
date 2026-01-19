@@ -34,7 +34,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/api")
 @Tag(name = "Gifts", description = "Endpoints for managing gift ideas and suggestions")
 @SecurityRequirement(name = "bearerAuth")
-public class GiftRestController {
+public class GiftController {
     
     @Resource
     private GiftDao dao;
