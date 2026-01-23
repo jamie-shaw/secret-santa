@@ -1,11 +1,11 @@
 package com.secretsanta.api.service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.secretsanta.api.model.SessionContext;
 import com.secretsanta.api.model.SystemContext;

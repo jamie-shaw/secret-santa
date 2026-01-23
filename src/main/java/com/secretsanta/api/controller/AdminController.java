@@ -3,8 +3,8 @@ package com.secretsanta.api.controller;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

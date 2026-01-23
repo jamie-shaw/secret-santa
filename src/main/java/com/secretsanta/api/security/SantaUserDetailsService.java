@@ -1,6 +1,6 @@
 package com.secretsanta.api.security;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
