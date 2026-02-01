@@ -2,14 +2,13 @@ package com.secretsanta.api.controller;
 
 import java.util.List;
 
-import jakarta.annotation.Resource;
-
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +27,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
 @RestController
 @SessionAttributes({"CURRENT_USER", "RECIPIENT"})
@@ -77,15 +77,6 @@ public class GiftController {
     }
     
     @Operation(
-        summary = "Create gift idea form",
-        description = "Returns the form view for creating a new gift idea"
-    )
-    @GetMapping("/gift")
-    public String showCreateGift() {
-        return "gift-detail";
-    }
-    
-    @Operation(
         summary = "Create new gift idea",
         description = "Creates a new gift idea and sends notification email to the user's Secret Santa"
     )
@@ -107,7 +98,7 @@ public class GiftController {
         summary = "Update gift idea",
         description = "Updates an existing gift idea and sends notification email to the user's Secret Santa"
     )
-    @PostMapping("/gift/{giftId}")
+    @PutMapping("/gift/{giftId}")
     public void updateGift(
             @Parameter(description = "ID of the gift to update", required = true, example = "1")
             @PathVariable int giftId, 
