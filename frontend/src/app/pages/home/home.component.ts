@@ -1,9 +1,9 @@
 import { Component, OnDestroy } from "@angular/core";
 
 import { RouterLink } from "@angular/router";
-import { RecipientService } from "src/app/services/recipient.service";
+import { RecipientService } from "src/app/services/recipient/recipient.service";
 import { Recipient } from "src/app/models/recipient.model";
-import { MessageService } from "src/app/services/message.service";
+import { MessageService } from "src/app/services/message/message.service";
 import { ToastModule } from "primeng/toast";
 import { filter, take } from "rxjs/operators";
 
@@ -26,7 +26,7 @@ export class HomeComponent implements OnDestroy {
             .getPendingMessage()
             .pipe(
                 filter((message) => message !== null),
-                take(1) // Only take the first non-null message
+                take(1), // Only take the first non-null message
             )
             .subscribe((message) => {
                 console.log("Pending message received:", message);

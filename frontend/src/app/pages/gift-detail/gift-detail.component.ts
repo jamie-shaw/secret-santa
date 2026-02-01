@@ -1,11 +1,11 @@
 import { Component, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { Gift } from "src/app/models/gift.model";
-import { GiftService } from "src/app/services/gift.service";
-import { LoadingStateService } from "src/app/services/loading-state.service";
+import { GiftService } from "src/app/services/gift/gift.service";
+import { LoadingStateService } from "src/app/services/loading-state/loading-state.service";
 import { ToastModule } from "primeng/toast";
 import { MessageService as PrimeMessageService } from "primeng/api";
-import { MessageService } from "src/app/services/message.service";
+import { MessageService } from "src/app/services/message/message.service";
 import { FormsModule } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { CommonModule } from "@angular/common";

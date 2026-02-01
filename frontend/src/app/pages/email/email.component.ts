@@ -2,11 +2,11 @@ import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, NgForm } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
-import { EmailRequest, EmailService } from "src/app/services/email.service";
-import { LoadingStateService } from "src/app/services/loading-state.service";
+import { EmailRequest, EmailService } from "src/app/services/email/email.service";
+import { LoadingStateService } from "src/app/services/loading-state/loading-state.service";
 import { ToastModule } from "primeng/toast";
 import { MessageService as PrimeMessageService } from "primeng/api";
-import { MessageService } from "src/app/services/message.service";
+import { MessageService } from "src/app/services/message/message.service";
 
 @Component({
     selector: "app-email",

@@ -2,12 +2,12 @@ import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { Gift } from "src/app/models/gift.model";
-import { GiftService } from "src/app/services/gift.service";
-import { RecipientService } from "src/app/services/recipient.service";
-import { LoadingStateService } from "src/app/services/loading-state.service";
+import { GiftService } from "src/app/services/gift/gift.service";
+import { RecipientService } from "src/app/services/recipient/recipient.service";
+import { LoadingStateService } from "src/app/services/loading-state/loading-state.service";
 import { ToastModule } from "primeng/toast";
 import { MessageService as PrimeMessageService } from "primeng/api";
-import { MessageService } from "src/app/services/message.service";
+import { MessageService } from "src/app/services/message/message.service";
 
 @Component({
     selector: "app-ideas",

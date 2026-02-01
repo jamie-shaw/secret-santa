@@ -3,7 +3,8 @@ import { environment } from "../../../environments/environment";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { FormsModule, NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
-import { RecipientService } from "../../services/recipient.service";
+import { RecipientService } from "../../services/recipient/recipient.service";
+import { AuthService } from "../../services/auth/auth.service";
 
 @Component({
     selector: "app-login",
@@ -19,6 +20,7 @@ export class LoginComponent {
         private http: HttpClient,
         private router: Router,
         private recipientService: RecipientService,
+        private authService: AuthService,
     ) {}
     onSubmit(form: NgForm) {
         const { username, password, edition } = form.value;
@@ -27,6 +29,9 @@ export class LoginComponent {
                 // Success (2xx status codes)
                 if (response && (response as any).token) {
                     console.log("Login successful:", response);
+
+                    // Store the JWT token
+                    this.authService.setToken((response as any).token);
 
                     // Fetch recipient data after successful login
                     this.recipientService.fetchRecipient().subscribe({

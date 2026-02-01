@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Gift } from "../models/gift.model";
+import { Gift } from "src/app/models/gift.model";
 
 @Injectable({
     providedIn: "root",
@@ -22,7 +22,11 @@ export class GiftService {
     }
 
     saveGift(gift: Gift): Observable<Gift> {
-        return this.http.post<Gift>(`/api/gift/${gift.id}`, gift);
+        if (gift.id) {
+            return this.http.put<Gift>(`/api/gift/${gift.id}`, gift);
+        } else {
+            return this.http.post<Gift>(`/api/gift`, gift);
+        }
     }
 
     deleteGift(id: string): Observable<void> {

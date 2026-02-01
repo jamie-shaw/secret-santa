@@ -1,14 +1,14 @@
 import { Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { RecipientService } from "../../services/recipient.service";
+import { RecipientService } from "../../services/recipient/recipient.service";
 import { Recipient } from "src/app/models/recipient.model";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { combineLatest, map } from "rxjs";
-import { LoadingStateService } from "src/app/services/loading-state.service";
+import { LoadingStateService } from "src/app/services/loading-state/loading-state.service";
 import { ToastModule } from "primeng/toast";
 import { MessageService as PrimeMessageService } from "primeng/api";
-import { MessageService } from "src/app/services/message.service";
+import { MessageService } from "src/app/services/message/message.service";
 
 @Component({
     selector: "app-history",
