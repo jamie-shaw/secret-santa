@@ -16,29 +16,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.secretsanta.api.dto.LoginRequest;
 import com.secretsanta.api.model.Recipient;
 import com.secretsanta.api.model.User;
-import com.secretsanta.api.security.JwtTokenProvider;
 
-@WebMvcTest(AuthController.class)
 class AuthControllerTest extends BaseControllerTest {
 
-    @MockitoBean
-    private AuthenticationManager authenticationManager;
-    
-    @MockitoBean
-    private JwtTokenProvider tokenProvider;
-    
     private LoginRequest loginRequest;
     private User testUser;
     private Recipient testRecipient;

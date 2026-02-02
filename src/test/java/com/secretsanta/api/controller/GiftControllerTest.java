@@ -33,7 +33,6 @@ import com.secretsanta.api.model.Gift;
 import com.secretsanta.api.model.Recipient;
 import com.secretsanta.api.model.User;
 
-@WebMvcTest(GiftController.class)
 class GiftControllerTest extends BaseControllerTest {
 
     private Gift testGift;

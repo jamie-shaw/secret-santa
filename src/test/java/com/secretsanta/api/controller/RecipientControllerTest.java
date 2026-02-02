@@ -21,7 +21,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.secretsanta.api.model.Recipient;
 
-@WebMvcTest(RecipientController.class)
 class RecipientControllerTest extends BaseControllerTest {
 
     private Recipient testRecipient;

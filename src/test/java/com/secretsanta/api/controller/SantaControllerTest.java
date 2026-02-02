@@ -33,12 +33,8 @@ import org.springframework.util.MultiValueMap;
 
 import com.secretsanta.api.model.User;
 
-@WebMvcTest(SantaController.class)
 class SantaControllerTest extends BaseControllerTest {
 
-    @MockitoBean
-    private AuthenticationProvider authenticationProvider;
-    
     private User testUser;
     private List<User> testUsers;
     private Authentication authentication;

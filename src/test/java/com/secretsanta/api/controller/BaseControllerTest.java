@@ -3,6 +3,8 @@ package com.secretsanta.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,8 +20,17 @@ import com.secretsanta.api.security.JwtTokenProvider;
 import com.secretsanta.api.service.EmailService;
 import com.secretsanta.api.service.PickService;
 
-@WebMvcTest(AdminController.class)
-abstract class BaseControllerTest {
+@WebMvcTest(controllers = {
+        AdminController.class,
+        AngularController.class,
+        ApiController.class,
+        AuthController.class,
+        EmailController.class,
+        GiftController.class,
+        RecipientController.class,
+        SantaController.class
+    })
+public abstract class BaseControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -59,4 +70,13 @@ abstract class BaseControllerTest {
 
     @MockitoBean
     UserDetailsService userDetailsService;
+
+    @MockitoBean
+    AuthenticationProvider authenticationProvider;
+
+    @MockitoBean
+    AuthenticationManager authenticationManager;
+
+    @MockitoBean
+    JwtTokenProvider tokenProvider;
 }

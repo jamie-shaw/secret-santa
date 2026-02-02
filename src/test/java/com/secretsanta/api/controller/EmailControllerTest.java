@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.thymeleaf.context.Context;
@@ -22,7 +21,6 @@ import com.secretsanta.api.dto.EmailRequest;
 import com.secretsanta.api.dto.EmailRequest.Addressee;
 import com.secretsanta.api.model.User;
 
-@WebMvcTest(EmailController.class)
 class EmailControllerTest extends BaseControllerTest {
 
     private User testUser;
