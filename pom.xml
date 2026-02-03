@@ -61,6 +61,20 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <!-- Mockito Inline for JDK 21+ compatibility -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>5.2.0</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -186,6 +200,74 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            
+            <!-- Maven Surefire Plugin for JDK 21+ compatibility -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>
+                        -XX:+EnableDynamicAgentLoading
+                    </argLine>
+                </configuration>
+            </plugin>
+            
+            <!-- Lines of Code Counter -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>count-lines</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="=========================================="/>
+                                <echo message="       Lines of Code Statistics"/>
+                                <echo message="=========================================="/>
+                                <exec executable="cmd" osfamily="windows" outputproperty="loc.java">
+                                    <arg value="/c"/>
+                                    <arg value="powershell"/>
+                                    <arg value="-Command"/>
+                                    <arg value="(Get-ChildItem -Path src -Include *.java -Recurse | Get-Content | Measure-Object -Line).Lines"/>
+                                </exec>
+                                <exec executable="sh" osfamily="unix" outputproperty="loc.java">
+                                    <arg value="-c"/>
+                                    <arg value="find src -name '*.java' -exec wc -l {} + | tail -1 | awk '{print $1}'"/>
+                                </exec>
+                                <exec executable="cmd" osfamily="windows" outputproperty="loc.ts">
+                                    <arg value="/c"/>
+                                    <arg value="powershell"/>
+                                    <arg value="-Command"/>
+                                    <arg value="(Get-ChildItem -Path frontend/src -Include *.ts -Recurse -ErrorAction SilentlyContinue | Get-Content | Measure-Object -Line).Lines"/>
+                                </exec>
+                                <exec executable="sh" osfamily="unix" outputproperty="loc.ts">
+                                    <arg value="-c"/>
+                                    <arg value="find frontend/src -name '*.ts' -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}' || echo 0"/>
+                                </exec>
+                                <exec executable="cmd" osfamily="windows" outputproperty="loc.html">
+                                    <arg value="/c"/>
+                                    <arg value="powershell"/>
+                                    <arg value="-Command"/>
+                                    <arg value="(Get-ChildItem -Path frontend/src -Include *.html -Recurse -ErrorAction SilentlyContinue | Get-Content | Measure-Object -Line).Lines"/>
+                                </exec>
+                                <exec executable="sh" osfamily="unix" outputproperty="loc.html">
+                                    <arg value="-c"/>
+                                    <arg value="find frontend/src -name '*.html' -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}' || echo 0"/>
+                                </exec>
+                                <echo message="Java files:        ${loc.java} lines"/>
+                                <echo message="TypeScript files:  ${loc.ts} lines"/>
+                                <echo message="HTML files:        ${loc.html} lines"/>
+                                <echo message="=========================================="/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
