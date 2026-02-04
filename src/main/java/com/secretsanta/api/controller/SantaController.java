@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,8 +23,6 @@ import com.secretsanta.api.dao.UserDao;
 import com.secretsanta.api.model.PasswordChangeForm;
 import com.secretsanta.api.model.SessionContext;
 import com.secretsanta.api.model.User;
-
-import io.micrometer.core.instrument.util.StringUtils;
 
 @Controller
 @SessionAttributes({"CURRENT_USER", "RECIPIENT"})

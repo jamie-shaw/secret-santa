@@ -59,8 +59,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf
                         .disable())
                 .headers(headers -> headers
-                        .frameOptions()
-                        .sameOrigin())
+                        .frameOptions(frame -> frame.sameOrigin()))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(sessionContextFilter, UsernamePasswordAuthenticationFilter.class);
         
