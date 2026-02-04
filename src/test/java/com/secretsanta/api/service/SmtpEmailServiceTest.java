@@ -50,8 +50,9 @@ class SmtpEmailServiceTest {
     void setUp() {
         mimeMessage = new MimeMessage((Session) null);
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
-        when(sessionContext.getSchema()).thenReturn("shaw");
+        when(sessionContext.getSchema()).thenReturn("fernald");
         when(systemContext.getApplicationUrl()).thenReturn("http://localhost:8080");
+        when(templateEngine.process(any(String.class), any(Context.class))).thenReturn("<html>Email Body</html>");
         
         // Set default values for inherited fields
         ReflectionTestUtils.setField(smtpEmailService, "destinationAddressOverride", "");
@@ -121,9 +122,6 @@ class SmtpEmailServiceTest {
         String templateName = "welcomeTemplate.html";
         Context context = new Context();
         context.setVariable("recipientName", "Jane");
-
-        String expectedBody = "<html><body>Welcome Jane!</body></html>";
-        when(templateEngine.process(eq(templateName), any(Context.class))).thenReturn(expectedBody);
 
         // Act
         smtpEmailService.sendEmail(destinationAddress, subject, templateName, context);
