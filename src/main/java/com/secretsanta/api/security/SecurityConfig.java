@@ -27,6 +27,9 @@ public class SecurityConfig {
     
     @Resource
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+    
+    @Resource
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -58,8 +61,12 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
                         .disable())
+                .formLogin(form -> form.disable())
+                .httpBasic(basic -> basic.disable())
                 .headers(headers -> headers
                         .frameOptions(frame -> frame.sameOrigin()))
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(sessionContextFilter, UsernamePasswordAuthenticationFilter.class);
         

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { FormsModule, NgForm } from "@angular/forms";
@@ -12,7 +12,7 @@ import { AuthService } from "../../services/auth/auth.service";
     templateUrl: "./login.component.html",
     styleUrl: "./login.component.css",
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
     apiUrl = environment.apiUrl;
     edition = "fernald"; // Default edition value
 
@@ -22,6 +22,13 @@ export class LoginComponent {
         private recipientService: RecipientService,
         private authService: AuthService,
     ) {}
+
+    ngOnInit() {
+        // Clear token if navigating to logout route
+        if (this.router.url === "/logout") {
+            this.authService.clearToken();
+        }
+    }
     onSubmit(form: NgForm) {
         const { username, password, edition } = form.value;
         this.http.post(`/api/auth/login`, { username, password, edition }).subscribe({

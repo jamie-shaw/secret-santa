@@ -43,6 +43,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+            // If no valid JWT, just continue without setting authentication
+            // Spring Security will handle returning 401 for protected endpoints
         } catch (Exception ex) {
             logger.error("Could not set user authentication in security context", ex);
         }
