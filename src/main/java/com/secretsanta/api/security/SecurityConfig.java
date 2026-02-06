@@ -52,9 +52,9 @@ public class SecurityConfig {
                     .requestMatchers("/swagger-ui/**").permitAll()
                     .requestMatchers("/swagger-ui.html").permitAll()
                     .requestMatchers("/v3/api-docs/**").permitAll()
-                    .requestMatchers("/api/**").authenticated()  // Require authentication for other API endpoints
                     .requestMatchers("/changePassword").permitAll()
                     .requestMatchers("/login/error").permitAll()
+                    .requestMatchers("/api/**").authenticated()
                     .anyRequest().authenticated())
             .csrf(csrf -> csrf
                     .disable())
