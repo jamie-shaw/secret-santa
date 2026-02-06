@@ -1,15 +1,9 @@
 package com.secretsanta.api.controller;
 
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.secretsanta.api.dao.RecipientDao;
 import com.secretsanta.api.dao.UserDao;
-import com.secretsanta.api.dto.ErrorResponse;
 import com.secretsanta.api.dto.LoginRequest;
 import com.secretsanta.api.dto.LoginResponse;
 import com.secretsanta.api.model.Recipient;
@@ -29,6 +22,8 @@ import com.secretsanta.api.security.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Authentication Controller for handling login/logout operations
@@ -56,49 +51,34 @@ public class AuthController {
     )
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
-        try {
-            
-            RequestContext.setSchema(loginRequest.getEdition());
-            
-            // Authenticate the user
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getUsername(),
-                            loginRequest.getPassword()
-                    )
-            );
-            
-            // Get user details
-            User user = userDao.getUser(loginRequest.getUsername());
-            
-            Recipient recipient = recipientDao.getRecipientForCurrentUser(user.getUsername());
-            
-            // Generate JWT token
-            String jwt = tokenProvider.generateToken(authentication, loginRequest, recipient);
-            
-            // Return response with token and user info
-            LoginResponse response = new LoginResponse(
-                    jwt,
-                    user.getUsername(),
-                    user.getDisplayName(),
-                    user.getEmail()
-            );
-            
-            return ResponseEntity.ok(response);
-            
-        } catch (BadCredentialsException e) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorResponse("Invalid username or password", HttpStatus.UNAUTHORIZED.value()));
-        } catch (AuthenticationException e) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorResponse("Authentication failed: " + e.getMessage(), HttpStatus.UNAUTHORIZED.value()));
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ErrorResponse("An error occurred during login", HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
+        // Set the schema/edition in the request context
+        RequestContext.setSchema(loginRequest.getEdition());
+        
+        // Authenticate the user
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword()
+                )
+        );
+        
+        // Get user details
+        User user = userDao.getUser(loginRequest.getUsername());
+        
+        Recipient recipient = recipientDao.getRecipientForCurrentUser(user.getUsername());
+        
+        // Generate JWT token
+        String jwt = tokenProvider.generateToken(authentication, loginRequest, recipient);
+        
+        // Return response with token and user info
+        LoginResponse response = new LoginResponse(
+                jwt,
+                user.getUsername(),
+                user.getDisplayName(),
+                user.getEmail()
+        );
+        
+        return ResponseEntity.ok(response);
     }
     
     @Operation(
