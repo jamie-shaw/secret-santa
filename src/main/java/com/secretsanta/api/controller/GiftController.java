@@ -5,21 +5,19 @@ import java.util.List;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.thymeleaf.context.Context;
 
 import com.secretsanta.api.dao.GiftDao;
 import com.secretsanta.api.dao.UserDao;
 import com.secretsanta.api.dao.UserDao.FilterColumn;
 import com.secretsanta.api.model.Gift;
-import com.secretsanta.api.model.Recipient;
+import com.secretsanta.api.model.RequestContext;
 import com.secretsanta.api.model.User;
 import com.secretsanta.api.service.EmailService;
 
@@ -30,7 +28,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 
 @RestController
-@SessionAttributes({"CURRENT_USER", "RECIPIENT"})
 @RequestMapping("/api")
 @Tag(name = "Gifts", description = "Endpoints for managing gift ideas and suggestions")
 @SecurityRequirement(name = "bearerAuth")
@@ -50,10 +47,9 @@ public class GiftController {
         description = "Retrieves all gift ideas from the current user's Secret Santa recipient"
     )
     @GetMapping("/gift/summary")
-    public List<Gift> getIdeasForSanta(@ModelAttribute("CURRENT_USER") String currentUser,
-                                  Model model) {
+    public List<Gift> getIdeasForSanta() {
         
-        return dao.getIdeasForSanta(currentUser);
+        return dao.getIdeasForSanta(RequestContext.getUsername());
     }
     
     @Operation(
@@ -61,8 +57,8 @@ public class GiftController {
         description = "Retrieves all gift ideas that the current user has submitted"
     )
     @GetMapping("/idea/summary")
-    public List<Gift> getIdeasFromRecipient(@ModelAttribute("RECIPIENT") Recipient recipient) {
-        return dao.getIdeasFromSanta(recipient.getRecipient());
+    public List<Gift> getIdeasFromRecipient() {
+        return dao.getIdeasFromSanta(RequestContext.getRecipient());
     }
     
     @Operation(
@@ -83,8 +79,9 @@ public class GiftController {
     @PostMapping("/gift")
     public void createGift(
             @Parameter(description = "Gift idea details", required = true)
-            @RequestBody Gift gift,
-            @ModelAttribute("CURRENT_USER") String currentUser) {
+            @RequestBody Gift gift) {
+        
+        String currentUser = RequestContext.getUsername();
         
         // store the idea
         dao.createGift(currentUser, gift.getDescription(), gift.getLink());
@@ -103,15 +100,14 @@ public class GiftController {
             @Parameter(description = "ID of the gift to update", required = true, example = "1")
             @PathVariable int giftId, 
             @Parameter(description = "Updated gift idea details", required = true)
-            @RequestBody Gift gift,
-            @ModelAttribute("CURRENT_USER") String currentUser) {
+            @RequestBody Gift gift) {
         
         // store the idea
         dao.updateGift(giftId, gift.getDescription(), gift.getLink());
         
         // and send the santa an email
         String subject = "Your Secret Santa recipient just updated an idea";
-        notifySanta(currentUser, gift, subject, "updateGiftTemplate.html");;
+        notifySanta(RequestContext.getUsername(), gift, subject, "updateGiftTemplate.html");;
     }
     
     @Operation(
@@ -121,8 +117,7 @@ public class GiftController {
     @DeleteMapping("/gift/{giftId}")
     public void deleteGift(
             @Parameter(description = "ID of the gift to delete", required = true, example = "1")
-            @PathVariable int giftId,
-            @ModelAttribute("CURRENT_USER") String currentUser) {
+            @PathVariable int giftId) {
         
         // look up the gift
         Gift gift = dao.getGiftDetail(giftId);
@@ -132,7 +127,7 @@ public class GiftController {
         
         // and send the santa an email
         String subject = "Your Secret Santa recipient just deleted a suggestion";
-        notifySanta(currentUser, gift, subject, "deleteGiftTemplate.html");
+        notifySanta(RequestContext.getUsername(), gift, subject, "deleteGiftTemplate.html");
     }
     
     private void notifySanta(String currentUser, Gift gift, String subject, String templateName) {

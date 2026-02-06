@@ -1,17 +1,23 @@
 package com.secretsanta.api.security;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+
+import javax.crypto.SecretKey;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.secretsanta.api.dto.LoginRequest;
+import com.secretsanta.api.model.Recipient;
+import com.secretsanta.api.model.RequestContext;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtTokenProvider {
@@ -27,7 +33,7 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(keyBytes);
     }
     
-    public String generateToken(Authentication authentication, LoginRequest loginRequest) {
+    public String generateToken(Authentication authentication, LoginRequest loginRequest, Recipient recipient) {
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
         
         Date now = new Date();
@@ -36,6 +42,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .subject(userPrincipal.getUsername())
                 .claim("edition", loginRequest.getEdition())
+                .claim("recipientId", recipient.getUserName())
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(getSigningKey(), Jwts.SIG.HS256)
@@ -50,6 +57,22 @@ public class JwtTokenProvider {
                 .getPayload();
         
         return claims.getSubject();
+    }
+    
+    public void createRequestContext(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        
+        RequestContext.setUsername(claims.getSubject());
+        RequestContext.setRecipient((String) claims.get("recipientId"));
+        RequestContext.setSchema((String) claims.get("edition"));
+    }
+    
+    public void clearRequestContext() {
+        RequestContext.clear();
     }
     
     public boolean validateToken(String authToken) {

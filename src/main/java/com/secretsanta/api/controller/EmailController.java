@@ -1,19 +1,16 @@
 package com.secretsanta.api.controller;
 
-import jakarta.annotation.Resource;
-
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.thymeleaf.context.Context;
 
 import com.secretsanta.api.dao.UserDao;
 import com.secretsanta.api.dao.UserDao.FilterColumn;
 import com.secretsanta.api.dto.EmailRequest;
 import com.secretsanta.api.dto.EmailRequest.Addressee;
+import com.secretsanta.api.model.RequestContext;
 import com.secretsanta.api.model.User;
 import com.secretsanta.api.service.EmailService;
 
@@ -21,9 +18,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 
 @RestController
-@SessionAttributes({"CURRENT_USER", "RECIPIENT"})
 @RequestMapping("/api")
 @Tag(name = "Email", description = "Endpoints for sending email messages between Santa and recipients")
 @SecurityRequirement(name = "bearerAuth")
@@ -40,8 +37,7 @@ public class EmailController {
         description = "Sends an email message either to the user's Secret Santa recipient or to their Santa, depending on the addressee specified"
     )
     @PostMapping("/email/send")
-    public void sendMessage(
-            @ModelAttribute("CURRENT_USER") String currentUser, 
+    public void sendMessage( 
             @Parameter(description = "Email request with message and addressee", required = true)
             @RequestBody EmailRequest request) {
         
@@ -66,7 +62,7 @@ public class EmailController {
             templateName = "messageFromRecipient.html";
         }
             
-        User user = userDao.getUser(currentUser, filterColumn);
+        User user = userDao.getUser(RequestContext.getUsername(), filterColumn);
         
         emailService.sendEmail(user.getEmail(), subject, templateName, templateContext);
     }

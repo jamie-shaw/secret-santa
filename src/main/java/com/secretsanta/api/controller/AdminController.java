@@ -3,25 +3,22 @@ package com.secretsanta.api.controller;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.secretsanta.api.dao.RecipientDao;
 import com.secretsanta.api.dao.SystemDao;
 import com.secretsanta.api.dao.UserDao;
-import com.secretsanta.api.model.SessionContext;
+import com.secretsanta.api.model.RequestContext;
 import com.secretsanta.api.model.SystemContext;
 import com.secretsanta.api.service.PickService;
 
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@SessionAttributes({"CURRENT_USER", "RECIPIENT"})
 public class AdminController {
     
     static final String SUCCESS_MESSAGE = "SUCCESS_MESSAGE";
@@ -42,9 +39,6 @@ public class AdminController {
     @Resource
     SystemContext systemContext;
     
-    @Resource
-    private SessionContext sessionContext;
-    
     @GetMapping("/rollOver")
     public String rollSantaOver(HttpServletRequest request) {
         
@@ -54,11 +48,11 @@ public class AdminController {
         systemDao.setCurrentYear(year);
         systemContext.setCurrentYear(year);
         
-        String originalSchema = sessionContext.getSchema();
+        String originalSchema = RequestContext.getSchema();
         
         for (String schema : Arrays.asList(new String[] {"shaw", "fernald"})) {
             // change the active schema
-            sessionContext.setSchema(schema);
+            RequestContext.setSchema(schema);
             
             // reset the passwords for all users
             userDao.resetAllPasswords();
@@ -73,7 +67,7 @@ public class AdminController {
         }
         
         // return to the original schema
-        sessionContext.setSchema(originalSchema);
+        RequestContext.setSchema(originalSchema);
         
         setSuccessMessage(request, "Rollover complete.");
         

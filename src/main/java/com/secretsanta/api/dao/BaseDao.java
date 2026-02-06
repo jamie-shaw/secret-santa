@@ -1,12 +1,12 @@
 package com.secretsanta.api.dao;
 
-import jakarta.annotation.Resource;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.secretsanta.api.model.SessionContext;
+import com.secretsanta.api.model.RequestContext;
 import com.secretsanta.api.model.SystemContext;
+
+import jakarta.annotation.Resource;
 
 @Component
 public abstract class BaseDao {
@@ -17,11 +17,8 @@ public abstract class BaseDao {
     @Resource
     SystemContext systemContext;
     
-    @Resource
-    SessionContext sessionContext;
-    
     String getSchema() {
-        return sessionContext.getSchema();
+        return RequestContext.getSchema();
     }
     
     int getCurrentYear() {

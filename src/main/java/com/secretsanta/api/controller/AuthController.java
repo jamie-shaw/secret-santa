@@ -22,7 +22,7 @@ import com.secretsanta.api.dto.ErrorResponse;
 import com.secretsanta.api.dto.LoginRequest;
 import com.secretsanta.api.dto.LoginResponse;
 import com.secretsanta.api.model.Recipient;
-import com.secretsanta.api.model.SessionContext;
+import com.secretsanta.api.model.RequestContext;
 import com.secretsanta.api.model.User;
 import com.secretsanta.api.security.JwtTokenProvider;
 
@@ -40,18 +40,15 @@ public class AuthController {
 
     @Resource
     private AuthenticationManager authenticationManager;
-
+    
     @Resource
     private JwtTokenProvider tokenProvider;
-
+    
     @Resource
     private UserDao userDao;
     
     @Resource
     private RecipientDao recipientDao;
-    
-    @Resource
-    private SessionContext sessionContext;
     
     @Operation(
         summary = "User login",
@@ -60,9 +57,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
         try {
-            // Set the edition in session context
-            sessionContext.setSchema(loginRequest.getEdition());
-
+            
+            RequestContext.setSchema(loginRequest.getEdition());
+            
             // Authenticate the user
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -70,31 +67,25 @@ public class AuthController {
                             loginRequest.getPassword()
                     )
             );
-
-            // Set authentication in security context
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            // Generate JWT token
-            String jwt = tokenProvider.generateToken(authentication, loginRequest);
             
             // Get user details
             User user = userDao.getUser(loginRequest.getUsername());
-
+            
+            Recipient recipient = recipientDao.getRecipientForCurrentUser(user.getUsername());
+            
+            // Generate JWT token
+            String jwt = tokenProvider.generateToken(authentication, loginRequest, recipient);
+            
             // Return response with token and user info
             LoginResponse response = new LoginResponse(
                     jwt,
-                    user.getUsername(),  // Use getUsername() from UserDetails
+                    user.getUsername(),
                     user.getDisplayName(),
                     user.getEmail()
             );
-
-            request.getSession().setAttribute("CURRENT_USER", user.getUsername());
-            
-            Recipient recipient = recipientDao.getRecipientForCurrentUser(user.getUsername());
-            request.getSession().setAttribute("RECIPIENT", recipient);
             
             return ResponseEntity.ok(response);
-
+            
         } catch (BadCredentialsException e) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)

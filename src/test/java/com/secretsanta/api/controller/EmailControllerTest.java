@@ -41,7 +41,6 @@ class EmailControllerTest extends BaseControllerTest {
         doNothing().when(emailService).sendEmail(anyString(), anyString(), anyString(), any(Context.class));
 
         mockMvc.perform(post("/api/email/send")
-                .sessionAttr("CURRENT_USER", "john")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(emailRequest)))
                 .andExpect(status().isOk());

@@ -1,15 +1,14 @@
 package com.secretsanta.api.service;
 
-import jakarta.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.secretsanta.api.model.SessionContext;
+import com.secretsanta.api.model.RequestContext;
 import com.secretsanta.api.model.SystemContext;
 
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,9 +19,6 @@ public class BaseEmailService {
     
     @Resource
     private SystemContext systemContext;
-    
-    @Resource
-    private SessionContext sessionContext;
     
     @Resource
     private SpringTemplateEngine templateEngine;
@@ -38,7 +34,7 @@ public class BaseEmailService {
     }
     
     String getFinalSubject(String subject) {
-        return subject + " (" + StringUtils.capitalize(sessionContext.getSchema()) + " Edition)";
+        return subject + " (" + StringUtils.capitalize(RequestContext.getSchema()) + " Edition)";
     }
     
     String buildEmailBody(String templateName, Context templateContext) {

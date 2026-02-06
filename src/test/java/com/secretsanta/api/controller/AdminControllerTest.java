@@ -16,12 +16,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import com.secretsanta.api.model.RequestContext;
+
 class AdminControllerTest extends BaseControllerTest {
 
     @BeforeEach
     void setUp() {
-        when(sessionContext.getSchema()).thenReturn("shaw");
-        doNothing().when(sessionContext).setSchema(anyString());
+        when(RequestContext.getSchema()).thenReturn("shaw");
         doNothing().when(systemContext).setCurrentYear(anyInt());
         doNothing().when(systemDao).setCurrentYear(anyInt());
         doNothing().when(userDao).resetAllPasswords();
@@ -67,7 +68,7 @@ class AdminControllerTest extends BaseControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void testRollSantaOverResetsToOriginalSchema() throws Exception {
-        when(sessionContext.getSchema()).thenReturn("fernald");
+        when(RequestContext.getSchema()).thenReturn("fernald");
         when(pickService.pickRecipients()).thenReturn(true);
 
         mockMvc.perform(get("/rollOver"))

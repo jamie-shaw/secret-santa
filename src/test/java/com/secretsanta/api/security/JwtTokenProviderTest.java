@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.secretsanta.api.dto.LoginRequest;
+import com.secretsanta.api.model.Recipient;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -36,6 +37,7 @@ class JwtTokenProviderTest {
 
     private String jwtSecret;
     private long jwtExpirationMs;
+    private Recipient recipient;
 
     @BeforeEach
     void setUp() {
@@ -44,6 +46,9 @@ class JwtTokenProviderTest {
         
         ReflectionTestUtils.setField(jwtTokenProvider, "jwtSecret", jwtSecret);
         ReflectionTestUtils.setField(jwtTokenProvider, "jwtExpirationMs", jwtExpirationMs);
+        
+        // Initialize test recipient
+        recipient = new Recipient("testuser", "2026", "santa", true, false);
     }
 
     @Test
@@ -62,7 +67,7 @@ class JwtTokenProviderTest {
         loginRequest.setEdition(edition);
 
         // Act
-        String token = jwtTokenProvider.generateToken(authentication, loginRequest);
+        String token = jwtTokenProvider.generateToken(authentication, loginRequest, recipient);
 
         // Assert
         assertNotNull(token);
@@ -77,6 +82,7 @@ class JwtTokenProviderTest {
         
         assertEquals(username, claims.getSubject());
         assertEquals(edition, claims.get("edition"));
+        assertEquals(recipient.getUserName(), claims.get("recipientId"));
         assertNotNull(claims.getIssuedAt());
         assertNotNull(claims.getExpiration());
     }
@@ -96,7 +102,7 @@ class JwtTokenProviderTest {
         loginRequest.setPassword("password");
         loginRequest.setEdition(edition);
         
-        String token = jwtTokenProvider.generateToken(authentication, loginRequest);
+        String token = jwtTokenProvider.generateToken(authentication, loginRequest, recipient);
 
         // Act
         String extractedUsername = jwtTokenProvider.getUsernameFromToken(token);
@@ -120,7 +126,7 @@ class JwtTokenProviderTest {
         loginRequest.setPassword("password");
         loginRequest.setEdition(edition);
         
-        String token = jwtTokenProvider.generateToken(authentication, loginRequest);
+        String token = jwtTokenProvider.generateToken(authentication, loginRequest, recipient);
 
         // Act
         boolean isValid = jwtTokenProvider.validateToken(token);

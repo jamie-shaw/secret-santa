@@ -53,7 +53,7 @@ class AuthControllerTest extends BaseControllerTest {
     void testLoginSuccess() throws Exception {
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
             .thenReturn(authentication);
-        when(tokenProvider.generateToken(any(Authentication.class), any(LoginRequest.class)))
+        when(tokenProvider.generateToken(any(Authentication.class), any(LoginRequest.class), any(Recipient.class)))
             .thenReturn("mock-jwt-token");
         when(userDao.getUser("john")).thenReturn(testUser);
         when(recipientDao.getRecipientForCurrentUser("john")).thenReturn(testRecipient);
@@ -72,7 +72,7 @@ class AuthControllerTest extends BaseControllerTest {
 
         verify(sessionContext, times(1)).setSchema("shaw");
         verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
-        verify(tokenProvider, times(1)).generateToken(any(Authentication.class), any(LoginRequest.class));
+        verify(tokenProvider, times(1)).generateToken(any(Authentication.class), any(LoginRequest.class), any(Recipient.class));
         verify(userDao, times(1)).getUser("john");
         verify(recipientDao, times(1)).getRecipientForCurrentUser("john");
     }
@@ -92,7 +92,7 @@ class AuthControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.status", is(401)));
 
         verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
-        verify(tokenProvider, never()).generateToken(any(), any());
+        verify(tokenProvider, never()).generateToken(any(), any(), any());
     }
 
     @Test
@@ -101,7 +101,7 @@ class AuthControllerTest extends BaseControllerTest {
         
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
             .thenReturn(authentication);
-        when(tokenProvider.generateToken(any(Authentication.class), any(LoginRequest.class)))
+        when(tokenProvider.generateToken(any(Authentication.class), any(LoginRequest.class), any(Recipient.class)))
             .thenReturn("mock-jwt-token-fernald");
         when(userDao.getUser("john")).thenReturn(testUser);
         when(recipientDao.getRecipientForCurrentUser("john")).thenReturn(testRecipient);
